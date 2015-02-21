@@ -1,0 +1,6 @@
+main
+main_*
+*.o
+checker
+log*
+output.txt
