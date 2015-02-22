@@ -53,28 +53,34 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
         getSize(board);
     }
 
-    int theMaxX = 0 , theMaxY = 0 , theMaxVal = 0;
-    double theMaxV = 0;
+    setBestPixel( fp , board.size );
+
+    return INCOMP;
+}
+
+
+void setBestPixel( FullyProbe& fp , int boardsize )
+{
+    int maxX = 0 , maxY = 0 , maxV = 0;
+    double maxPixel = 0;
 
     Dual_for(i,j)
         if( fp.gp[i][j][0].empty == false && fp.gp[i][j][1].empty == false )
         {
             double ch = choose( fp.method , 
-                    fp.gp[i][j][1].size-board.size ,
-                    fp.gp[i][j][0].size-board.size );
-            if(  ch > theMaxV ) 
+                    fp.gp[i][j][1].size-boardsize ,
+                    fp.gp[i][j][0].size-boardsize );
+            if( ch > maxPixel ) 
             {
-                theMaxX = i;
-                theMaxY = j;
-                theMaxVal = fp.gp[i][j][0].size > fp.gp[i][j][1].size ? 0 : 1;
-                theMaxV = ch;
+                maxX = i;
+                maxY = j;
+                maxV = fp.gp[i][j][0].size > fp.gp[i][j][1].size ? 0 : 1;
+                maxPixel = ch;
             }
         }
 
-    fp.max_g0 = fp.gp[theMaxX][theMaxY][theMaxVal];
-    fp.max_g1 = fp.gp[theMaxX][theMaxY][theMaxVal==1?0:1];
-
-    return INCOMP;
+    fp.max_g0 = fp.gp[maxX][maxY][maxV];
+    fp.max_g1 = fp.gp[maxX][maxY][!maxV];
 }
 
 #define vlog(x) (log(x+1)+1)

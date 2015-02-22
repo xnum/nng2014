@@ -4,3 +4,4 @@ main_*
 checker
 log*
 output.txt
+gmon.out

@@ -42,6 +42,7 @@ void dfs( FullyProbe& fp , LineSolve& ls , Board b )
     if( res == SOLVED )
     {
         finish = true;
+        printBoard( board,ls.probN );
         return;
     }
 
