@@ -1,8 +1,5 @@
 # CXX=g++
 
-# enable tree reduction method
-USE_TREE_REDUCE=-DTREE_REDUCE
-
 # enable to use zhash(need third-part lib) or c++ stl map
 USE_ZHASH=#-DZHASH
 CZMQ_DIR=#.
@@ -19,7 +16,7 @@ USE_FP2=-DUSE_FP2
 
 
 LINESOLVE_OPT=$(USE_CUT_BY_SIZE) $(USE_CUT_BY_CACHE)
-DEF=$(USE_TREE_REDUCE) $(USE_ZHASH) $(LINESOLVE_OPT) $(USE_FP2) $(USE_MIRROR_REDUCE)
+DEF=$(USE_ZHASH) $(LINESOLVE_OPT) $(USE_FP2) $(USE_MIRROR_REDUCE)
 
 INCFLAGS=-I$(CZMQ_DIR)/include -I.
 LIBFLAGS=-L.

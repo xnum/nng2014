@@ -104,10 +104,10 @@ void printLog( char* logName ,int method )
             break;
     }
 
-#ifdef TREE_REDUCE
-    fprintf( log , "Tree_Reduce: Enable\n");
+#ifdef MIRROR
+    fprintf( log , "Mirror: Enable\n");
 #else
-    fprintf( log , "Tree_Reduce: Disable\n");
+    fprintf( log , "Mirror: Disable\n");
 #endif
 
 #ifdef ZHASH
