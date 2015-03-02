@@ -2,8 +2,8 @@
 
 void readFile(int* data)
 {
-    FILE *ptr = fopen ( "input.txt" , "r" );
-    testFail( ptr != NULL , "open input.txt error" );
+    FILE *ptr = fopen ( INPUT_FILE_NAME , "r" );
+    testFail( ptr != NULL , "open " INPUT_FILE_NAME " error" );
 
     for( int probNum = 0 ; probNum < 1000 ; ++probNum )
     {

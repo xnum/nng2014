@@ -12,12 +12,12 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "test.h"
 #include "board.h"
 #include "scanner.h"
 #include "linesolve.h"
 #include "fullyprobe.h"
 #include "help.h"
+#include "mirror.h"
 
 using namespace std;
 
@@ -42,7 +42,6 @@ void dfs( FullyProbe& fp , LineSolve& ls , Board b )
     if( res == SOLVED )
     {
         finish = true;
-        printBoard( board,ls.probN );
         return;
     }
 
@@ -72,7 +71,7 @@ int main(int argc , char *argv[])
     sprintf( logName ,"log_sorted_P%d_T%d.txt" ,MAX_PERM ,PATTERN_DROP_THRESHOLD );
     printLog(logName, method);
 
-    clearFile("output.txt");
+    clearFile(OUTPUT_FILE_NAME);
 
     inputData = allocMem(1001*50*14);
     readFile(inputData);
@@ -95,9 +94,21 @@ int main(int argc , char *argv[])
         {
             finish = false;
             times = 0;
-            dfs( fp , ls , b );  
-            //applyHelper( ls, b);
 
+#ifdef MIRROR
+			mirror t( fp , b , PATTERN_DROP_THRESHOLD );
+			if( true == t.generatePattern(b , MAX_PERM) )
+			{
+				for( auto subBoard : t.pattern )
+				{
+					dfs( fp , ls , subBoard );
+					if( finish == true )
+						break;
+				}
+			}
+#endif
+            if( !finish )
+				dfs( fp , ls , b );  
         }
 
         printf ( "$%3d\ttime:%3.4fs\ttotal:%4lds\t%6d\n" , probN

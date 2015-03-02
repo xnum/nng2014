@@ -125,10 +125,14 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
 
     int p0 = probeG( fp ,ls ,pX ,pY ,BIT_ZERO );
     if( p0 == SOLVED )
+	{
         return SOLVED;
+	}
     int p1 = probeG( fp ,ls ,pX ,pY ,BIT_ONE );
     if( p1 == SOLVED )
+	{
         return SOLVED;
+	}
 
     if( p0==CONFLICT && p1==CONFLICT )
     {

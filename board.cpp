@@ -98,7 +98,7 @@ int checkAns( Board& board , int data[] )
 
 void printBoard( Board& board , int probN )
 {
-    FILE* out = fopen( "output.txt" , "a+" );
+    FILE* out = fopen( OUTPUT_FILE_NAME , "a+" );
     fprintf( out , "$%d\n",probN);
 #ifdef DEBUG
     puts("ROW=============================");

@@ -1,4 +1,5 @@
 #include <cstdio>
+#include "mirror.h"
 
 int* allocMem(int n)
 {
