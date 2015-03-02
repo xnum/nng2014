@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cstdio>
 #include <stdint.h>
+#define __STDC_FORMAT_MACROS 1
 #include <inttypes.h>
 #include <cmath>
 

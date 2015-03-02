@@ -5,3 +5,4 @@ checker
 log*
 output.txt
 gmon.out
+*.dll
