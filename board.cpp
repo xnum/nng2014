@@ -11,7 +11,6 @@ using namespace std;
 
 Board::Board()
 {
-    empty = false;
     for( int i = 0 ; i < 50 ; ++i )
         data[i] = ( ( 0x1LL << 50 ) - 0x1LL );
 

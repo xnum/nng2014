@@ -33,11 +33,6 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
                 setBit( fp.gp[i][j][0], i,j,BIT_ZERO );
                 setBit( fp.gp[i][j][1], i,j,BIT_ONE );
             }
-            else
-            {
-                fp.gp[i][j][0].empty = true;
-                fp.gp[i][j][1].empty = true;
-            }
 
         while(1)
         {
@@ -53,23 +48,23 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
         getSize(board);
     }
 
-    setBestPixel( fp , board.size );
+    setBestPixel( fp , board );
 
     return INCOMP;
 }
 
 
-void setBestPixel( FullyProbe& fp , int boardsize )
+void setBestPixel( FullyProbe& fp , Board& board )
 {
     int maxX = 0 , maxY = 0 , maxV = 0;
     double maxPixel = 0;
 
     Dual_for(i,j)
-        if( fp.gp[i][j][0].empty == false && fp.gp[i][j][1].empty == false )
+		if( getBit(board,i,j) == BIT_UNKNOWN )
         {
             double ch = choose( fp.method , 
-                    fp.gp[i][j][1].size-boardsize ,
-                    fp.gp[i][j][0].size-boardsize );
+                    fp.gp[i][j][1].size-board.size ,
+                    fp.gp[i][j][0].size-board.size );
             if( ch > maxPixel ) 
             {
                 maxX = i;
@@ -141,14 +136,10 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
     else if( p1==CONFLICT )
     {
         board = fp.gp[pX][pY][0];
-        fp.gp[pX][pY][1].empty = true;
-        fp.gp[pX][pY][0].empty = true;
     }
     else if( p0==CONFLICT )
     {
         board = fp.gp[pX][pY][1];
-        fp.gp[pX][pY][0].empty = true;
-        fp.gp[pX][pY][1].empty = true;
     }
     else
     {
