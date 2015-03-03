@@ -42,6 +42,14 @@ class myset {
             }
         }
 
+		inline bool isEmpty()
+		{
+			for( int i = 0 ; i < 10 ; ++i )
+				if( arr[i] != 0 )
+					return false;
+			return true;
+		}
+
     private:
         uint64_t arr[10];
 };
