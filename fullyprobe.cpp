@@ -56,7 +56,7 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 
 void setBestPixel( FullyProbe& fp , Board& board )
 {
-    int maxX = 0 , maxY = 0 , maxV = 0;
+	auto max = make_tuple(0,0,0);
     double maxPixel = 0;
 
     Dual_for(i,j)
@@ -67,15 +67,13 @@ void setBestPixel( FullyProbe& fp , Board& board )
                     fp.gp[i][j][0].size-board.size );
             if( ch > maxPixel ) 
             {
-                maxX = i;
-                maxY = j;
-                maxV = fp.gp[i][j][0].size > fp.gp[i][j][1].size ? 0 : 1;
+				max = make_tuple(i,j, fp.gp[i][j][0].size > fp.gp[i][j][1].size ? 0 : 1);
                 maxPixel = ch;
             }
         }
 
-    fp.max_g0 = fp.gp[maxX][maxY][maxV];
-    fp.max_g1 = fp.gp[maxX][maxY][!maxV];
+    fp.max_g0 = fp.gp[get<0>(max)][get<1>(max)][get<2>(max)];
+    fp.max_g1 = fp.gp[get<0>(max)][get<1>(max)][!get<2>(max)];
 }
 
 #define vlog(x) (log(x+1)+1)

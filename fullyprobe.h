@@ -3,6 +3,9 @@
 
 //#include <set>
 
+#include <tuple>
+using std::make_tuple;
+using std::get;
 #include "set.h"
 #include "linesolve.h"
 #include "cdef.h"
