@@ -1,6 +1,7 @@
 #ifndef LINESOLVE_H
 #define LINESOLVE_H
 
+#include "bcache.h"
 #include "cdef.h"
 #include "board.h"
 #include "rbtree.h"
@@ -20,9 +21,11 @@ class LineSolve {
         int data[50*14];
 
         Rbtree queryTable;
+		BigCache *bc;
 
         LineSolve();
         LineSolve(int*,int);
+        LineSolve(int*,int,BigCache*);
         void load(int*,int);
     private:
         void init();

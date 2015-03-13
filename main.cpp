@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "bcache.h"
 #include "board.h"
 #include "scanner.h"
 #include "linesolve.h"
@@ -61,6 +62,9 @@ void dfs( FullyProbe& fp , LineSolve& ls , Board b )
 
 int main(int argc , char *argv[])
 {
+	int bigc = canUseBigCache();
+	BigCache *bc = NULL;
+	if( bigc==1 ) bc = new BigCache();
 
     int method=CH_MUL;
     if( argc==2 )
@@ -82,7 +86,7 @@ int main(int argc , char *argv[])
     LineSolve ls;
 
 	// for printProb()
-	int probA=1 ,probB=1;
+	//int probA=1 ,probB=1;
 
     for( int probN = PROBLEM_START ; probN <= PROBLEM_END ; ++probN )
     {
@@ -90,14 +94,15 @@ int main(int argc , char *argv[])
 
         getData( inputData ,probN ,probData );
         ls.load(probData,probN);
+		ls.bc = bc;
 
         Board b;
 
         if( SOLVED != fp2( fp , ls , b ) )
         {
 
-			printProb(probData,"inputFP2.txt",probA++);
-			continue;
+			//printProb(probData,"inputDFS.txt",probA++);
+			//continue;
 
             finish = false;
             times = 0;
@@ -119,7 +124,7 @@ int main(int argc , char *argv[])
         }
 		else
 		{
-			printProb(probData,"inputDFS.txt",probB++);
+			//printProb(probData,"inputFP2.txt",probB++);
 		}
 
         printf ( "$%3d\ttime:%3.4fs\ttotal:%4lds\t%6d\n" , probN
@@ -135,10 +140,11 @@ int main(int argc , char *argv[])
         fclose(log);
     }
 
-	expandInputFile("inputFP2.txt");
-	expandInputFile("inputDFS.txt");
+	//expandInputFile("inputFP2.txt");
+	//expandInputFile("inputDFS.txt");
 
     delete[] inputData;
+	delete bc;
 
     return 0;
 }
