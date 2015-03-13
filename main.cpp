@@ -81,6 +81,9 @@ int main(int argc , char *argv[])
 
     LineSolve ls;
 
+	// for printProb()
+	int probA=1 ,probB=1;
+
     for( int probN = PROBLEM_START ; probN <= PROBLEM_END ; ++probN )
     {
         start = clock();
@@ -92,6 +95,10 @@ int main(int argc , char *argv[])
 
         if( SOLVED != fp2( fp , ls , b ) )
         {
+
+			printProb(probData,"inputFP2.txt",probA++);
+			continue;
+
             finish = false;
             times = 0;
 
@@ -110,6 +117,10 @@ int main(int argc , char *argv[])
             if( !finish )
 				dfs( fp , ls , b );  
         }
+		else
+		{
+			printProb(probData,"inputDFS.txt",probB++);
+		}
 
         printf ( "$%3d\ttime:%3.4fs\ttotal:%4lds\t%6d\n" , probN
                 , ( double ) ( clock() - start ) / CLOCKS_PER_SEC
@@ -123,6 +134,9 @@ int main(int argc , char *argv[])
                 );
         fclose(log);
     }
+
+	expandInputFile("inputFP2.txt");
+	expandInputFile("inputDFS.txt");
 
     delete[] inputData;
 

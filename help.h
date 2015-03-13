@@ -1,5 +1,14 @@
 #include <cstdio>
 #include "mirror.h"
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+#include <vector>
+
+using namespace std;
+
 
 int* allocMem(int n)
 {
@@ -63,7 +72,6 @@ void listPixel( FullyProbe& fp, Board &b )
     }
 
 }
-
 
 void printLog( char* logName ,int method )
 {
@@ -139,3 +147,51 @@ void printLog( char* logName ,int method )
     fclose(log);
 
 }
+
+void printProb( int data[] , const char* name , int probNum )
+{
+	FILE* file;
+
+	if(probNum==1)
+		file = fopen(name,"w");
+	else
+		file = fopen(name,"a+");
+
+	fprintf(file,"$%d\n",probNum);
+	for( int i = 0 ; i < 50 ; ++i )
+		for( int j = 1 ; j <= data[i*14] ; ++j )
+			fprintf(file ,"%d%c" , data[i*14+j] , 
+					j==data[i*14] ? '\n' : '\t' );
+
+	fclose(file);
+}
+
+void expandInputFile( const char* name )
+{
+	fstream fin( name , ios::in );
+	
+	string line;
+	vector<string> input;
+	while( getline( fin , line ) )
+		for( int i = 0 ; i < 50 ; ++i )
+		{
+			getline( fin , line );
+			input.push_back( line );	
+		}
+
+	const int bound = input.size() / 50;
+
+	fstream fout( name , ios::out );
+
+	srand(time(NULL));
+
+	for( int i = 0 ; i < 1000 ; ++i )
+	{
+		int prob = i % bound;
+		fout << "$" << i+1 << endl;			
+		for( int j = 0 ; j < 50 ; ++j )
+			fout << input[prob*50+j] << endl;
+	}
+	
+}
+
