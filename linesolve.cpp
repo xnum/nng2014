@@ -99,14 +99,17 @@ int propagate ( LineSolve& ls , Board& board )
 
             ls.newLine = 0LL;
 
-            if ( LS_NO == fix ( ls , 26 , ls.data[ls.lineNum*14] ) )
+			ls.lineNum *= 14;
+            if ( LS_NO == fix ( ls , 26 , ls.data[ls.lineNum] ) )
             {
+				ls.lineNum /= 14;
 				if( ls.bc == NULL )
 					ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
 				else
 					ls.bc->insert( ls.probN , ls.lineNum , ls.line>>4 , Rbtree::ANS_ERR );
                 return CONFLICT;
             }
+			ls.lineNum /= 14;
 
 #ifdef CUT_BY_CACHE
 			if( ls.bc == NULL )
@@ -131,20 +134,27 @@ int propagate ( LineSolve& ls , Board& board )
 
         if( ls.line != ls.newLine )
         {
-            setLine ( board , ls.lineNum , ls.newLine );
+			board.data[ls.lineNum] = ls.newLine;
 
             uint64_t p = ls.line ^ ls.newLine;
             int x = 1;
 
             while ( x = __builtin_ffsll(p) , x-- != 0 )
             {
+				uint64_t bit = (x&0x1)==0 ? BIT_ONE : BIT_ZERO;
                 p &= p-1;
                 x>>=1;
 
                 if ( ls.lineNum < 25 )
+				{
                     chkline |= 0x1LL<<(x+25);
+					__SET( board.data[x+25] , (ls.lineNum) , bit );
+				}
                 else
+				{
                     chkline |= 0x1LL<<x;
+					__SET( board.data[x] , (ls.lineNum-25) , bit );
+				}
             }
         }
     }
@@ -159,36 +169,36 @@ int propagate ( LineSolve& ls , Board& board )
     return SOLVED;
 }
 
-#define VAL1(m,b) (ls.value1[(m)]<<((b)<<1))
-#define ADD1(n,m,b) ((n)|ls.value1[(m)]<<((b)<<1))
 int fix ( LineSolve& ls , int i, int j )
 {
-    if ( ls.fixTable[i][j] == LS_NANS )
+	uint8_t &ret = ls.fixTable[i][j];
+
+    if ( ret == LS_NANS )
     {
-        ls.fixTable[i][j] = LS_NO;
+        ret = LS_NO;
 
-        int dj = ls.data[ls.lineNum*14+j];
+        int dj = ls.data[ls.lineNum+j];
         int length = i - dj;
+		uint64_t val0 = ls.value0[i];
+		uint64_t val1 = ls.value1[dj] << (length << 1);
 
-        if( ls.line&ls.value0[i] )
-        {
-            if( LS_YES==fix(ls,i-1,j) )
-            {
-                ls.newLine |= ls.value0[i]; 
-                ls.fixTable[i][j] = LS_YES;
-            }
-        }
+        if( ls.line&val0 )
+		if( LS_YES==fix(ls,i-1,j) )
+		{
+			ls.newLine |= val0; 
+			ret = LS_YES;
+		}
 
-        if( !(j==0||(ls.line!=ADD1(ls.line,dj,length))) )
-        {
-            if( LS_YES==fix(ls,length-1,j-1) )
-            {
-                ls.newLine |= VAL1(dj,length);
-                ls.fixTable[i][j] = LS_YES;
-            }
-        }
+		if( j )
+		if( ls.line==(ls.line|val1) )
+		if( LS_YES==fix(ls,length-1,j-1) )
+		{
+			ls.newLine |= val1;
+			ret = LS_YES;
+		}
     }
 
-    return ls.fixTable[i][j];
+	ls.fixTable[i][j] = ret;
+    return ret;
 }
 

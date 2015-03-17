@@ -54,8 +54,8 @@ inline int checkBoard( Board &b )
 
 inline void setBit( Board& board , int x , int y , int val )
 {
-    __SE( board.data[x] , y , val );	
-    __SE( board.data[y+25] , x , val );	
+    __SET( board.data[x] , y , val );	
+    __SET( board.data[y+25] , x , val );	
 }
 
 inline int getBit( const Board& board , int x , int y )

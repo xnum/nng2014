@@ -1,7 +1,7 @@
 # CXX=g++
 
 # enable to use zhash(need third-part lib) or c++ stl map
-USE_ZHASH=#-DZHASH
+USE_ZHASH=-DZHASH
 CZMQ_DIR=#.
 
 # lineSolving optimize option
@@ -22,7 +22,7 @@ INCFLAGS=-I$(CZMQ_DIR)/include -I.
 LIBFLAGS=-L.
 
 CXXFLAGS=-std=c++11 -lm -m64 -msse4.2 $(DEF) -Wall -Wextra
-LDFLAGS=$(LIBFLAGS) -lm# -lczmq -lzmq
+LDFLAGS=$(LIBFLAGS) -lm -lczmq -lzmq
 
 REL_FLAGS=-Ofast -DNDEBUG
 DBG_FLAGS=-g -DDEBUG

@@ -16,7 +16,7 @@
 #define PATTERN_DROP_THRESHOLD 2
 #define MAX_PERM		7
 #define PROBLEM_START 	1
-#define PROBLEM_END 	1000
+#define PROBLEM_END 	450
 #define DFS_MAX_TIMES 	500000
 
 //file name
@@ -38,6 +38,7 @@
 #define __SET(n,m,b) (n=(n&~(0x3LL<<(m<<1)))|(((uint64_t)(b))<<(m<<1)))
 // fot test
 #define __SE(n,m,b) __SET(n,m,b)
+//#define __SE(n,m,b) (n&~(b<<(m<<1))) 
 
 // status
 #define CONFLICT -1

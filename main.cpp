@@ -64,7 +64,7 @@ int main(int argc , char *argv[])
 {
 	int bigc = canUseBigCache();
 	BigCache *bc = NULL;
-	if( bigc==1 ) bc = new BigCache();
+	//if( bigc==1 ) bc = new BigCache();
 
     int method=CH_MUL;
     if( argc==2 )
