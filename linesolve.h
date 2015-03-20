@@ -27,6 +27,7 @@ class LineSolve {
         LineSolve(int*,int);
         LineSolve(int*,int,BigCache*);
         void load(int*,int);
+		void clearCache(){ queryTable.clear(); }
     private:
         void init();
 };

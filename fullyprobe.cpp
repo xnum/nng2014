@@ -127,6 +127,7 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
         return SOLVED;
 	}
 
+	Board old = board;
     if( p0==CONFLICT && p1==CONFLICT )
     {
         return CONFLICT;
@@ -144,6 +145,21 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
         for ( int i = 0 ; i < 50 ; ++i )
             board.data[i] = fp.gp[pX][pY][0].data[i] | fp.gp[pX][pY][1].data[i];
     }
+
+	for( int x = 0 ; x < 25 ; ++x )
+	{
+		uint64_t tmp = board.data[x] ^ old.data[x];
+		if( !tmp )  continue;
+		int pos = 0;
+		while( 0 != (pos=__builtin_ffsll(tmp)) )
+		{
+			pos--;
+			tmp &= tmp-1;
+			int y = pos>>1;
+			fp.P.remove( x*25 + y );
+		}
+	}
+
     return INCOMP;
 }
 
@@ -175,7 +191,7 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal )
             {
                 fp.P.insert( _x*25 + _y );
                 for( int i = 0 ; i < 50 ; ++i )
-                    fp.gp[_x][_y][_v].data[i] &= fp.gp[pX][pY][pVal==0L?1:0].data[i];	
+                    fp.gp[_x][_y][_v].data[i] &= fp.gp[pX][pY][!pVal].data[i];	
             }
         }
     }

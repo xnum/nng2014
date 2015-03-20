@@ -198,7 +198,7 @@ int fix ( LineSolve& ls , int i, int j )
 		}
     }
 
-	ls.fixTable[i][j] = ret;
+	//ls.fixTable[i][j] = ret;
     return ret;
 }
 

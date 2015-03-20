@@ -62,7 +62,7 @@ void dfs( FullyProbe& fp , LineSolve& ls , Board b )
 
 int main(int argc , char *argv[])
 {
-	int bigc = canUseBigCache();
+	//int bigc = canUseBigCache();
 	BigCache *bc = NULL;
 	//if( bigc==1 ) bc = new BigCache();
 

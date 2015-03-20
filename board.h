@@ -30,6 +30,11 @@ class Board
 
 };
 
+inline void merge( Board& a,Board& b )
+{
+	for(int i = 0 ; i < 50 ; ++i)
+		a.data[i] &= b.data[i];
+}
 
 inline int getSize( Board &board )
 {

@@ -1,7 +1,7 @@
 # CXX=g++
 
 # enable to use zhash(need third-part lib) or c++ stl map
-USE_ZHASH=-DZHASH
+USE_ZHASH=#-DZHASH
 CZMQ_DIR=#.
 
 # lineSolving optimize option
@@ -9,7 +9,7 @@ USE_CUT_BY_SIZE=-DCUT_BY_SIZE
 USE_CUT_BY_CACHE=-DCUT_BY_CACHE
 
 # use mirror method
-USE_MIRROR_REDUCE=-DMIRROR
+USE_MIRROR_REDUCE=#-DMIRROR
 
 # enable fp2 or fp1
 USE_FP2=-DUSE_FP2
@@ -21,12 +21,12 @@ DEF=$(USE_ZHASH) $(LINESOLVE_OPT) $(USE_FP2) $(USE_MIRROR_REDUCE)
 INCFLAGS=-I$(CZMQ_DIR)/include -I.
 LIBFLAGS=-L.
 
-CXXFLAGS=-std=c++11 -lm -m64 -msse4.2 $(DEF) -Wall -Wextra
+CXXFLAGS=-std=c++11 -lm -m64 -msse4.2 $(DEF) -Wall -Wextra 
 LDFLAGS=$(LIBFLAGS) -lm -lczmq -lzmq
 
 REL_FLAGS=-Ofast -DNDEBUG
 DBG_FLAGS=-g -DDEBUG
-PROF_FLAGS=-pg
+PROF_FLAGS=-pg -O2
 
 SRCS=$(shell ls *.cpp)
 
