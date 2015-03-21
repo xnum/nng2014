@@ -15,6 +15,7 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
     Dual_for(i,j)
         fp.gp[i][j][0] = fp.gp[i][j][1] = board;
 
+	/*
     int solvedCount = -1;
     while(1)
     {
@@ -23,6 +24,7 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
             break;
         else
             solvedCount = board.size;
+			*/
 
         Dual_for(i,j)
             if( getBit( board,i,j ) == BIT_UNKNOWN )
@@ -47,7 +49,7 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
         }
 
         getSize(board);
-    }
+    //}
 
     setBestPixel( fp , board );
 
@@ -64,8 +66,8 @@ void setBestPixel( FullyProbe& fp , Board& board )
 		if( getBit(board,i,j) == BIT_UNKNOWN )
         {
             double ch = choose( fp.method , 
-                    fp.gp[i][j][1].size-board.size ,
-                    fp.gp[i][j][0].size-board.size );
+                    getSize(fp.gp[i][j][1])-board.size ,
+                    getSize(fp.gp[i][j][0])-board.size );
             if( ch > maxPixel ) 
             {
 				max = make_tuple(i,j, fp.gp[i][j][0].size > fp.gp[i][j][1].size ? 0 : 1);
