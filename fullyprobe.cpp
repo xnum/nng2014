@@ -15,7 +15,6 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
     Dual_for(i,j)
         fp.gp[i][j][0] = fp.gp[i][j][1] = board;
 
-	/*
     int solvedCount = -1;
     while(1)
     {
@@ -24,7 +23,6 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
             break;
         else
             solvedCount = board.size;
-			*/
 
         Dual_for(i,j)
             if( getBit( board,i,j ) == BIT_UNKNOWN )
@@ -49,7 +47,7 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
         }
 
         getSize(board);
-    //}
+    }
 
     setBestPixel( fp , board );
 
@@ -75,7 +73,7 @@ void setBestPixel( FullyProbe& fp , Board& board )
             }
         }
 
-	printf("select %d %d %lf\n" , get<0>(max) , get<1>(max) , maxPixel );
+	//printf("select %d %d %lf\n" , get<0>(max) , get<1>(max) , maxPixel );
     fp.max_g0 = fp.gp[get<0>(max)][get<1>(max)][get<2>(max)];
     fp.max_g1 = fp.gp[get<0>(max)][get<1>(max)][!get<2>(max)];
 }
@@ -83,7 +81,7 @@ void setBestPixel( FullyProbe& fp , Board& board )
 #define vlog(x) (log(x+1)+1)
 double choose( int method , int mp1 , int mp0 )
 {
-	printf("mp1=%d mp0=%d\n",mp1,mp0);
+	//printf("mp1=%d mp0=%d\n",mp1,mp0);
     switch(method)
     {
         case CH_SUM:
@@ -151,6 +149,7 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
             board.data[i] = fp.gp[pX][pY][0].data[i] | fp.gp[pX][pY][1].data[i];
     }
 
+	/*
 	for( int x = 0 ; x < 25 ; ++x )
 	{
 		uint64_t tmp = board.data[x] ^ old.data[x];
@@ -165,6 +164,7 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
 			fp.P.insert( x*25 + y );
 		}
 	}
+	*/
 
     return INCOMP;
 }
@@ -174,8 +174,8 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board
     pVal -= BIT_ZERO;
     Board newG = fp.gp[pX][pY][pVal];
     int newGstate = propagate(ls , newG );
-    if( newGstate == SOLVED )
-        return SOLVED;
+    if( newGstate == SOLVED || newGstate == CONFLICT )
+        return newGstate;
 
 #ifdef USE_FP2
     for( int _x = 0 ; _x < 25 ; ++_x )
@@ -196,8 +196,11 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board
             if(_x!=pX&&_y!=pY)
             {
                 fp.P.insert( _x*25 + _y );
+				setBit( fp.gp[_x][_y][_v] , pX , pY , ( !pVal==0 ? BIT_ZERO : BIT_ONE ) );
+				/*
                 for( int i = 0 ; i < 50 ; ++i )
                     fp.gp[_x][_y][_v].data[i] &= fp.gp[pX][pY][!pVal].data[i];	
+				*/
             }
         }
     }
