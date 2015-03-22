@@ -12,14 +12,6 @@ LineSolve::LineSolve(int* d,int pbn)
     load(d,pbn);
 }
 
-LineSolve::LineSolve(int* d,int pbn,BigCache *bb) 
-{
-	bc = bb;
-    init();
-    load(d,pbn);
-}
-
-
 void LineSolve::init()
 {
     value1[0] = 0x0LL;
@@ -87,9 +79,6 @@ int propagate ( LineSolve& ls , Board& board )
 
 #ifdef CUT_BY_CACHE
         uint64_t res;
-		if( ls.bc!=NULL )
-			res = ls.bc->query( ls.probN ,ls.lineNum , ls.line>>4 );
-		else
             res = ls.queryTable.query( ls.lineNum , ls.line );
 
         if( res == Rbtree::NOT_FOUND ) {
@@ -103,19 +92,13 @@ int propagate ( LineSolve& ls , Board& board )
             if ( LS_NO == fix ( ls , 26 , ls.data[ls.lineNum] ) )
             {
 				ls.lineNum /= 14;
-				if( ls.bc == NULL )
 					ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
-				else
-					ls.bc->insert( ls.probN , ls.lineNum , ls.line>>4 , Rbtree::ANS_ERR );
                 return CONFLICT;
             }
 			ls.lineNum /= 14;
 
 #ifdef CUT_BY_CACHE
-			if( ls.bc == NULL )
 				ls.queryTable.insert( ls.lineNum , ls.line , ls.newLine );
-			else
-				ls.bc->insert( ls.probN , ls.lineNum , ls.line>>4 , ls.newLine );
         }
         else
         {

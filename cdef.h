@@ -16,7 +16,7 @@
 #define PATTERN_DROP_THRESHOLD 2
 #define MAX_PERM		7
 #define PROBLEM_START 	1
-#define PROBLEM_END 	500
+#define PROBLEM_END 	450
 #define DFS_MAX_TIMES 	500000
 
 //file name

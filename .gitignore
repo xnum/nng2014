@@ -1,6 +1,7 @@
 main
 main_*
 *.o
+*.d
 checker
 log*
 output.txt
