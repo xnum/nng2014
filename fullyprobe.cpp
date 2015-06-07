@@ -141,7 +141,6 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
 		return SOLVED;
 	}
 
-	Board old = board;
 	if( p0==CONFLICT && p1==CONFLICT )
 	{
 		return CONFLICT;
@@ -207,7 +206,7 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board
 			if(_x!=pX&&_y!=pY)
 			{
 				fp.P.insert( _x*25 + _y );
-				setBit( fp.gp[_x][_y][_v] , pX , pY , ( !pVal==0 ? BIT_ZERO : BIT_ONE ) );
+				setBit( fp.gp[_x][_y][_v] , pX , pY , ( !(pVal==0) ? BIT_ZERO : BIT_ONE ) );
 				/*
 				   for( int i = 0 ; i < 50 ; ++i )
 				   fp.gp[_x][_y][_v].data[i] &= fp.gp[pX][pY][!pVal].data[i];	

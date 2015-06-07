@@ -147,7 +147,8 @@ int propagate ( LineSolve& ls , Board& board )
     if( getSize(board) != 625 )
         return INCOMP;
 
-    printBoard( board,ls.probN );
+	ls.solvedBoard = board;
+    //printBoard( board,ls.probN );
 
     return SOLVED;
 }

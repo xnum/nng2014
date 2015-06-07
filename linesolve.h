@@ -21,6 +21,8 @@ class LineSolve {
 
         Rbtree queryTable;
 
+		Board solvedBoard;
+
         LineSolve();
         LineSolve(int*,int);
         void load(int*,int);

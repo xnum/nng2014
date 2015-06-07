@@ -1,0 +1,168 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ANS_ERR	rbtree.h	/^        static const uint64_t ANS_ERR = 0LL;$/;"	m	class:Rbtree
+BIT_ONE	cdef.h	/^#define BIT_ONE /;"	d
+BIT_UNKNOWN	cdef.h	/^#define BIT_UNKNOWN /;"	d
+BIT_ZERO	cdef.h	/^#define BIT_ZERO /;"	d
+BOARD_H	board.h	/^#define BOARD_H$/;"	d
+BOTH_U	cdef.h	/^#define BOTH_U /;"	d
+Board	board.cpp	/^Board::Board()$/;"	f	class:Board
+Board	board.h	/^class Board$/;"	c
+CDEF_H	cdef.h	/^#define CDEF_H$/;"	d
+CH_MAX	cdef.h	/^#define CH_MAX /;"	d
+CH_MIN	cdef.h	/^#define CH_MIN /;"	d
+CH_MIN_LOGD	cdef.h	/^#define CH_MIN_LOGD /;"	d
+CH_MIN_LOGM	cdef.h	/^#define CH_MIN_LOGM /;"	d
+CH_MUL	cdef.h	/^#define CH_MUL /;"	d
+CH_SQRT	cdef.h	/^#define CH_SQRT /;"	d
+CH_SUM	cdef.h	/^#define CH_SUM /;"	d
+CONFLICT	cdef.h	/^#define CONFLICT /;"	d
+CPPFLAGS	Makefile	/^CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra -Ofast -DNDEBUG $(INCFLAGS)$/;"	m
+CXX	Makefile	/^CXX=g++$/;"	m
+CZMQ_DIR	Makefile	/^CZMQ_DIR=#.$/;"	m
+DEF	Makefile	/^DEF=$(USE_ZHASH) $(LINESOLVE_OPT) $(USE_FP2) $(USE_MIRROR_REDUCE)$/;"	m
+DEPS	Makefile	/^DEPS=$(patsubst %.cpp,$(DEP_DIR)\/%.d,$(SRCS))$/;"	m
+DEP_DIR	Makefile	/^DEP_DIR=deps$/;"	m
+DFS_MAX_TIMES	cdef.h	/^#define DFS_MAX_TIMES /;"	d
+Dual_for	cdef.h	/^#define Dual_for(/;"	d
+FILL	cdef.h	/^#define FILL /;"	d
+FP_H	fullyprobe.h	/^#define FP_H$/;"	d
+FullyProbe	fullyprobe.h	/^class FullyProbe {$/;"	c
+INCFLAGS	Makefile	/^INCFLAGS=$/;"	m
+INCOMP	cdef.h	/^#define INCOMP /;"	d
+INPUT_FILE_NAME	cdef.h	/^#define INPUT_FILE_NAME /;"	d
+LDFLAGS	Makefile	/^LDFLAGS=-lm $/;"	m
+LINESOLVE_H	linesolve.h	/^#define LINESOLVE_H$/;"	d
+LINESOLVE_OPT	Makefile	/^LINESOLVE_OPT=$(USE_CUT_BY_SIZE) $(USE_CUT_BY_CACHE)$/;"	m
+LS_NANS	cdef.h	/^#define LS_NANS /;"	d
+LS_NO	cdef.h	/^#define LS_NO /;"	d
+LS_YES	cdef.h	/^#define LS_YES /;"	d
+LineSolve	linesolve.cpp	/^LineSolve::LineSolve() $/;"	f	class:LineSolve
+LineSolve	linesolve.cpp	/^LineSolve::LineSolve(int* d,int pbn) $/;"	f	class:LineSolve
+LineSolve	linesolve.h	/^class LineSolve {$/;"	c
+MAX_PERM	cdef.h	/^#define MAX_PERM	/;"	d
+MEMSET_ZERO	cdef.h	/^#define MEMSET_ZERO(/;"	d
+MUTEX	cdef.h	/^#define MUTEX /;"	d
+NOT_FOUND	rbtree.h	/^        static const uint64_t NOT_FOUND = 0xFFFFFFFFFFFFFFFFLL;$/;"	m	class:Rbtree
+OBJS	Makefile	/^OBJS=$(patsubst %.cpp,%.o,$(SRCS))$/;"	m
+OBJ_DIR	Makefile	/^OBJ_DIR=obj$/;"	m
+OUTPUT_FILE_NAME	cdef.h	/^#define OUTPUT_FILE_NAME /;"	d
+Options	help.h	/^		Options()$/;"	f	class:Options
+Options	help.h	/^class Options$/;"	c
+P	fullyprobe.h	/^        myset P;$/;"	m	class:FullyProbe
+PATTERN_DROP_THRESHOLD	cdef.h	/^#define PATTERN_DROP_THRESHOLD /;"	d
+PROBLEM_END	cdef.h	/^#define PROBLEM_END /;"	d
+PROBLEM_START	cdef.h	/^#define PROBLEM_START /;"	d
+RBTREE_H	rbtree.h	/^#define RBTREE_H$/;"	d
+REFLECT	cdef.h	/^#define REFLECT /;"	d
+Rbtree	rbtree.cpp	/^Rbtree :: Rbtree() {$/;"	f	class:Rbtree
+Rbtree	rbtree.h	/^class Rbtree {$/;"	c
+SAME	cdef.h	/^#define SAME /;"	d
+SCANNER_H	scanner.h	/^#define SCANNER_H$/;"	d
+SET_H	set.h	/^#define SET_H$/;"	d
+SOLVED	cdef.h	/^#define SOLVED /;"	d
+SRCS	Makefile	/^SRCS=$(shell ls *.cpp)$/;"	m
+TEST_H	mirror.h	/^#define TEST_H$/;"	d
+USE_CUT_BY_CACHE	Makefile	/^USE_CUT_BY_CACHE=-DCUT_BY_CACHE$/;"	m
+USE_CUT_BY_SIZE	Makefile	/^USE_CUT_BY_SIZE=-DCUT_BY_SIZE$/;"	m
+USE_FP2	Makefile	/^USE_FP2=-DUSE_FP2$/;"	m
+USE_MIRROR_REDUCE	Makefile	/^USE_MIRROR_REDUCE=#-DMIRROR$/;"	m
+USE_ZHASH	Makefile	/^USE_ZHASH=#-DZHASH$/;"	m
+__GET	cdef.h	/^#define __GET(/;"	d
+__SE	cdef.h	/^#define __SE(/;"	d
+__SET	cdef.h	/^#define __SET(/;"	d
+__STDC_FORMAT_MACROS	cdef.h	/^#define __STDC_FORMAT_MACROS /;"	d
+allocMem	help.h	/^int* allocMem(int n)$/;"	f
+arr	set.h	/^        uint64_t arr[10];$/;"	m	class:myset
+begin	set.h	/^        inline int begin()$/;"	f	class:myset
+checkAns	board.cpp	/^int checkAns( Board& board , int data[] )$/;"	f
+checkBoard	board.h	/^inline int checkBoard( Board &b )$/;"	f
+checkType	mirror.cpp	/^int mirror :: checkType( Board a , Board b , int x , int y )$/;"	f	class:mirror
+choose	fullyprobe.cpp	/^double choose( int method , int mp1 , int mp0 )$/;"	f
+clear	rbtree.cpp	/^void Rbtree :: clear() {$/;"	f	class:Rbtree
+clear	set.h	/^        inline void clear()$/;"	f	class:myset
+clearCache	linesolve.h	/^		void clearCache(){ queryTable.clear(); }$/;"	f	class:LineSolve
+clearFile	help.h	/^void clearFile(const char* s)$/;"	f
+curr_used	rbtree.h	/^        uint64_t curr_used;$/;"	m	class:Rbtree
+data	board.h	/^        uint64_t data[50];$/;"	m	class:Board
+data	linesolve.h	/^        int data[50*14];$/;"	m	class:LineSolve
+debugBoard	board.cpp	/^void debugBoard( Board& board )$/;"	f
+dfs	main.cpp	/^void dfs( FullyProbe& fp , LineSolve& ls , Board b )$/;"	f
+expandInputFile	help.h	/^void expandInputFile( const char* name )$/;"	f
+finish	main.cpp	/^bool finish = false;$/;"	v
+fix	linesolve.cpp	/^int fix ( LineSolve& ls , int i, int j )$/;"	f
+fixTable	linesolve.h	/^        uint8_t fixTable[27][14];$/;"	m	class:LineSolve
+fp2	fullyprobe.cpp	/^int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )$/;"	f
+generatePattern	mirror.cpp	/^bool mirror :: generatePattern( Board& b , int max )$/;"	f	class:mirror
+getBit	board.h	/^inline int getBit( const Board& board , int x , int y )$/;"	f
+getData	scanner.cpp	/^void getData ( int* _data , int probNum , int* dest )$/;"	f
+getLine	board.h	/^inline uint64_t getLine( Board& board , int x )$/;"	f
+getSize	board.h	/^inline int getSize( Board &board )$/;"	f
+gp	fullyprobe.h	/^        Board gp[25][25][2];$/;"	m	class:FullyProbe
+hash	rbtree.h	/^        zhash_t *hash[50];$/;"	m	class:Rbtree
+init	linesolve.cpp	/^void LineSolve::init()$/;"	f	class:LineSolve
+inputData	main.cpp	/^int* inputData;$/;"	v
+inputFileName	help.h	/^		char inputFileName[512];$/;"	m	class:Options
+insert	rbtree.cpp	/^void Rbtree :: insert(int line , uint64_t key , uint64_t val ) {$/;"	f	class:Rbtree
+insert	set.h	/^        inline void insert(int n)$/;"	f	class:myset
+isEmpty	set.h	/^		inline bool isEmpty()$/;"	f	class:myset
+lastSize	board.h	/^        uint8_t lastSize[50];$/;"	m	class:Board
+line	linesolve.h	/^        uint64_t line ,newLine;$/;"	m	class:LineSolve
+lineNum	linesolve.h	/^        int lineNum;$/;"	m	class:LineSolve
+listPixel	help.h	/^void listPixel( FullyProbe& fp, Board &b )$/;"	f
+load	linesolve.cpp	/^void LineSolve::load(int* d,int pbn)$/;"	f	class:LineSolve
+low_bound	linesolve.h	/^        int low_bound[50][14];$/;"	m	class:LineSolve
+main	main.cpp	/^int main(int argc , char *argv[])$/;"	f
+max_g0	fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
+max_g1	fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
+merge	board.h	/^inline void merge( Board& a,Board& b )$/;"	f
+method	fullyprobe.h	/^        int method;$/;"	m	class:FullyProbe
+method	help.h	/^		int method;$/;"	m	class:Options
+mirror	mirror.cpp	/^mirror :: mirror( FullyProbe& fp , Board &g , size_t threshold )$/;"	f	class:mirror
+mirror	mirror.h	/^class mirror {$/;"	c
+myset	set.h	/^        myset()$/;"	f	class:myset
+myset	set.h	/^class myset {$/;"	c
+newLine	linesolve.h	/^        uint64_t line ,newLine;$/;"	m	class:LineSolve
+node	mirror.h	/^struct node {$/;"	s
+operator <	board.h	/^        bool operator<(const Board& rhs) const$/;"	f	class:Board
+operator ==	board.h	/^        bool operator==(const Board& rhs) const$/;"	f	class:Board
+outputFileName	help.h	/^		char outputFileName[512];$/;"	m	class:Options
+parseOptions	help.h	/^int parseOptions(int argc, char **argv, Options &opt)$/;"	f
+pattern	mirror.h	/^		vector<Board> pattern;$/;"	m	class:mirror
+pool	rbtree.h	/^        uint64_t *pool;$/;"	m	class:Rbtree
+pool_ptr	rbtree.h	/^        int pool_ptr;$/;"	m	class:Rbtree
+preFixTable	linesolve.h	/^        uint8_t preFixTable[50][27][14];$/;"	m	class:LineSolve
+print	help.h	/^		void print()$/;"	f	class:Options
+printBoard	board.cpp	/^void printBoard( Board& board , int probN )$/;"	f
+printLog	help.h	/^void printLog( char* logName ,int method )$/;"	f
+printProb	help.h	/^void printProb( int data[] , const char* name , int probNum )$/;"	f
+probData	main.cpp	/^int probData[50*14];$/;"	v
+probN	linesolve.h	/^        int probN;$/;"	m	class:LineSolve
+probe	fullyprobe.cpp	/^int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )$/;"	f
+probeG	fullyprobe.cpp	/^int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board &origin )$/;"	f
+problemEnd	help.h	/^		int problemEnd;$/;"	m	class:Options
+problemStart	help.h	/^		int problemStart;$/;"	m	class:Options
+propagate	linesolve.cpp	/^int propagate ( LineSolve& ls , Board& board )$/;"	f
+query	rbtree.cpp	/^uint64_t Rbtree :: query(int line , uint64_t key) {$/;"	f	class:Rbtree
+queryTable	linesolve.h	/^        Rbtree queryTable;$/;"	m	class:LineSolve
+readFile	scanner.cpp	/^void readFile(int* data)$/;"	f
+remove	set.h	/^        inline void remove(int n)$/;"	f	class:myset
+selfCheck	help.h	/^		bool selfCheck;$/;"	m	class:Options
+setBestPixel	fullyprobe.cpp	/^void setBestPixel( FullyProbe& fp , Board& board )$/;"	f
+setBit	board.h	/^inline void setBit( Board& board , int x , int y , int val )$/;"	f
+setLine	board.h	/^inline void setLine( Board& board , int line , uint64_t val )$/;"	f
+size	board.h	/^        uint16_t size;	$/;"	m	class:Board
+table	rbtree.h	/^        std::map<uint64_t,uint64_t> table[50];$/;"	m	class:Rbtree
+testFail	scanner.h	/^inline void testFail(int exp,const char *s)$/;"	f
+times	main.cpp	/^int times = 0;$/;"	v
+value0	linesolve.h	/^        uint64_t value0[28];$/;"	m	class:LineSolve
+value1	linesolve.h	/^        uint64_t value1[28];$/;"	m	class:LineSolve
+vec	mirror.h	/^		vector<Board> vec;$/;"	m	class:mirror
+vlog	fullyprobe.cpp	/^#define vlog(/;"	d	file:
+x	mirror.h	/^	int x,y;$/;"	m	struct:node
+y	mirror.h	/^	int x,y;$/;"	m	struct:node
+~Rbtree	rbtree.cpp	/^Rbtree :: ~Rbtree() {$/;"	f	class:Rbtree
