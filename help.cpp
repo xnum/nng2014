@@ -55,6 +55,13 @@ int parseOptions(int argc, char **argv, Options &opt)
 			continue;
 		}
 
+		if( !strcmp(argv[i],"--simple-stdout") )
+		{
+			opt.simple=true;
+			continue;
+		}
+
+
 		printUsage(argv[0]);
 		return 1;
 	}
@@ -85,6 +92,14 @@ void printUsage(const char *name)
 	printf("  --method n\n");
 	printf("    set choosing method 1~7\n");
 
+	printf("  --yes-log\n");
+	printf("    open timer log\n"); 
+
+	printf("  --no-self-check\n");
+	printf("    don't check answer\n");
+
+	printf("  --simple-stdout\n");
+	printf("    only show total time at exit\n");
 	printf("\nSample:\n%s -S 1 -E 1000 -I input.txt -O out.txt -M 4\n\n",name);
 
 }

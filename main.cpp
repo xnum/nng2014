@@ -14,19 +14,18 @@ int main(int argc , char *argv[])
 
 	Options option;
 	int rc = parseOptions(argc, argv, option);
-	option.print();
 	if( rc )
 	{
-		printf("parse options failed\n");
+		printf("\nAborted: Illegal Options.\n");
 		return 0;
 	}
 
-	printf("parse options passed\n");
+	option.print();
 
     //fp.method = option.method;
 
     char logName[100] = {};
-	if( option.keeplog && !(rc = genLog( option, logName, 100 )) )
+	if( option.keeplog && (rc = genLog( option, logName, 100 )) )
 	{
 		printf("open log(%s) and write info failed\n",logName);
 		return 0;
@@ -59,9 +58,14 @@ int main(int argc , char *argv[])
 			printf("Fatal Error: Answer not correct\n");
 			return 1;
 		}
+
+		printBoard(ans, probN);
 		
-        printf ( "$%3d\ttime:%lfs\n" , probN
-                , ( double ) ( clock() - start ) / CLOCKS_PER_SEC );
+		if(!option.simple)
+		{
+			printf ( "$%3d\ttime:%lfs\n" , probN
+					, ( double ) ( clock() - start ) / CLOCKS_PER_SEC );
+		}
 
 		if(option.keeplog)
 		{
@@ -73,6 +77,12 @@ int main(int argc , char *argv[])
     }
 
 	printf("\nTotal Time:%lds (%lfs)\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
+	if(option.keeplog)
+	{
+		FILE* log = fopen( logName , "a+" );
+		fprintf(log,"\nTotal Time:%lds (%lfs)\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
+		fclose(log);
+	}
 
     delete[] inputData;
 

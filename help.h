@@ -24,6 +24,7 @@ class Options
 		char outputFileName[512];
 		bool selfCheck;
 		bool keeplog;
+		bool simple;
 
 		Options()
 		{
@@ -36,6 +37,7 @@ class Options
 			strcpy(outputFileName,"output.txt");
 			selfCheck=true;
 			keeplog=false;
+			simple=false;
 		}
 
 		void print()
