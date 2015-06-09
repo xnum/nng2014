@@ -63,24 +63,29 @@ int main(int argc , char *argv[])
 		
 		if(!option.simple)
 		{
-			printf ( "$%3d\ttime:%lfs\n" , probN
+			printf ( "$%3d\ttime:%4lfs\n" , probN
 					, ( double ) ( clock() - start ) / CLOCKS_PER_SEC );
+		}
+		else
+		{
+			if( probN%100==0 )
+				printf("%3d\t%4ld\t%11.6lf\n",probN-0,time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
 		}
 
 		if(option.keeplog)
 		{
 			FILE* log = fopen( logName , "a+" );
-			fprintf ( log , "$%3d\ttime:%lfs\n" , probN
+			fprintf ( log , "%3d\t\t%11.6lf\n" , probN
 					, ( double ) ( clock() - start ) / CLOCKS_PER_SEC );
 			fclose(log);
 		}
     }
 
-	printf("\nTotal Time:%lds (%lfs)\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
+	printf("Total:\n%4ld\t%11.6lf\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
 	if(option.keeplog)
 	{
 		FILE* log = fopen( logName , "a+" );
-		fprintf(log,"\nTotal Time:%lds (%lfs)\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
+		fprintf(log,"Total:\n%4ld\t%11.6lf\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
 		fclose(log);
 	}
 
