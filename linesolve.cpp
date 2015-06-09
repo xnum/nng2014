@@ -85,13 +85,18 @@ int propagate ( LineSolve& ls , Board& board )
 
 		if( res == Rbtree::NOT_FOUND ) {
 #endif
-
-			memmove( ls.fixTable , ls.preFixTable[ls.lineNum] , sizeof(ls.fixTable) );
-
-			ls.newLine = 0LL;
-
 			ls.lineNum *= 14;
-			if ( LS_NO == fix ( ls , 26 , ls.data[ls.lineNum] ) )
+
+			memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
+			ls.newLine = 0LL;
+			int fixAns = fixBU ( ls , 26 , ls.data[ls.lineNum] );
+			//uint64_t fixTD = ls.newLine;
+
+			//memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
+			//ls.newLine = 0LL;
+			//int fixAns2 = fixBU ( ls , 26 , ls.data[ls.lineNum] );
+
+			if ( LS_NO == fixAns )
 			{
 				ls.lineNum /= 14;
 				ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
@@ -157,7 +162,6 @@ int propagate ( LineSolve& ls , Board& board )
 
 int fix ( LineSolve& ls , int i, int j )
 {
-	/*
 	uint8_t &ret = ls.fixTable[i][j];
 
 	if ( ret == LS_NANS )
@@ -184,10 +188,14 @@ int fix ( LineSolve& ls , int i, int j )
 					ret = LS_YES;
 				}
 	}
-
 	return ret;
-	*/
-	
+}
+
+int fixBU ( LineSolve& ls , int i, int j )
+{
+	uint64_t dpTable[27][14] = {};
+
+
 	for( int jp = 0 ; jp <= j ; ++jp )
 	{
 		const int dj = ls.data[ls.lineNum+jp];
@@ -205,29 +213,28 @@ int fix ( LineSolve& ls , int i, int j )
 				continue;
 
 			uint8_t ret = LS_NO;
+			uint64_t currLine = 0;
 
+			if( ls.line&val0 )
+				if( LS_YES==ls.fixTable[ip-1][jp] )
+				{
+					currLine |= val0 | dpTable[ip-1][jp]; 
+					ret = LS_YES;
+				}
 
-				if( ls.line&val0 )
-					if( LS_YES==ls.fixTable[ip-1][jp] )
-					{
-						ls.newLine |= val0; 
-						ret = LS_YES;
-					}
-
-			if( 0<=jp-1 && 0 <= length-1 ) 
-			{
-				if( ls.line==(ls.line|val1) )
-					if( LS_YES==ls.fixTable[length-1][jp-1] ) 
-					{
-						ls.newLine |= val1;
-						ret = LS_YES;
-					}
-			}
+			if( ls.line==(ls.line|val1) )
+				if( LS_YES==ls.fixTable[length-1][jp-1] ) 
+				{
+					currLine |= val1 | dpTable[length-1][jp-1];
+					ret = LS_YES;
+				}
 
 			ls.fixTable[ip][jp] = ret;
+			dpTable[ip][jp] = currLine;
 		}
 	}
 
+	ls.newLine = dpTable[i][j];
 	return ls.fixTable[i][j];
 }
 
