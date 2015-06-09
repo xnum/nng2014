@@ -25,7 +25,9 @@ int main(int argc , char *argv[])
     //fp.method = option.method;
 
     char logName[100] = {};
-	if( option.keeplog && (rc = genLog( option, logName, 100 )) )
+	if( option.logFileName[0] != 0 )
+		memcpy(logName, option.logFileName, 100);
+	if( option.keeplog && (rc = genLog(option, logName, 100)) )
 	{
 		printf("open log(%s) and write info failed\n",logName);
 		return 0;

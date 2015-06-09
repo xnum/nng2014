@@ -24,43 +24,44 @@ void NonogramSolver::setMethod(int n)
 void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 {
 	times++;
+	queue.push_back(b);
+
+	while(1)
+	{
+		Board current = queue.back();
+		queue.pop_back();
 
 #ifdef MIRROR
-	if( times == 1 )
-	{
-		mirror t( fp , b , PATTERN_DROP_THRESHOLD );
-		if( true == t.generatePattern(b , MAX_PERM) )
+		if( times % 100 == 0 )
 		{
-			for( auto subBoard : t.pattern )
+			puts("Fix");
+			mirror t( fp , current , PATTERN_DROP_THRESHOLD );
+			if( true == t.generatePattern(current , MAX_PERM) )
 			{
-				dfs( fp , ls , subBoard );
-				if( finish == true )
-					break;
+				for( auto subBoard : t.pattern )
+					queue.push_back(subBoard);
+				current = queue.back();
+				queue.pop_back();
 			}
-			return 0;
 		}
-	}
 #endif
 
-	int res = fp2( fp , ls , b );
-	if( res == SOLVED )
-	{
-		finish = true;
-		return;
+		int res = fp2( fp , ls , current );
+		if( res == SOLVED )
+		{
+			finish = true;
+			return;
+		}
+
+		if( res == CONFLICT )
+			continue;
+
+		queue.push_back(fp.max_g1);
+		queue.push_back(fp.max_g0);
+
+		if( finish == true )
+			return;
 	}
-
-	if( res == CONFLICT )
-		return;
-
-	Board b1 = fp.max_g1;
-	Board b0 = fp.max_g0;
-
-	dfs( fp , ls , b0 );
-
-	if( finish == true )
-		return;
-
-	dfs( fp , ls , b1 );
 }
 
 

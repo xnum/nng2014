@@ -22,6 +22,7 @@ class Options
 		int method;
 		char inputFileName[512];
 		char outputFileName[512];
+		char logFileName[100];
 		bool selfCheck;
 		bool keeplog;
 		bool simple;
@@ -33,6 +34,7 @@ class Options
 			method = CH_MUL;
 			memset(inputFileName,0,sizeof(inputFileName));
 			memset(outputFileName,0,sizeof(outputFileName));
+			memset(logFileName,0,sizeof(logFileName));
 			strcpy(inputFileName,"input.txt");
 			strcpy(outputFileName,"output.txt");
 			selfCheck=true;
@@ -47,7 +49,10 @@ class Options
 			printf("Method = %d\n",method);
 			printf("Input File = %s\n",inputFileName);
 			printf("Output File = %s\n",outputFileName);
+			printf("Log File = %s\n",logFileName[0]==0 ? "log_[timestamp].txt" : logFileName );
 			printf("Self Ans Check = %c\n",selfCheck==true?'Y':'N');
+			printf("Write Log = %c\n",keeplog?'Y':'N');
+			printf("Print Each 100 Solved = %c\n",simple?'Y':'N');
 		}
 };
 

@@ -22,14 +22,21 @@ int parseOptions(int argc, char **argv, Options &opt)
 	
 		if( i+1 < argc && (!strcmp(argv[i],"-I") || !strcmp(argv[i],"--input")) )
 		{
-			strncpy(opt.inputFileName,argv[i],512);
+			strncpy(opt.inputFileName,argv[i+1],512);
 			i++;
 			continue;
 		}	
 
 		if( i+1 < argc && (!strcmp(argv[i],"-O") || !strcmp(argv[i],"--output")) )
 		{
-			strncpy(opt.outputFileName,argv[i],512);
+			strncpy(opt.outputFileName,argv[i+1],512);
+			i++;
+			continue;
+		}
+
+		if( i+1 < argc && (!strcmp(argv[i],"-L") || !strcmp(argv[i],"--log")) )
+		{
+			strncpy(opt.logFileName,argv[i+1],100);
 			i++;
 			continue;
 		}
@@ -87,6 +94,10 @@ void printUsage(const char *name)
 	printf("  -O [file]\n");
 	printf("  --output [file]\n");
 	printf("    set output file, default:output.txt\n");
+
+	printf("  -L [file]\n");
+	printf("  --log [file]\n");
+	printf("    set log file name\n");
 
 	printf("  -M n\n");
 	printf("  --method n\n");
@@ -169,9 +180,13 @@ void listPixel( FullyProbe& fp, Board &b )
 
 int genLog( const Options &option, char* logName, int size )
 {
-	time_t rawtime = time(NULL);
-	struct tm *timeinfo = localtime(&rawtime);
-	strftime(logName, size, "log_%H_%M__%b_%d_%G.txt",timeinfo);
+	if( logName[0] == 0 )
+	{
+		time_t rawtime = time(NULL);
+		struct tm *timeinfo = localtime(&rawtime);
+		strftime(logName, size, "log_%H_%M__%b_%d_%G.txt",timeinfo);
+	}
+
     FILE* log = fopen( logName , "w" );
 
     fprintf( log, "problem start: %d\n" ,option.problemStart );

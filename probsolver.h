@@ -1,5 +1,8 @@
 #ifndef PROB_SOLVER_H
 #define PROB_SOLVER_H
+
+#include <deque>
+
 #include "board.h"
 #include "scanner.h"
 #include "linesolve.h"
@@ -7,6 +10,7 @@
 #include "help.h"
 #include "mirror.h"
 
+using std::deque;
 
 class NonogramSolver
 {
@@ -21,6 +25,7 @@ class NonogramSolver
 		FullyProbe fp;
 		bool finish;
 		int times;
+		deque<Board> queue;
 };
 
 #endif
