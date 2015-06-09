@@ -53,6 +53,8 @@ void LineSolve::load(int* d,int pbn)
 		for ( int y = 0 ; y < 14 ; ++y )
 			for ( int x = 0 ; x < low_bound[i][y] ; ++x )
 				preFixTable[i][x][y] = LS_NO; 
+
+		low_bound[i][0] = 1;
 	}
 }
 
@@ -209,8 +211,8 @@ int fixBU ( LineSolve& ls , int i, int j )
 
 		for( ; ip <= ipp ; ++ip , val0<<=2 , val1<<=2 , ++length )
 		{
-			if( ls.fixTable[ip][jp] != LS_NANS )
-				continue;
+			//if( ls.fixTable[ip][jp] != LS_NANS )
+				//continue;
 
 			uint8_t ret = LS_NO;
 			uint64_t currLine = 0;
