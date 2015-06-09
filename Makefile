@@ -10,7 +10,7 @@ USE_CUT_BY_SIZE=-DCUT_BY_SIZE
 USE_CUT_BY_CACHE=-DCUT_BY_CACHE
 
 # use mirror method
-USE_MIRROR_REDUCE=-DMIRROR
+USE_MIRROR_REDUCE=#-DMIRROR
 
 # enable fp2 or fp1
 USE_FP2=-DUSE_FP2
@@ -23,10 +23,10 @@ DEF=$(USE_ZHASH) $(LINESOLVE_OPT) $(USE_FP2) $(USE_MIRROR_REDUCE)
 OBJ_DIR=obj
 DEP_DIR=deps
 
-CXX=clang++
+CXX=g++
 INCFLAGS=
 LDFLAGS=-lm 
-CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra -Ofast -DNDEBUG $(INCFLAGS)
+CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra -DNDEBUG $(INCFLAGS) -Ofast
 
 SRCS=$(shell ls *.cpp)
 OBJS=$(patsubst %.cpp,%.o,$(SRCS))

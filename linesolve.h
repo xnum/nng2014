@@ -12,6 +12,7 @@ class LineSolve {
         int lineNum;
         int probN;
         int low_bound[50][14];
+		int needCalc[50];
         uint8_t fixTable[27][14];
         uint8_t preFixTable[50][27][14];
         uint64_t value0[28];

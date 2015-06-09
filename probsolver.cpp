@@ -13,6 +13,12 @@ int NonogramSolver::doSolve(int *data)
 		dfs( fp , ls , b );  
 	}
 
+	if( finish != true )
+	{
+		printf("ALL CONFLICT\n");
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -32,9 +38,9 @@ void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 		queue.pop_back();
 
 #ifdef MIRROR
-		if( times % 100 == 0 )
+		if( times % 1000 == 1 )
 		{
-			puts("Fix");
+			//puts("Fix");
 			mirror t( fp , current , PATTERN_DROP_THRESHOLD );
 			if( true == t.generatePattern(current , MAX_PERM) )
 			{

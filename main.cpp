@@ -51,7 +51,8 @@ int main(int argc , char *argv[])
 
         getData( inputData ,probN ,probData );
 
-		nngSolver.doSolve(probData);
+		if( nngSolver.doSolve(probData) )
+			break;
 
 		Board ans = nngSolver.getSolvedBoard();
 
