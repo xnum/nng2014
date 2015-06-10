@@ -9,7 +9,8 @@ int NonogramSolver::doSolve(int *data)
 	{
 		finish = false;
 		times = 0;
-		thres = 100;
+		thres = 20;
+		sw = 0;
 
 		dfs( fp , ls , b );  
 	}
@@ -30,24 +31,29 @@ void NonogramSolver::setMethod(int n)
 
 void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 {
-	queue.push_back(b);
+	queue[sw].push_back(b);
 
 	while(1)
 	{
 		times++;
-		Board current = queue.back();
-		queue.pop_back();
+		if( queue[sw].size() == 0 )
+			sw = sw==1?0:1;
+		Board current = queue[sw].back();
+		queue[sw].pop_back();
 
-		/*
-		if( times % thres == 0 )
+		if( 0 ) // times % thres == 0 )
 		{
-			if(times>=4900)printf("SW! %d\n",times);
-			thres *= 3;
-			queue.push_back(current);
-			current = queue.front();
-			queue.pop_front();
+			//if(times>=1000)printf("SW! %d\n",times);
+			thres *= 2;
+			int nsw = sw==1 ? 0 : 1;
+			if( queue[nsw].size() != 0 )
+			{
+				queue[sw].push_back(current);
+				current = queue[sw].front();
+				queue[sw].pop_front();
+			}
+			sw = nsw;
 		}
-		*/
 
 #ifdef MIRROR
 		if( times % 1000 == 1 )
@@ -74,8 +80,8 @@ void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 		if( res == CONFLICT )
 			continue;
 
-		queue.push_back(fp.max_g1);
-		queue.push_back(fp.max_g0);
+		queue[sw].push_back(fp.max_g1);
+		queue[sw].push_back(fp.max_g0);
 
 		if( finish == true )
 			return;

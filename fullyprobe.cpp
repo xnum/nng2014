@@ -23,11 +23,21 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 			setBit( fp.gp[i][j][1], i,j,BIT_ONE );
 		}
 
+
 	while(1)
 	{
 		int p = fp.P.begin();
 		if( p == -1 )
-			break;
+		{
+			if( fp.oldP.isEmpty() )
+				break;
+			else
+			{
+				fp.P = fp.oldP;
+				fp.oldP.clear();
+				continue;
+			}
+		}
 
 		if( getBit(board,p/25,p%25)==BIT_UNKNOWN )
 		{
@@ -176,7 +186,7 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board
 
 			if(_x!=pX&&_y!=pY)
 			{
-				fp.P.insert( _x*25 + _y );
+				fp.oldP.insert( _x*25 + _y );
 				setBit( fp.gp[_x][_y][_v] , pX , pY , ( !(pVal==0) ? BIT_ZERO : BIT_ONE ) );
 			}
 		}

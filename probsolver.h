@@ -26,7 +26,8 @@ class NonogramSolver
 		bool finish;
 		int times;
 		int thres;
-		deque<Board> queue;
+		int sw;
+		deque<Board> queue[2];
 };
 
 #endif
