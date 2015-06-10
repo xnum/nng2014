@@ -12,8 +12,11 @@ using namespace std;
 Board::Board()
 {
     for( int i = 0 ; i < 50 ; ++i )
+	{
         data[i] = ( ( 0x1LL << 50 ) - 0x1LL );
-
+		oldData[i] = 0;
+	}
+	
     memset( lastSize , 0 , sizeof(lastSize) );
     size = 0;
 }

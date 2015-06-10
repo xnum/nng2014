@@ -8,6 +8,7 @@ class Board
 {
     public:
         uint64_t data[50];
+		uint64_t oldData[50];
         uint8_t lastSize[50];
         uint16_t size;	
 

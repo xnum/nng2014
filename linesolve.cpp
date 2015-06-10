@@ -62,42 +62,42 @@ void LineSolve::load(int* d,int pbn)
 
 int propagate ( LineSolve& ls , Board& board )
 {
-	//if( checkBoard(board) ) return CONFLICT;
-
-	uint64_t chkline = FILL;
+	uint64_t chkline = 0;
+	for( int i = 0 ; i < 50 ; ++i )
+	{
+		if( board.oldData[i] != board.data[i] )
+			chkline |= 1LL << i;
+	}
+	uint64_t nextchk = 0LL;
 	ls.lineNum = 0;
 
 	while( 1 )
 	{
-		ls.lineNum = __builtin_ffsll(chkline);
-		if( ls.lineNum-- == 0 ) break;
-		chkline &= chkline-1;
+		if( chkline == 0 )
+		{
+			if( nextchk == 0 )
+				break;
+			chkline = nextchk;
+			nextchk = 0LL;
+		}
 
+		ls.lineNum = __builtin_ffsll(chkline)-1;
+		chkline &= chkline-1;
+		
 		ls.line = getLine ( board , ls.lineNum ) << 4;
 
-#ifdef CUT_BY_SIZE
-		if( board.lastSize[ls.lineNum] == __builtin_popcountll(ls.line) )
-			continue; 
-#endif
 		__SET( ls.line , 1 , BIT_ZERO );
 
-#ifdef CUT_BY_CACHE
 		uint64_t res;
 		res = ls.queryTable.query( ls.lineNum , ls.line );
 
-		if( res == Rbtree::NOT_FOUND ) {
-#endif
+		if( res == Rbtree::NOT_FOUND ) 
+		{
 			ls.lineNum *= 14;
-
 			memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
 			ls.newLine = 0LL;
-			int fixAns = fixBU ( ls , 26 , ls.data[ls.lineNum] );
-			//uint64_t fixTD = ls.newLine;
 
-			//memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
-			//ls.newLine = 0LL;
-			//int fixAns2 = fixBU ( ls , 26 , ls.data[ls.lineNum] );
-
+			const int fixAns = fixBU ( ls , ls.data[ls.lineNum] );
 			if ( LS_NO == fixAns )
 			{
 				ls.lineNum /= 14;
@@ -106,7 +106,6 @@ int propagate ( LineSolve& ls , Board& board )
 			}
 			ls.lineNum /= 14;
 
-#ifdef CUT_BY_CACHE
 			ls.queryTable.insert( ls.lineNum , ls.line , ls.newLine );
 		}
 		else
@@ -115,14 +114,9 @@ int propagate ( LineSolve& ls , Board& board )
 			if( ls.newLine == Rbtree::ANS_ERR )
 				return CONFLICT;
 		}
-#endif
 
 		ls.newLine >>= 4;
 		ls.line >>= 4;
-
-#ifdef CUT_BY_SIZE
-		board.lastSize[ls.lineNum] = __builtin_popcountll( ls.newLine );
-#endif
 
 		if( ls.line != ls.newLine )
 		{
@@ -139,25 +133,24 @@ int propagate ( LineSolve& ls , Board& board )
 
 				if ( ls.lineNum < 25 )
 				{
-					chkline |= 0x1LL<<(x+25);
+					nextchk |= 0x1LL<<(x+25);
 					__SET( board.data[x+25] , (ls.lineNum) , bit );
 				}
 				else
 				{
-					chkline |= 0x1LL<<x;
+					nextchk |= 0x1LL<<x;
 					__SET( board.data[x] , (ls.lineNum-25) , bit );
 				}
 			}
 		}
 	}
 
-	//puts("leaving propagate");
+	memcpy(board.oldData,board.data,sizeof(board.oldData));
 
 	if( getSize(board) != 625 )
 		return INCOMP;
 
 	ls.solvedBoard = board;
-	//printBoard( board,ls.probN );
 
 	return SOLVED;
 }
@@ -193,8 +186,9 @@ int fix ( LineSolve& ls , int i, int j )
 	return ret;
 }
 
-int fixBU ( LineSolve& ls , int i, int j )
+int fixBU ( LineSolve& ls , int j )
 {
+	const int i = 26;
 	uint64_t dpTable[27][14] = {};
 
 

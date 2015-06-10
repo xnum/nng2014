@@ -9,6 +9,7 @@ int NonogramSolver::doSolve(int *data)
 	{
 		finish = false;
 		times = 0;
+		thres = 100;
 
 		dfs( fp , ls , b );  
 	}
@@ -29,13 +30,24 @@ void NonogramSolver::setMethod(int n)
 
 void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 {
-	times++;
 	queue.push_back(b);
 
 	while(1)
 	{
+		times++;
 		Board current = queue.back();
 		queue.pop_back();
+
+		/*
+		if( times % thres == 0 )
+		{
+			if(times>=4900)printf("SW! %d\n",times);
+			thres *= 3;
+			queue.push_back(current);
+			current = queue.front();
+			queue.pop_front();
+		}
+		*/
 
 #ifdef MIRROR
 		if( times % 1000 == 1 )

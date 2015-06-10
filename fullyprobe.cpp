@@ -15,17 +15,6 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 	Dual_for(i,j)
 		fp.gp[i][j][0] = fp.gp[i][j][1] = board;
 
-	/*
-	   int solvedCount = -1;
-	   while(1)
-	   {
-
-	   if( board.size == solvedCount )
-	   break;
-	   else
-	   solvedCount = board.size;
-	 */
-
 	Dual_for(i,j)
 		if( getBit( board,i,j ) == BIT_UNKNOWN )
 		{
@@ -49,7 +38,6 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 	}
 
 	getSize(board);
-	//}
 
 	setBestPixel( fp , board );
 
@@ -159,23 +147,6 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
 			board.data[i] = fp.gp[pX][pY][0].data[i] | fp.gp[pX][pY][1].data[i];
 	}
 
-	/*
-	   for( int x = 0 ; x < 25 ; ++x )
-	   {
-	   uint64_t tmp = board.data[x] ^ old.data[x];
-	   if( !tmp )  continue;
-	   int pos = 0;
-	   while( 0 != (pos=__builtin_ffsll(tmp)) )
-	   {
-	   pos--;
-	   tmp &= tmp-1;
-	   int y = pos>>1;
-	   if( x!=pX && y!=pY )
-	   fp.P.insert( x*25 + y );
-	   }
-	   }
-	 */
-
 	return INCOMP;
 }
 
@@ -207,10 +178,6 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board
 			{
 				fp.P.insert( _x*25 + _y );
 				setBit( fp.gp[_x][_y][_v] , pX , pY , ( !(pVal==0) ? BIT_ZERO : BIT_ONE ) );
-				/*
-				   for( int i = 0 ; i < 50 ; ++i )
-				   fp.gp[_x][_y][_v].data[i] &= fp.gp[pX][pY][!pVal].data[i];	
-				 */
 			}
 		}
 	}

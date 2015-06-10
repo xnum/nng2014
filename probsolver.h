@@ -25,6 +25,7 @@ class NonogramSolver
 		FullyProbe fp;
 		bool finish;
 		int times;
+		int thres;
 		deque<Board> queue;
 };
 

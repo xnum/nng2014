@@ -33,7 +33,7 @@ class LineSolve {
 };
 
 int fix( LineSolve& , int , int );
-int fixBU( LineSolve& , int , int );
+int fixBU( LineSolve& , int );
 int propagate( LineSolve& , Board& );
 
 #endif
