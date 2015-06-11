@@ -4,6 +4,8 @@ main_*
 *.d
 checker
 log*
+input.txt
 output.txt
 gmon.out
 *.dll
+*.log
