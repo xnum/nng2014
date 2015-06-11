@@ -54,7 +54,6 @@ void LineSolve::load(int* d,int pbn)
 			for ( int x = 0 ; x < low_bound[i][y] ; ++x )
 				preFixTable[i][x][y] = LS_NO; 
 
-		low_bound[i][0] = 1;
 	}
 }
 
@@ -195,7 +194,7 @@ int fixBU ( LineSolve& ls , int j )
 	for( int jp = 0 ; jp <= j ; ++jp )
 	{
 		const int dj = ls.data[ls.lineNum+jp];
-		int ip = ls.low_bound[ls.lineNum/14][jp];
+		int ip = ls.low_bound[ls.lineNum/14][jp]+1;
 
 		uint64_t val0 = ls.value0[ip];
 		int length = ip - dj;
@@ -203,29 +202,36 @@ int fixBU ( LineSolve& ls , int j )
 
 		const int ipp = ip+ls.needCalc[ls.lineNum/14];
 
-		for( ; ip <= ipp ; ++ip , val0<<=2 , val1<<=2 , ++length )
+		for( ; ip < ipp ; ++ip , val0<<=2 , val1<<=2 , ++length )
 		{
 			//if( ls.fixTable[ip][jp] != LS_NANS )
 				//continue;
 
-			uint8_t ret = LS_NO;
 			uint64_t currLine = 0;
 
-			if( ls.line&val0 )
-				if( LS_YES==ls.fixTable[ip-1][jp] )
-				{
-					currLine |= val0 | dpTable[ip-1][jp]; 
-					ret = LS_YES;
-				}
+			if(1)
+			{
+				//if(ip-1<0||jp<0||ip-1>26||jp>13)
+					//printf("0 [%d][%d]\n",ip-1,jp);
+				if( ls.line&val0 )
+					if( LS_YES==ls.fixTable[ip-1][jp] )
+					{
+						currLine |= val0 | dpTable[ip-1][jp]; 
+					}
+			}
 
-			if( ls.line==(ls.line|val1) )
-				if( LS_YES==ls.fixTable[length-1][jp-1] ) 
-				{
-					currLine |= val1 | dpTable[length-1][jp-1];
-					ret = LS_YES;
-				}
+			if(jp!=0)
+			{
+				//if(length-1<0||jp-1<0||length-1>26||jp-1>13)
+					//printf("1 [%d][%d]\n",length-1,jp-1);
+				if( ls.line==(ls.line|val1) )
+					if( LS_YES==ls.fixTable[length-1][jp-1] ) 
+					{
+						currLine |= val1 | dpTable[length-1][jp-1];
+					}
+			}
 
-			ls.fixTable[ip][jp] = ret;
+			ls.fixTable[ip][jp] = currLine==0 ? LS_NO : LS_YES;
 			dpTable[ip][jp] = currLine;
 		}
 	}
