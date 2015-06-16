@@ -17,7 +17,6 @@ Board::Board()
 		oldData[i] = 0;
 	}
 	
-    memset( lastSize , 0 , sizeof(lastSize) );
     size = 0;
 }
 

@@ -9,7 +9,6 @@ class Board
     public:
         uint64_t data[50];
 		uint64_t oldData[50];
-        uint8_t lastSize[50];
         uint16_t size;	
 
         Board();
@@ -77,13 +76,17 @@ inline void setLine( Board& board , int line , uint64_t val )
         for ( int k = 0 ; k < 25 ; ++k )
         {
             __SE( board.data[k+25] , line ,  __GET( val , k ) );
+			__builtin_prefetch( &board.data[k+26] , 1 );
         }
     }
     else
     {
         board.data[line] = val;
         for ( int k = 0 ; k < 25 ; ++k )
+		{
             __SE( board.data[k] , (line-25) , __GET( val , k ) );
+			__builtin_prefetch( &board.data[k+1] , 1 );
+		}
     }
 }
 
