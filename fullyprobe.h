@@ -24,7 +24,7 @@ class FullyProbe {
 double choose( int method , int mp1 , int mp0 );
 int fp2( FullyProbe& , LineSolve& , Board& );
 int probe( FullyProbe& , LineSolve& , Board& , int , int );
-int probeG( FullyProbe&  , LineSolve& ,  int , int , uint64_t , Board& );
+int probeG( FullyProbe&  , LineSolve& ,  int , int , uint64_t );
 void setBestPixel( FullyProbe& , Board& );
 
 #endif

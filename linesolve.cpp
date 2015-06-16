@@ -32,7 +32,7 @@ void LineSolve::load(int* d,int pbn)
 	probN=pbn;
 	memcpy( data , d , sizeof(int)*50*14 );
 
-	MEMSET_ZERO(preFixTable);
+	//MEMSET_ZERO(preFixTable);
 	MEMSET_ZERO(low_bound);
 	queryTable.clear();
 
@@ -49,10 +49,12 @@ void LineSolve::load(int* d,int pbn)
 
 		needCalc[i] = 26 - sum + 1;
 
+		/*
 		preFixTable[i][0][0] = LS_YES;
 		for ( int y = 0 ; y < 14 ; ++y )
 			for ( int x = 0 ; x < low_bound[i][y] ; ++x )
 				preFixTable[i][x][y] = LS_NO; 
+				*/
 
 	}
 }
@@ -93,7 +95,7 @@ int propagate ( LineSolve& ls , Board& board )
 		if( res == Rbtree::NOT_FOUND ) 
 		{
 			ls.lineNum *= 14;
-			memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
+			//memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
 			ls.newLine = 0LL;
 
 			const int fixAns = fixBU ( ls , ls.data[ls.lineNum] );
@@ -154,6 +156,7 @@ int propagate ( LineSolve& ls , Board& board )
 	return SOLVED;
 }
 
+/*
 int fix ( LineSolve& ls , int i, int j )
 {
 	uint8_t &ret = ls.fixTable[i][j];
@@ -184,59 +187,52 @@ int fix ( LineSolve& ls , int i, int j )
 	}
 	return ret;
 }
+*/
 
 int fixBU ( LineSolve& ls , int j )
 {
 	const int i = 26;
+	const int maxShift = ls.needCalc[ls.lineNum/14];
 	uint64_t dpTable[27][14] = {};
 
+	const uint64_t line = ls.line;
+	int data[14] = {};
+	int low_bound[14] = {};
+
+	memcpy(data,&ls.data[ls.lineNum],sizeof(data));
+	memcpy(low_bound,&ls.low_bound[ls.lineNum/14],sizeof(low_bound));
+
+	dpTable[0][0] = BIT_ONE;
 
 	for( int jp = 0 ; jp <= j ; ++jp )
 	{
-		const int dj = ls.data[ls.lineNum+jp];
-		int ip = ls.low_bound[ls.lineNum/14][jp]+1;
+		const int dj = data[jp];
+		int ip = low_bound[jp]+1;
 
-		uint64_t val0 = ls.value0[ip];
+		uint64_t val0 = (uint64_t)BIT_ZERO << (ip<<1); 
 		int length = ip - dj;
 		uint64_t val1 = ls.value1[dj] << (length << 1);
+		length--;
 
-		const int ipp = ip+ls.needCalc[ls.lineNum/14];
+		const int ipp = ip+maxShift;
 
 		for( ; ip < ipp ; ++ip , val0<<=2 , val1<<=2 , ++length )
 		{
-			//if( ls.fixTable[ip][jp] != LS_NANS )
-				//continue;
-
 			uint64_t currLine = 0;
 
-			if(1)
-			{
-				//if(ip-1<0||jp<0||ip-1>26||jp>13)
-					//printf("0 [%d][%d]\n",ip-1,jp);
-				if( ls.line&val0 )
-					if( LS_YES==ls.fixTable[ip-1][jp] )
-					{
-						currLine |= val0 | dpTable[ip-1][jp]; 
-					}
-			}
+			if( line&val0 )
+				if( 0 != dpTable[ip-1][jp] )
+					currLine |= val0 | dpTable[ip-1][jp]; 
 
-			if(jp!=0)
-			{
-				//if(length-1<0||jp-1<0||length-1>26||jp-1>13)
-					//printf("1 [%d][%d]\n",length-1,jp-1);
-				if( ls.line==(ls.line|val1) )
-					if( LS_YES==ls.fixTable[length-1][jp-1] ) 
-					{
-						currLine |= val1 | dpTable[length-1][jp-1];
-					}
-			}
+			if( jp!=0 && line==(line|val1) )
+				if( 0 != dpTable[length][jp-1] )
+					currLine |= val1 | dpTable[length][jp-1];
 
-			ls.fixTable[ip][jp] = currLine==0 ? LS_NO : LS_YES;
 			dpTable[ip][jp] = currLine;
 		}
 	}
 
 	ls.newLine = dpTable[i][j];
-	return ls.fixTable[i][j];
+	return dpTable[i][j] == 0 ? LS_NO : LS_YES;
 }
 

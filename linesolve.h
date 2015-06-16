@@ -13,8 +13,8 @@ class LineSolve {
         int probN;
         int low_bound[50][14];
 		int needCalc[50];
-        uint8_t fixTable[27][14];
-        uint8_t preFixTable[50][27][14];
+        //uint8_t fixTable[27][14];
+        //uint8_t preFixTable[50][27][14];
         uint64_t value0[28];
         uint64_t value1[28];
 
@@ -32,7 +32,7 @@ class LineSolve {
         void init();
 };
 
-int fix( LineSolve& , int , int );
+//int fix( LineSolve& , int , int );
 int fixBU( LineSolve& , int );
 int propagate( LineSolve& , Board& );
 

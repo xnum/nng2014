@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 
 #include "probsolver.h"
 
@@ -21,8 +22,6 @@ int main(int argc , char *argv[])
 	}
 
 	option.print();
-
-    //fp.method = option.method;
 
     char logName[100] = {};
 	if( option.logFileName[0] != 0 )
@@ -45,6 +44,8 @@ int main(int argc , char *argv[])
 	NonogramSolver nngSolver;
 	nngSolver.setMethod(option.method);
 
+	vector<Board> answer;
+	answer.resize(option.problemEnd-option.problemStart+1);
     for( int probN = option.problemStart ; probN <= option.problemEnd ; ++probN )
     {
         start = clock();
@@ -62,7 +63,7 @@ int main(int argc , char *argv[])
 			return 1;
 		}
 
-		printBoard(ans, probN);
+		answer.push_back(ans);
 		
 		if(!option.simple)
 		{
@@ -83,6 +84,13 @@ int main(int argc , char *argv[])
 			fclose(log);
 		}
     }
+
+	printf("Write answer to %s\n",option.outputFileName);
+    for( int probN = option.problemStart, i = 0 ; probN <= option.problemEnd ; ++probN, ++i )
+	{
+		printBoard(answer[i], probN);
+	}
+	printf("Write done!\n");
 
 	printf("Total:\n%4ld\t%11.6lf\n",time(NULL)-start_time,(double)(clock()-start_clock)/CLOCKS_PER_SEC);
 	if(option.keeplog)

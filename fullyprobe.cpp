@@ -128,12 +128,12 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
 		fp.gp[pX][pY][1].data[i] &= board.data[i];
 	}
 
-	int p0 = probeG( fp ,ls ,pX ,pY ,BIT_ZERO ,board );
+	int p0 = probeG( fp ,ls ,pX ,pY ,BIT_ZERO );
 	if( p0 == SOLVED )
 	{
 		return SOLVED;
 	}
-	int p1 = probeG( fp ,ls ,pX ,pY ,BIT_ONE ,board );
+	int p1 = probeG( fp ,ls ,pX ,pY ,BIT_ONE );
 	if( p1 == SOLVED )
 	{
 		return SOLVED;
@@ -160,7 +160,7 @@ int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )
 	return INCOMP;
 }
 
-int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal , Board &origin )
+int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal )
 {
 	pVal -= BIT_ZERO;
 	Board newG = fp.gp[pX][pY][pVal];
