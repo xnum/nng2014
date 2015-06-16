@@ -66,7 +66,7 @@ int propagate ( LineSolve& ls , Board& board )
 	uint64_t chkline = 0;
 	for( int i = 0 ; i < 50 ; ++i )
 	{
-		if( board.oldData[i] != board.data[i] )
+		if( unlikely( board.oldData[i] != board.data[i] ) )
 			chkline |= 1LL << i;
 	}
 	uint64_t nextchk = 0LL;
@@ -74,7 +74,7 @@ int propagate ( LineSolve& ls , Board& board )
 
 	while( 1 )
 	{
-		if( chkline == 0 )
+		if( unlikely( chkline == 0 ) )
 		{
 			if( nextchk == 0 )
 				break;
@@ -92,14 +92,14 @@ int propagate ( LineSolve& ls , Board& board )
 		uint64_t res;
 		res = ls.queryTable.query( ls.lineNum , ls.line );
 
-		if( res == Rbtree::NOT_FOUND ) 
+		if( unlikely( res == Rbtree::NOT_FOUND ) )
 		{
 			ls.lineNum *= 14;
 			//memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
 			ls.newLine = 0LL;
 
 			const int fixAns = fixBU ( ls , ls.data[ls.lineNum] );
-			if ( LS_NO == fixAns )
+			if ( unlikely( LS_NO == fixAns ) )
 			{
 				ls.lineNum /= 14;
 				ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
@@ -119,7 +119,7 @@ int propagate ( LineSolve& ls , Board& board )
 		ls.newLine >>= 4;
 		ls.line >>= 4;
 
-		if( ls.line != ls.newLine )
+		if( unlikely( ls.line != ls.newLine ) )
 		{
 			board.data[ls.lineNum] = ls.newLine;
 
@@ -148,7 +148,7 @@ int propagate ( LineSolve& ls , Board& board )
 
 	memcpy(board.oldData,board.data,sizeof(board.oldData));
 
-	if( getSize(board) != 625 )
+	if( unlikely( getSize(board) != 625 ) )
 		return INCOMP;
 
 	ls.solvedBoard = board;
@@ -193,7 +193,7 @@ int fixBU ( LineSolve& ls , int j )
 {
 	const int i = 26;
 	const int maxShift = ls.needCalc[ls.lineNum/14];
-	uint64_t dpTable[27][14] = {};
+	uint64_t dpTable[14][27] = {};
 
 	const uint64_t line = ls.line;
 	int data[14] = {};
@@ -218,21 +218,15 @@ int fixBU ( LineSolve& ls , int j )
 
 		for( ; ip < ipp ; ++ip , val0<<=2 , val1<<=2 , ++length )
 		{
-			uint64_t currLine = 0;
+			if( likely( (line&val0) && dpTable[jp][ip-1] ) )
+					dpTable[jp][ip] |= val0 | dpTable[jp][ip-1]; 
 
-			if( line&val0 )
-				if( 0 != dpTable[ip-1][jp] )
-					currLine |= val0 | dpTable[ip-1][jp]; 
-
-			if( jp!=0 && line==(line|val1) )
-				if( 0 != dpTable[length][jp-1] )
-					currLine |= val1 | dpTable[length][jp-1];
-
-			dpTable[ip][jp] = currLine;
+			if( unlikely( jp!=0 && line==(line|val1) && dpTable[jp-1][length] ))
+					dpTable[jp][ip] |= val1 | dpTable[jp-1][length];
 		}
 	}
 
-	ls.newLine = dpTable[i][j];
-	return dpTable[i][j] == 0 ? LS_NO : LS_YES;
+	ls.newLine = dpTable[j][i];
+	return dpTable[j][i] == 0 ? LS_NO : LS_YES;
 }
 

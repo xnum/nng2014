@@ -12,6 +12,9 @@
 	#include <nmmintrin.h>
 #endif
 
+#define likely(x)       __builtin_expect(!!(x), 1)
+#define unlikely(x)     __builtin_expect(!!(x), 0)
+
 // program parameter
 #define PATTERN_DROP_THRESHOLD 2
 #define MAX_PERM		7

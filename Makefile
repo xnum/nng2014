@@ -26,6 +26,7 @@ DEP_DIR=deps
 CXX=g++
 INCFLAGS=
 LDFLAGS=-lm 
+OPTFLAGS=
 CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast
 
 SRCS=$(shell ls *.cpp)
