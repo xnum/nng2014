@@ -116,16 +116,19 @@ void Options::printUsage(const char *name)
 }
 
 
-int Options::genLogFile( char* logName, int size )
+int Options::genLogFile()
 {
+	if( keeplog == false )
+		return 0;
+
 	if( logFileName[0] == 0 )
 	{
 		time_t rawtime = time(NULL);
 		struct tm *timeinfo = localtime(&rawtime);
-		strftime(logName, size, "log_%H_%M__%b_%d_%G.txt",timeinfo);
+		strftime(logFileName, sizeof(logFileName) , "log_%H_%M__%b_%d_%G.txt",timeinfo);
 	}
 
-	FILE* log = fopen( logName , "w" );
+	FILE* log = fopen( logFileName , "w" );
 
 	fprintf( log, "problem start: %d\n" ,problemStart );
 	fprintf( log, "problem end: %d\n" ,problemEnd );

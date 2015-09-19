@@ -17,11 +17,11 @@ int NonogramSolver::doSolve(int *data)
 
 	if( finish != true )
 	{
-		printf("ALL CONFLICT\n");
-		return 1;
+		printf("Error: ALL CONFLICT\n");
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
 
 void NonogramSolver::setMethod(int n)

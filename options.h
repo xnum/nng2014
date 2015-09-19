@@ -52,7 +52,7 @@ class Options
 		/*
 		 * write log info about options and return log file name
 		 */
-		int genLogFile(char* logName, int size);
+		int genLogFile();
 		void printUsage(const char *name);
 };
 
