@@ -86,9 +86,7 @@ int propagate ( LineSolve& ls , Board& board )
 		__SET( ls.line , 1 , BIT_ZERO );
 
 		uint64_t res;
-		//res = ls.queryTable.query( ls.lineNum , ls.line );
 		
-		//if( unlikely( res == Rbtree::NOT_FOUND ) )
 		if( !findHash(ls.clue[ls.lineNum], ls.line, ls.newLine) )
 		{
 			ls.lineNum *= 14;
@@ -98,22 +96,12 @@ int propagate ( LineSolve& ls , Board& board )
 			if ( unlikely( LS_NO == fixAns ) )
 			{
 				ls.lineNum /= 14;
-				//ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
 				return CONFLICT;
 			}
 			ls.lineNum /= 14;
 
 			insertHash(ls.clue[ls.lineNum], ls.line, ls.newLine);
-			//ls.queryTable.insert( ls.lineNum , ls.line , ls.newLine );
 		}
-		/*
-		else
-		{
-			ls.newLine = res;
-			if( ls.newLine == Rbtree::ANS_ERR )
-				return CONFLICT;
-		}
-		*/
 
 		ls.newLine >>= 4;
 		ls.line >>= 4;

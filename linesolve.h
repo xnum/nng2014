@@ -22,9 +22,6 @@ class LineSolve {
         uint64_t value0[28];
         uint64_t value1[28];
 
-
-        Rbtree queryTable;
-
 				Board solvedBoard;
 
         LineSolve();

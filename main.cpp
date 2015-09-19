@@ -20,7 +20,7 @@ void writePerDuration(const Options& option, int probN, time_t startTime, clock_
 {
 		if(!option.simple)
 		{
-			printf ( "$%3d\ttime:%4lfs\n" , probN , (double)(clock()-thisClock)/CLOCKS_PER_SEC);
+			printf ( "$%3d\ttime:%4lfs\ttotal:%ld\n" , probN , (double)(clock()-thisClock)/CLOCKS_PER_SEC, time(NULL)-startTime);
 		}
 		else
 		{
