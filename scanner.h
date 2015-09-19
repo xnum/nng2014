@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include "cdef.h"
 
-void readFile( int* );
+void readFile( char* , int* );
 void getData ( int* , int , int* );
 inline void testFail(int exp,const char *s)
 {

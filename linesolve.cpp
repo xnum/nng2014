@@ -31,8 +31,6 @@ void LineSolve::init()
 
 void LineSolve::load(int* d)
 {
-	memcpy( data , d , sizeof(int)*50*14 );
-
 	MEMSET_ZERO(low_bound);
 
 	for ( int i = 0 ; i < 50 ; ++i )
@@ -40,11 +38,11 @@ void LineSolve::load(int* d)
 		int sum = 0;
 		low_bound[i][0] = 0;
 
-		clue[i].count = data[i*14];
-		for ( int j = 1 ; j <= data[i*14] ; ++j )
+		clue[i].count = d[i*14];
+		for ( int j = 1 ; j <= d[i*14] ; ++j )
 		{
-			clue[i].num[j-1] = data[i*14+j];	
-			sum += data[i*14+j] + 1;
+			clue[i].num[j-1] = d[i*14+j];	
+			sum += d[i*14+j] + 1;
 			low_bound[i][j] = sum-1;
 		}
 
@@ -86,16 +84,13 @@ int propagate ( LineSolve& ls , Board& board )
 
 		if( !findHash(ls.clue[ls.lineNum], ls.line, ls.newLine) )
 		{
-			ls.lineNum *= 14;
 			ls.newLine = 0LL;
 
-			const int fixAns = fixBU ( ls , ls.data[ls.lineNum] );
+			const int fixAns = fixBU ( ls , ls.clue[ls.lineNum].count );
 			if ( unlikely( LS_NO == fixAns ) )
 			{
-				ls.lineNum /= 14;
 				return CONFLICT;
 			}
-			ls.lineNum /= 14;
 
 			insertHash(ls.clue[ls.lineNum], ls.line, ls.newLine);
 		}
@@ -143,15 +138,15 @@ int propagate ( LineSolve& ls , Board& board )
 int fixBU ( LineSolve& ls , int j )
 {
 	const int i = 26;
-	const int maxShift = ls.needCalc[ls.lineNum/14];
+	const int maxShift = ls.needCalc[ls.lineNum];
 	uint64_t dpTable[14][27] = {};
 
 	const uint64_t line = ls.line;
 	int data[14] = {};
 	int low_bound[14] = {};
 
-	memcpy(data,&ls.data[ls.lineNum],sizeof(data));
-	memcpy(low_bound,&ls.low_bound[ls.lineNum/14],sizeof(low_bound));
+	memcpy(data+1,&ls.clue[ls.lineNum].num,sizeof(int)*13);
+	memcpy(low_bound,&ls.low_bound[ls.lineNum],sizeof(low_bound));
 
 	dpTable[0][0] = BIT_ONE;
 

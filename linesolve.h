@@ -10,8 +10,9 @@ class LineSolve {
     public:
         uint64_t line ,newLine;
         int lineNum;
+
+				// problem info
 				Clue clue[50];
-				int data[50*14];
 
 				// additional info 
         int low_bound[50][14];

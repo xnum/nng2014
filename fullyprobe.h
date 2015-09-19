@@ -18,7 +18,7 @@ class FullyProbe {
         int method;
 
         myset P;
-		myset oldP;
+				myset oldP;
 };
 
 double choose( int method , int mp1 , int mp0 );

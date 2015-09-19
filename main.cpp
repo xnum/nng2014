@@ -70,7 +70,7 @@ int main(int argc , char *argv[])
 	int *inputData;
 	int probData[50*14];
 	inputData = allocMem(1001*50*14);
-	readFile(inputData);
+	readFile(option.inputFileName,inputData);
 
 	time_t startTime = time(NULL);
 	clock_t startClk = clock();

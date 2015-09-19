@@ -4,7 +4,6 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-ANS_ERR	rbtree.h	/^        static const uint64_t ANS_ERR = 0LL;$/;"	m	class:Rbtree
 BIT_ONE	cdef.h	68;"	d
 BIT_UNKNOWN	cdef.h	69;"	d
 BIT_ZERO	cdef.h	67;"	d
@@ -24,6 +23,7 @@ CONFLICT	cdef.h	47;"	d
 CPPFLAGS	Makefile	/^CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast$/;"	m
 CXX	Makefile	/^CXX=g++$/;"	m
 CZMQ_DIR	Makefile	/^CZMQ_DIR=#.$/;"	m
+Clue	cdef.h	/^struct Clue {$/;"	s
 DEF	Makefile	/^DEF=$(USE_ZHASH) $(LINESOLVE_OPT) $(USE_FP2) $(USE_MIRROR_REDUCE)$/;"	m
 DEPS	Makefile	/^DEPS=$(patsubst %.cpp,$(DEP_DIR)\/%.d,$(SRCS))$/;"	m
 DEP_DIR	Makefile	/^DEP_DIR=deps$/;"	m
@@ -44,12 +44,11 @@ LS_NANS	cdef.h	62;"	d
 LS_NO	cdef.h	64;"	d
 LS_YES	cdef.h	63;"	d
 LineSolve	linesolve.cpp	/^LineSolve::LineSolve() $/;"	f	class:LineSolve
-LineSolve	linesolve.cpp	/^LineSolve::LineSolve(int* d,int pbn) $/;"	f	class:LineSolve
+LineSolve	linesolve.cpp	/^LineSolve::LineSolve(int* d) $/;"	f	class:LineSolve
 LineSolve	linesolve.h	/^class LineSolve {$/;"	c
 MAX_PERM	cdef.h	20;"	d
 MEMSET_ZERO	cdef.h	59;"	d
 MUTEX	cdef.h	54;"	d
-NOT_FOUND	rbtree.h	/^        static const uint64_t NOT_FOUND = 0xFFFFFFFFFFFFFFFFLL;$/;"	m	class:Rbtree
 NonogramSolver	probsolver.h	/^		NonogramSolver() {}$/;"	f	class:NonogramSolver
 NonogramSolver	probsolver.h	/^class NonogramSolver$/;"	c
 OBJS	Makefile	/^OBJS=$(patsubst %.cpp,%.o,$(SRCS))$/;"	m
@@ -64,10 +63,7 @@ PATTERN_DROP_THRESHOLD	cdef.h	19;"	d
 PROBLEM_END	cdef.h	22;"	d
 PROBLEM_START	cdef.h	21;"	d
 PROB_SOLVER_H	probsolver.h	2;"	d
-RBTREE_H	rbtree.h	2;"	d
 REFLECT	cdef.h	53;"	d
-Rbtree	rbtree.cpp	/^Rbtree :: Rbtree() {$/;"	f	class:Rbtree
-Rbtree	rbtree.h	/^class Rbtree {$/;"	c
 SAME	cdef.h	52;"	d
 SCANNER_H	scanner.h	2;"	d
 SET_H	set.h	2;"	d
@@ -91,21 +87,21 @@ checkAns	board.cpp	/^int checkAns( Board& board , int data[] )$/;"	f
 checkBoard	board.h	/^inline int checkBoard( Board &b )$/;"	f
 checkType	mirror.cpp	/^int mirror :: checkType( Board a , Board b , int x , int y )$/;"	f	class:mirror
 choose	fullyprobe.cpp	/^double choose( int method , int mp1 , int mp0 )$/;"	f
-clear	rbtree.cpp	/^void Rbtree :: clear() {$/;"	f	class:Rbtree
 clear	set.h	/^        inline void clear()$/;"	f	class:myset
-clearCache	linesolve.h	/^		void clearCache(){ queryTable.clear(); }$/;"	f	class:LineSolve
 clearFile	help.cpp	/^void clearFile(const char* s)$/;"	f
-curr_used	rbtree.h	/^        uint64_t curr_used;$/;"	m	class:Rbtree
+clue	linesolve.h	/^				Clue clue[50];$/;"	m	class:LineSolve
+count	cdef.h	/^	int count;$/;"	m	struct:Clue
 data	board.h	/^        uint64_t data[50];$/;"	m	class:Board
-data	linesolve.h	/^        int data[50*14];$/;"	m	class:LineSolve
 debugBoard	board.cpp	/^void debugBoard( Board& board )$/;"	f
 dfs	probsolver.cpp	/^void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )$/;"	f	class:NonogramSolver
 doSolve	probsolver.cpp	/^int NonogramSolver::doSolve(int *data)$/;"	f	class:NonogramSolver
 expandInputFile	help.cpp	/^void expandInputFile( const char* name )$/;"	f
+findHash	Hash.cpp	/^bool findHash(const Clue& problem,const uint64_t& nowString, uint64_t& settleString)$/;"	f
 finish	probsolver.h	/^		bool finish;$/;"	m	class:NonogramSolver
 fixBU	linesolve.cpp	/^int fixBU ( LineSolve& ls , int j )$/;"	f
 fp	probsolver.h	/^		FullyProbe fp;$/;"	m	class:NonogramSolver
 fp2	fullyprobe.cpp	/^int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )$/;"	f
+genHash	Hash.cpp	/^void genHash(Clue& clue)$/;"	f
 genLogFile	options.cpp	/^int Options::genLogFile()$/;"	f	class:Options
 generatePattern	mirror.cpp	/^bool mirror :: generatePattern( Board& b , int max )$/;"	f	class:mirror
 getBit	board.h	/^inline int getBit( const Board& board , int x , int y )$/;"	f
@@ -114,20 +110,22 @@ getLine	board.h	/^inline uint64_t getLine( Board& board , int x )$/;"	f
 getSize	board.h	/^inline int getSize( Board &board )$/;"	f
 getSolvedBoard	probsolver.h	/^		Board getSolvedBoard(){ return ls.solvedBoard; }$/;"	f	class:NonogramSolver
 gp	fullyprobe.h	/^        Board gp[25][25][2];$/;"	m	class:FullyProbe
-hash	rbtree.h	/^        zhash_t *hash[50];$/;"	m	class:Rbtree
+hash	cdef.h	/^	uint64_t hash;$/;"	m	struct:Clue
 hashNode	Hash.h	/^struct hashNode{$/;"	s
+hashTable	Hash.cpp	/^static hashNode hashTable[HTABLE_SIZE];$/;"	v	file:
 init	linesolve.cpp	/^void LineSolve::init()$/;"	f	class:LineSolve
+initialHash	Hash.cpp	/^void initialHash()$/;"	f
 inputFileName	options.h	/^		char inputFileName[512];$/;"	m	class:Options
-insert	rbtree.cpp	/^void Rbtree :: insert(int line , uint64_t key , uint64_t val ) {$/;"	f	class:Rbtree
 insert	set.h	/^        inline void insert(int n)$/;"	f	class:myset
+insertHash	Hash.cpp	/^void insertHash(const Clue& problem,const uint64_t& nowString,const uint64_t& settleString )$/;"	f
 isEmpty	set.h	/^		inline bool isEmpty()$/;"	f	class:myset
 keeplog	options.h	/^		bool keeplog;$/;"	m	class:Options
 likely	cdef.h	15;"	d
 line	linesolve.h	/^        uint64_t line ,newLine;$/;"	m	class:LineSolve
 lineNum	linesolve.h	/^        int lineNum;$/;"	m	class:LineSolve
-lineProblem	Hash.h	/^	LineNumbers lineProblem; LineMask nowString; LineMask settleString;$/;"	m	struct:hashNode
+lineProblem	Hash.h	/^	Clue lineProblem; uint64_t nowString; uint64_t settleString;$/;"	m	struct:hashNode
 listPixel	help.cpp	/^void listPixel( FullyProbe& fp, Board &b )$/;"	f
-load	linesolve.cpp	/^void LineSolve::load(int* d,int pbn)$/;"	f	class:LineSolve
+load	linesolve.cpp	/^void LineSolve::load(int* d)$/;"	f	class:LineSolve
 logFileName	options.h	/^		char logFileName[100];$/;"	m	class:Options
 low_bound	linesolve.h	/^        int low_bound[50][14];$/;"	m	class:LineSolve
 ls	probsolver.h	/^		LineSolve ls;$/;"	m	class:NonogramSolver
@@ -141,32 +139,28 @@ mirror	mirror.cpp	/^mirror :: mirror( FullyProbe& fp , Board &g , size_t thresho
 mirror	mirror.h	/^class mirror {$/;"	c
 myset	set.h	/^        myset()$/;"	f	class:myset
 myset	set.h	/^class myset {$/;"	c
-needCalc	linesolve.h	/^		int needCalc[50];$/;"	m	class:LineSolve
+needCalc	linesolve.h	/^				int needCalc[50];$/;"	m	class:LineSolve
 newLine	linesolve.h	/^        uint64_t line ,newLine;$/;"	m	class:LineSolve
 node	mirror.h	/^struct node {$/;"	s
-nowString	Hash.h	/^	LineNumbers lineProblem; LineMask nowString; LineMask settleString;$/;"	m	struct:hashNode
+nowString	Hash.h	/^	Clue lineProblem; uint64_t nowString; uint64_t settleString;$/;"	m	struct:hashNode
+num	cdef.h	/^	int num[14];$/;"	m	struct:Clue
 oldData	board.h	/^		uint64_t oldData[50];$/;"	m	class:Board
-oldP	fullyprobe.h	/^		myset oldP;$/;"	m	class:FullyProbe
+oldP	fullyprobe.h	/^				myset oldP;$/;"	m	class:FullyProbe
 operator <	board.h	/^        bool operator<(const Board& rhs) const$/;"	f	class:Board
 operator ==	board.h	/^        bool operator==(const Board& rhs) const$/;"	f	class:Board
 outputFileName	options.h	/^		char outputFileName[512];$/;"	m	class:Options
 pattern	mirror.h	/^		vector<Board> pattern;$/;"	m	class:mirror
-pool	rbtree.h	/^        uint64_t *pool;$/;"	m	class:Rbtree
-pool_ptr	rbtree.h	/^        int pool_ptr;$/;"	m	class:Rbtree
 print	options.h	/^		void print()$/;"	f	class:Options
 printBoard	board.cpp	/^void printBoard( char* fileName ,Board& board , int probN )$/;"	f
 printProb	help.cpp	/^void printProb( int data[] , const char* name , int probNum )$/;"	f
 printUsage	options.cpp	/^void Options::printUsage(const char *name)$/;"	f	class:Options
-probN	linesolve.h	/^        int probN;$/;"	m	class:LineSolve
 probe	fullyprobe.cpp	/^int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )$/;"	f
 probeG	fullyprobe.cpp	/^int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal )$/;"	f
 problemEnd	options.h	/^		int problemEnd;$/;"	m	class:Options
 problemStart	options.h	/^		int problemStart;$/;"	m	class:Options
 propagate	linesolve.cpp	/^int propagate ( LineSolve& ls , Board& board )$/;"	f
-query	rbtree.cpp	/^uint64_t Rbtree :: query(int line , uint64_t key) {$/;"	f	class:Rbtree
-queryTable	linesolve.h	/^        Rbtree queryTable;$/;"	m	class:LineSolve
 queue	probsolver.h	/^		deque<Board> queue[2];$/;"	m	class:NonogramSolver
-readFile	scanner.cpp	/^void readFile(int* data)$/;"	f
+readFile	scanner.cpp	/^void readFile(char* name,int* data)$/;"	f
 readOptions	options.cpp	/^int Options::readOptions(int argc, char **argv)$/;"	f	class:Options
 remove	set.h	/^        inline void remove(int n)$/;"	f	class:myset
 selfCheck	options.h	/^		bool selfCheck;$/;"	m	class:Options
@@ -174,12 +168,11 @@ setBestPixel	fullyprobe.cpp	/^void setBestPixel( FullyProbe& fp , Board& board )
 setBit	board.h	/^inline void setBit( Board& board , int x , int y , int val )$/;"	f
 setLine	board.h	/^inline void setLine( Board& board , int line , uint64_t val )$/;"	f
 setMethod	probsolver.cpp	/^void NonogramSolver::setMethod(int n)$/;"	f	class:NonogramSolver
-settleString	Hash.h	/^	LineNumbers lineProblem; LineMask nowString; LineMask settleString;$/;"	m	struct:hashNode
+settleString	Hash.h	/^	Clue lineProblem; uint64_t nowString; uint64_t settleString;$/;"	m	struct:hashNode
 simple	options.h	/^		bool simple;$/;"	m	class:Options
 size	board.h	/^        uint16_t size;	$/;"	m	class:Board
-solvedBoard	linesolve.h	/^		Board solvedBoard;$/;"	m	class:LineSolve
+solvedBoard	linesolve.h	/^				Board solvedBoard;$/;"	m	class:LineSolve
 sw	probsolver.h	/^		int sw;$/;"	m	class:NonogramSolver
-table	rbtree.h	/^        std::map<uint64_t,uint64_t> table[50];$/;"	m	class:Rbtree
 testFail	scanner.h	/^inline void testFail(int exp,const char *s)$/;"	f
 thres	probsolver.h	/^		int thres;$/;"	m	class:NonogramSolver
 times	probsolver.h	/^		int times;$/;"	m	class:NonogramSolver
@@ -192,4 +185,4 @@ writePerDuration	main.cpp	/^void writePerDuration(const Options& option, int pro
 writeTotalDuration	main.cpp	/^void writeTotalDuration(const Options& option, time_t startTime, clock_t startClk )$/;"	f
 x	mirror.h	/^	int x,y;$/;"	m	struct:node
 y	mirror.h	/^	int x,y;$/;"	m	struct:node
-~Rbtree	rbtree.cpp	/^Rbtree :: ~Rbtree() {$/;"	f	class:Rbtree
+zHashKeyTable	Hash.cpp	/^uint64_t zHashKeyTable[13][26] ;$/;"	v

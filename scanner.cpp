@@ -1,9 +1,9 @@
 #include "scanner.h"
 
-void readFile(int* data)
+void readFile(char* name,int* data)
 {
-    FILE *ptr = fopen ( INPUT_FILE_NAME , "r" );
-    testFail( ptr != NULL , "open " INPUT_FILE_NAME " error" );
+    FILE *ptr = fopen ( name , "r" );
+    testFail( ptr != NULL , "open input file  error" );
 
     for( int probNum = 0 ; probNum < 1000 ; ++probNum )
     {
