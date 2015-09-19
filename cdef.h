@@ -68,4 +68,11 @@
 #define BIT_ONE     0x2LL
 #define BIT_UNKNOWN 0x3LL
 
+// to help record in hash
+struct Clue {
+	int num[14];
+	int count;
+	uint64_t hash;
+};
+
 #endif

@@ -6,14 +6,16 @@ LineSolve::LineSolve()
 	init();
 }
 
-LineSolve::LineSolve(int* d,int pbn) 
+LineSolve::LineSolve(int* d) 
 {
 	init();
-	load(d,pbn);
+	load(d);
 }
 
 void LineSolve::init()
 {
+	initialHash();
+
 	value1[0] = 0x0LL;
 	value0[0] = (uint64_t)BIT_ZERO; 
 	__SET( value1[0] , 0 , BIT_ZERO );
@@ -27,12 +29,10 @@ void LineSolve::init()
 
 }
 
-void LineSolve::load(int* d,int pbn)
+void LineSolve::load(int* d)
 {
-	probN=pbn;
 	memcpy( data , d , sizeof(int)*50*14 );
 
-	//MEMSET_ZERO(preFixTable);
 	MEMSET_ZERO(low_bound);
 	queryTable.clear();
 
@@ -41,21 +41,17 @@ void LineSolve::load(int* d,int pbn)
 		int sum = 0;
 		low_bound[i][0] = 0;
 
+		clue[i].count = data[i*14];
 		for ( int j = 1 ; j <= data[i*14] ; ++j )
 		{
+			clue[i].num[j-1] = data[i*14+j];	
 			sum += data[i*14+j] + 1;
 			low_bound[i][j] = sum-1;
 		}
 
 		needCalc[i] = 26 - sum + 1;
 
-		/*
-		preFixTable[i][0][0] = LS_YES;
-		for ( int y = 0 ; y < 14 ; ++y )
-			for ( int x = 0 ; x < low_bound[i][y] ; ++x )
-				preFixTable[i][x][y] = LS_NO; 
-				*/
-
+		genHash(clue[i]);
 	}
 }
 
@@ -90,31 +86,34 @@ int propagate ( LineSolve& ls , Board& board )
 		__SET( ls.line , 1 , BIT_ZERO );
 
 		uint64_t res;
-		res = ls.queryTable.query( ls.lineNum , ls.line );
-
-		if( unlikely( res == Rbtree::NOT_FOUND ) )
+		//res = ls.queryTable.query( ls.lineNum , ls.line );
+		
+		//if( unlikely( res == Rbtree::NOT_FOUND ) )
+		if( !findHash(ls.clue[ls.lineNum], ls.line, ls.newLine) )
 		{
 			ls.lineNum *= 14;
-			//memmove( ls.fixTable , ls.preFixTable[ls.lineNum/14] , sizeof(ls.fixTable) );
 			ls.newLine = 0LL;
 
 			const int fixAns = fixBU ( ls , ls.data[ls.lineNum] );
 			if ( unlikely( LS_NO == fixAns ) )
 			{
 				ls.lineNum /= 14;
-				ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
+				//ls.queryTable.insert( ls.lineNum , ls.line , Rbtree::ANS_ERR );
 				return CONFLICT;
 			}
 			ls.lineNum /= 14;
 
-			ls.queryTable.insert( ls.lineNum , ls.line , ls.newLine );
+			insertHash(ls.clue[ls.lineNum], ls.line, ls.newLine);
+			//ls.queryTable.insert( ls.lineNum , ls.line , ls.newLine );
 		}
+		/*
 		else
 		{
 			ls.newLine = res;
 			if( ls.newLine == Rbtree::ANS_ERR )
 				return CONFLICT;
 		}
+		*/
 
 		ls.newLine >>= 4;
 		ls.line >>= 4;
@@ -155,39 +154,6 @@ int propagate ( LineSolve& ls , Board& board )
 
 	return SOLVED;
 }
-
-/*
-int fix ( LineSolve& ls , int i, int j )
-{
-	uint8_t &ret = ls.fixTable[i][j];
-
-	if ( ret == LS_NANS )
-	{
-		ret = LS_NO;
-
-		int dj = ls.data[ls.lineNum+j];
-		int length = i - dj;
-		uint64_t val0 = ls.value0[i];
-		uint64_t val1 = ls.value1[dj] << (length << 1);
-
-		if( ls.line&val0 )
-			if( LS_YES==fix(ls,i-1,j) )
-			{
-				ls.newLine |= val0; 
-				ret = LS_YES;
-			}
-
-		if( j )
-			if( ls.line==(ls.line|val1) )
-				if( LS_YES==fix(ls,length-1,j-1) )
-				{
-					ls.newLine |= val1;
-					ret = LS_YES;
-				}
-	}
-	return ret;
-}
-*/
 
 int fixBU ( LineSolve& ls , int j )
 {

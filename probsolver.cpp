@@ -3,7 +3,7 @@
 int NonogramSolver::doSolve(int *data)
 {
 	Board b;
-	ls.load(data,0);
+	ls.load(data);
 
 	if( SOLVED != fp2( fp , ls , b ) )
 	{

@@ -3,6 +3,7 @@
 
 #include "cdef.h"
 #include "board.h"
+#include "Hash.h"
 #include "rbtree.h"
 #include <stdint.h>
 
@@ -10,29 +11,29 @@ class LineSolve {
     public:
         uint64_t line ,newLine;
         int lineNum;
-        int probN;
+				Clue clue[50];
+				int data[50*14];
+
+				// additional info 
         int low_bound[50][14];
-		int needCalc[50];
-        //uint8_t fixTable[27][14];
-        //uint8_t preFixTable[50][27][14];
+				int needCalc[50];
+
+				// share with all problems
         uint64_t value0[28];
         uint64_t value1[28];
 
-        int data[50*14];
 
         Rbtree queryTable;
 
-		Board solvedBoard;
+				Board solvedBoard;
 
         LineSolve();
-        LineSolve(int*,int);
-        void load(int*,int);
-		void clearCache(){ queryTable.clear(); }
+        LineSolve(int*);
+        void load(int*);
     private:
         void init();
 };
 
-//int fix( LineSolve& , int , int );
 int fixBU( LineSolve& , int );
 int propagate( LineSolve& , Board& );
 
