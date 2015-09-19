@@ -5,17 +5,14 @@
 #include <vector>
 
 #include "probsolver.h"
+#include "options.h"
 
 using namespace std;
 
 int main(int argc , char *argv[])
 {
-	int *inputData;
-	int probData[50*14];
-
 	Options option;
-	int rc = parseOptions(argc, argv, option);
-	if( rc )
+	if( !option.readOptions(argc, argv) )
 	{
 		printf("\nAborted: Illegal Options.\n");
 		return 0;
@@ -23,34 +20,34 @@ int main(int argc , char *argv[])
 
 	option.print();
 
-    char logName[100] = {};
-	if( option.logFileName[0] != 0 )
-		memcpy(logName, option.logFileName, 100);
-	if( option.keeplog && (rc = genLog(option, logName, 100)) )
+	char logName[101] = {};
+	if( option.genLogFile(logName, 100) )
 	{
-		printf("open log(%s) and write info failed\n",logName);
+		printf("\nopen log(%s) and write info failed\n",logName);
 		return 0;
 	}
 
-    clearFile(option.outputFileName);
+	clearFile(option.outputFileName);
 
-    inputData = allocMem(1001*50*14);
-    readFile(inputData);
+	int *inputData;
+	int probData[50*14];
+	inputData = allocMem(1001*50*14);
+	readFile(inputData);
 
-    time_t start_time = time(NULL);
+	time_t start_time = time(NULL);
 	clock_t start_clock = clock();
-    clock_t start;
+	clock_t start;
 
 	NonogramSolver nngSolver;
 	nngSolver.setMethod(option.method);
 
 	vector<Board> answer;
 	answer.resize(option.problemEnd-option.problemStart+1);
-    for( int probN = option.problemStart ; probN <= option.problemEnd ; ++probN )
-    {
-        start = clock();
+	for( int probN = option.problemStart ; probN <= option.problemEnd ; ++probN )
+	{
+		start = clock();
 
-        getData( inputData ,probN ,probData );
+		getData( inputData ,probN ,probData );
 
 		if( nngSolver.doSolve(probData) )
 			break;
@@ -63,8 +60,8 @@ int main(int argc , char *argv[])
 			return 1;
 		}
 
-		answer.push_back(ans);
-		
+		answer[probN-option.problemStart] = ans;
+
 		if(!option.simple)
 		{
 			printf ( "$%3d\ttime:%4lfs\n" , probN
@@ -83,12 +80,12 @@ int main(int argc , char *argv[])
 					, ( double ) ( clock() - start ) / CLOCKS_PER_SEC );
 			fclose(log);
 		}
-    }
+	}
 
 	printf("Write answer to %s\n",option.outputFileName);
-    for( int probN = option.problemStart, i = 0 ; probN <= option.problemEnd ; ++probN, ++i )
+	for( int probN = option.problemStart, i = 0 ; probN <= option.problemEnd ; ++probN, ++i )
 	{
-		printBoard(answer[i], probN);
+		printBoard(option.outputFileName, answer[i], probN);
 	}
 	printf("Write done!\n");
 
@@ -100,9 +97,9 @@ int main(int argc , char *argv[])
 		fclose(log);
 	}
 
-    delete[] inputData;
+	delete[] inputData;
 
-    return 0;
+	return 0;
 }
 
 

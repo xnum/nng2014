@@ -95,7 +95,7 @@ inline uint64_t getLine( Board& board , int x )
     return board.data[x];
 }
 
-void printBoard( Board& , int );
+void printBoard( char* , Board& , int );
 void debugBoard( Board& );
 int checkAns( Board& , int[] );
 

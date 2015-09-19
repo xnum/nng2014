@@ -97,9 +97,9 @@ int checkAns( Board& board , int data[] )
 
 }
 
-void printBoard( Board& board , int probN )
+void printBoard( char* fileName ,Board& board , int probN )
 {
-    FILE* out = fopen( OUTPUT_FILE_NAME , "a+" );
+    FILE* out = fopen( fileName , "a+" );
     fprintf( out , "$%d\n",probN);
 #ifdef DEBUG
     puts("ROW=============================");
@@ -111,8 +111,11 @@ void printBoard( Board& board , int probN )
             uint64_t val = __GET( board.data[j] , i );
             if( BIT_ZERO == val )
                 fprintf( out , "0" );
-            if( BIT_ONE == val )
+						else if( BIT_ONE == val )
                 fprintf( out , "1" );
+						else 
+								fprintf( out , "?" );
+
             if( j==24 )
                 fprintf( out , "\n" );
             else
