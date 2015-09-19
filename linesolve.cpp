@@ -34,7 +34,6 @@ void LineSolve::load(int* d)
 	memcpy( data , d , sizeof(int)*50*14 );
 
 	MEMSET_ZERO(low_bound);
-	queryTable.clear();
 
 	for ( int i = 0 ; i < 50 ; ++i )
 	{
@@ -85,8 +84,6 @@ int propagate ( LineSolve& ls , Board& board )
 
 		__SET( ls.line , 1 , BIT_ZERO );
 
-		uint64_t res;
-		
 		if( !findHash(ls.clue[ls.lineNum], ls.line, ls.newLine) )
 		{
 			ls.lineNum *= 14;

@@ -4,7 +4,6 @@
 #include "cdef.h"
 #include "board.h"
 #include "Hash.h"
-#include "rbtree.h"
 #include <stdint.h>
 
 class LineSolve {
