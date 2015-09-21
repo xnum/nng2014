@@ -35,17 +35,21 @@ class Options
 			simple=false;
 		}
 
-		void print()
+		void print(bool detail)
 		{
-			printf("Problems select from [%d] to [%d]\n",problemStart,problemEnd);
-			printf("Method = [%d]\n",method);
-			printf("Input file = [%s]\n",inputFileName);
-			printf("Output file = [%s]\n",outputFileName);
-			printf("Write log = [%s]\n",keeplog?"Yes":"No");
-			if( keeplog )
-				printf("\tLog file = [%s]\n",logFileName[0]==0 ? "log_<timestamp>.txt" : logFileName );
-			printf("Self answer check = [%s]\n",selfCheck?"Yes":"No");
-			printf("Only Print When Each 100 Solved = [%s]\n",simple?"Yes":"No");
+			printf("Input file = [%s]\t",inputFileName);
+
+			if( detail )
+			{
+				printf("Output file = [%s]\n",outputFileName);
+				printf("Problems select from [%d] to [%d]\t",problemStart,problemEnd);
+				printf("Method = [%d]\n",method);
+				printf("Write log = [%s]\n",keeplog?"Yes":"No");
+				if( keeplog )
+					printf("\tLog file = [%s]\n",logFileName[0]==0 ? "log_<timestamp>.txt" : logFileName );
+				printf("Self answer check = [%s]\t",selfCheck?"Yes":"No");
+				printf("Only Print When Each 100 Solved = [%s]\n",simple?"Yes":"No");
+			}
 		}
 		
 		int readOptions(int argc, char **argv);

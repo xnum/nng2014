@@ -57,8 +57,6 @@ int main(int argc , char *argv[])
 		return 0;
 	}
 
-	option.print();
-
 	if(option.genLogFile())
 	{
 		printf("\nopen log(%s) and write info failed\n",option.logFileName);
@@ -104,12 +102,8 @@ int main(int argc , char *argv[])
 	}
 	delete[] inputData;
 
-	printf("Write answer to %s\n",option.outputFileName);
 	for( int probN = option.problemStart, i = 0 ; probN <= option.problemEnd ; ++probN, ++i )
-	{
 		printBoard(option.outputFileName, answer[i], probN);
-	}
-	printf("Write done!\n");
 
 	writeTotalDuration(option,startTime,startClk);
 

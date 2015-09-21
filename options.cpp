@@ -2,6 +2,7 @@
 
 int Options::readOptions(int argc, char **argv)
 {
+	bool showResult = false;
 	for( int i = 1 ; i < argc ; ++i )
 	{
 		if( i+1 < argc && (!strcmp(argv[i],"-S") || !strcmp(argv[i],"--start")) )
@@ -68,10 +69,18 @@ int Options::readOptions(int argc, char **argv)
 			continue;
 		}
 
+		if( !strcmp(argv[i],"--show-config") )
+		{
+			showResult = true;
+			continue;
+		}
+
 		// all options are not fit
 		printUsage(argv[0]);
 		return 0;
 	}
+
+	print(showResult);
 
 	return 1;
 }
@@ -112,6 +121,9 @@ void Options::printUsage(const char *name)
 	printf("  --simple-stdout\n");
 	printf("    only show total time at exit\n");
 	printf("\nSample:\n%s -S 1 -E 1000 -I input.txt -O out.txt -M 4\n\n",name);
+
+	printf("  --show-config\n");
+	printf("    show parsed result of command line\n");
 
 }
 
