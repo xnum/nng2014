@@ -4,6 +4,7 @@ int NonogramSolver::doSolve(int *data)
 {
 	Board b;
 	ls.load(data);
+	fp.clear();
 
 	if( SOLVED != fp2( fp , ls , b ) )
 	{
@@ -35,6 +36,7 @@ void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 
 	while(1)
 	{
+		//cout << queue[sw].size() << endl;
 		times++;
 		if( queue[sw].size() == 0 )
 			sw = sw==1?0:1;

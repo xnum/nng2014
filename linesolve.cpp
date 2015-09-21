@@ -46,7 +46,6 @@ LineSolve::LineSolve(int* d)
 
 void LineSolve::init()
 {
-	initialHash();
 }
 
 void LineSolve::load(int* d)
@@ -79,7 +78,7 @@ int propagate ( LineSolve& ls , Board& board )
 			chkline |= 1LL << i;
 	}
 	uint64_t nextchk = 0LL;
-	ls.lineNum = 0;
+	int lineNum = 0;
 
 	while( 1 )
 	{
@@ -91,34 +90,35 @@ int propagate ( LineSolve& ls , Board& board )
 			nextchk = 0LL;
 		}
 
-		ls.lineNum = __builtin_ffsll(chkline)-1;
+		lineNum = __builtin_ffsll(chkline)-1;
 		chkline &= chkline-1;
 		
-		ls.line = getLine ( board , ls.lineNum ) << 4;
+		uint64_t line = getLine ( board , lineNum ) << 4;
 
-		__SET( ls.line , 1 , BIT_ZERO );
+		__SET( line , 1 , BIT_ZERO );
+		uint64_t newLine = 0LL;
 
-		if( !findHash(ls.clue[ls.lineNum], ls.line, ls.newLine) )
+		if( !findHash(ls.clue[lineNum], line, newLine) )
 		{
-			ls.newLine = 0LL;
+			newLine = 0LL;
 
-			const int fixAns = fixBU ( ls , ls.clue[ls.lineNum].count );
+			const int fixAns = fixBU ( ls , lineNum , line , ls.clue[lineNum].count , newLine );
 			if ( unlikely( LS_NO == fixAns ) )
 			{
 				return CONFLICT;
 			}
 
-			insertHash(ls.clue[ls.lineNum], ls.line, ls.newLine);
+			insertHash(ls.clue[lineNum], line, newLine);
 		}
 
-		ls.newLine >>= 4;
-		ls.line >>= 4;
+		newLine >>= 4;
+		line >>= 4;
 
-		if( unlikely( ls.line != ls.newLine ) )
+		if( line != newLine )
 		{
-			board.data[ls.lineNum] = ls.newLine;
+			board.data[lineNum] = newLine;
 
-			uint64_t p = ls.line ^ ls.newLine;
+			uint64_t p = line ^ newLine;
 			int x = 1;
 
 			while ( x = __builtin_ffsll(p) , x-- != 0 )
@@ -127,15 +127,15 @@ int propagate ( LineSolve& ls , Board& board )
 				p &= p-1;
 				x>>=1;
 
-				if ( ls.lineNum < 25 )
+				if ( lineNum < 25 )
 				{
 					nextchk |= 0x1LL<<(x+25);
-					__SET( board.data[x+25] , (ls.lineNum) , bit );
+					__SET( board.data[x+25] , lineNum , bit );
 				}
 				else
 				{
 					nextchk |= 0x1LL<<x;
-					__SET( board.data[x] , (ls.lineNum-25) , bit );
+					__SET( board.data[x] , (lineNum-25) , bit );
 				}
 			}
 		}
@@ -151,18 +151,17 @@ int propagate ( LineSolve& ls , Board& board )
 	return SOLVED;
 }
 
-int fixBU ( LineSolve& ls , int j )
+int fixBU ( LineSolve& ls , int lineNum , const uint64_t& line , int j , uint64_t& newLine )
 {
 	const int i = 26;
-	const int maxShift = 26 - ls.low_bound[ls.lineNum][ls.clue[ls.lineNum].count-1];
+	const int maxShift = 26 - ls.low_bound[lineNum][ls.clue[lineNum].count-1];
 	uint64_t dpTable[14][27] = {};
 
-	const uint64_t line = ls.line;
 	int data[14] = {};
 	int low_bound[14] = {};
 
-	memcpy(data+1,&ls.clue[ls.lineNum].num,sizeof(int)*13);
-	memcpy(low_bound,&ls.low_bound[ls.lineNum],sizeof(low_bound));
+	memcpy(data+1,&ls.clue[lineNum].num,sizeof(int)*13);
+	memcpy(low_bound,&ls.low_bound[lineNum],sizeof(low_bound));
 
 	dpTable[0][0] = BIT_ONE;
 
@@ -188,7 +187,7 @@ int fixBU ( LineSolve& ls , int j )
 		}
 	}
 
-	ls.newLine = dpTable[j][i];
+	newLine = dpTable[j][i];
 	return dpTable[j][i] == 0 ? LS_NO : LS_YES;
 }
 

@@ -19,9 +19,14 @@ class FullyProbe {
 
         myset P;
 				myset oldP;
+
+				// test
+				Board mainBoard;
+				double eigen[25][25];
+				void clear(){ MEMSET_ZERO(eigen); }
 };
 
-double choose( int method , int mp1 , int mp0 );
+double choose( int method , double mp1 , double mp0 );
 int fp2( FullyProbe& , LineSolve& , Board& );
 int probe( FullyProbe& , LineSolve& , Board& , int , int );
 int probeG( FullyProbe&  , LineSolve& ,  int , int , uint64_t );

@@ -6,11 +6,9 @@
 #include "Hash.h"
 #include <stdint.h>
 
+// don't share with other thread when you wanna parallism
 class LineSolve {
     public:
-        uint64_t line ,newLine;
-        int lineNum;
-
 				// problem info
 				Clue clue[50];
 
@@ -26,7 +24,7 @@ class LineSolve {
         void init();
 };
 
-int fixBU( LineSolve& , int );
+int fixBU( LineSolve& , int , const uint64_t& , int , uint64_t& );
 int propagate( LineSolve& , Board& );
 
 #endif

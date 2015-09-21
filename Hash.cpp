@@ -1,6 +1,7 @@
 #include "Hash.h"
 #include <cstring>
 
+// global hash table
 uint64_t zHashKeyTable[13][26] ;
 static hashNode hashTable[HTABLE_SIZE];
 

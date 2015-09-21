@@ -3,6 +3,7 @@
 #include "board.h"
 #include <cstdio>
 #include <algorithm>
+#include <unistd.h>
 using namespace std;
 
 int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
@@ -48,7 +49,12 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 	}
 
 	getSize(board);
+	//usleep(100000);
+	//system("clear");
+	//debugBoard(board);
+	
 
+	fp.mainBoard = board;
 	setBestPixel( fp , board );
 
 	return INCOMP;
@@ -58,7 +64,7 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 void setBestPixel( FullyProbe& fp , Board& board )
 {
 	auto max = make_tuple(0,0,0);
-	double maxPixel = 0;
+	double maxPixel = -9E10;
 
 	Dual_for(i,j)
 		if( getBit(board,i,j) == BIT_UNKNOWN )
@@ -69,24 +75,55 @@ void setBestPixel( FullyProbe& fp , Board& board )
 				fp.gp[i][j][1].data[k] &= board.data[k];
 			}
 
+			getSize(fp.gp[i][j][1]);
+			getSize(fp.gp[i][j][0]);
+
+			double maxEigen = 0;
+		  Dual_for(i,j)
+			{
+				if( fp.eigen[i][j] <= 1 )
+					fp.eigen[i][j] = 1;
+				if( fp.eigen[i][j] > maxEigen )
+					maxEigen = fp.eigen[i][j];
+			}
+//#define AAAA
+#ifdef AAAA
+			Dual_for(i,j)
+			{
+				if( getBit(fp.gp[i][j][1],i,j) != getBit(fp.mainBoard,i,j) )
+					fp.gp[i][j][1].size *= (2-fp.eigen[i][j]/maxEigen)/2;
+				if( getBit(fp.gp[i][j][0],i,j) != getBit(fp.mainBoard,i,j) )
+					fp.gp[i][j][0].size *= (2-fp.eigen[i][j]/maxEigen)/2;
+			}
+#endif
 
 			double ch = choose( fp.method , 
-					getSize(fp.gp[i][j][1])-board.size ,
-					getSize(fp.gp[i][j][0])-board.size );
+						fp.gp[i][j][1].size-board.size ,
+						fp.gp[i][j][0].size-board.size );
+			
+
 			if( ch > maxPixel ) 
 			{
 				max = make_tuple(i,j, fp.gp[i][j][0].size > fp.gp[i][j][1].size ? 0 : 1);
 				maxPixel = ch;
 			}
-		}
+		} // big if end
 
 	//printf("select %d %d %lf\n" , get<0>(max) , get<1>(max) , maxPixel );
 	fp.max_g0 = fp.gp[get<0>(max)][get<1>(max)][get<2>(max)];
 	fp.max_g1 = fp.gp[get<0>(max)][get<1>(max)][!get<2>(max)];
+
+	Dual_for(i,j)
+	{
+		if( getBit(fp.max_g0,i,j) != getBit(fp.mainBoard,i,j) )
+			fp.eigen[i][j]++;
+		if( getBit(fp.max_g1,i,j) != getBit(fp.mainBoard,i,j) )
+			fp.eigen[i][j]++;
+	}
 }
 
 #define vlog(x) (log(x+1)+1)
-double choose( int method , int mp1 , int mp0 )
+double choose( int method , double mp1 , double mp0 )
 {
 	//if(mp1<=0)mp1=0;
 	//if(mp0<=0)mp0=0;

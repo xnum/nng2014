@@ -76,6 +76,7 @@ int main(int argc , char *argv[])
 
 	NonogramSolver nngSolver;
 	nngSolver.setMethod(option.method);
+	initialHash();
 
 	vector<Board> answer;
 	answer.resize(option.problemEnd-option.problemStart+1);
