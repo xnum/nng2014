@@ -16,11 +16,6 @@ class LineSolve {
 
 				// additional info 
         int low_bound[50][14];
-				int needCalc[50];
-
-				// share with all problems
-        uint64_t value0[28];
-        uint64_t value1[28];
 
 				Board solvedBoard;
 

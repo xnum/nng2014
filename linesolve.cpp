@@ -1,6 +1,38 @@
 #include "linesolve.h"
 #include <cstdio>
 
+
+const uint64_t value1[28] = {
+	0x1ULL,
+	0x9ULL,
+	0x29ULL,
+	0xA9ULL,
+	0x2A9ULL,
+	0xAA9ULL,
+	0x2AA9ULL,
+	0xAAA9ULL,
+	0x2AAA9ULL,
+	0xAAAA9ULL,
+	0x2AAAA9ULL,
+	0xAAAAA9ULL,
+	0x2AAAAA9ULL,
+	0xAAAAAA9ULL,
+	0x2AAAAAA9ULL,
+	0xAAAAAAA9ULL,
+	0x2AAAAAAA9ULL,
+	0xAAAAAAAA9ULL,
+	0x2AAAAAAAA9ULL,
+	0xAAAAAAAAA9ULL,
+	0x2AAAAAAAAA9ULL,
+	0xAAAAAAAAAA9ULL,
+	0x2AAAAAAAAAA9ULL,
+	0xAAAAAAAAAAA9ULL,
+	0x2AAAAAAAAAAA9ULL,
+	0xAAAAAAAAAAAA9ULL,
+	0x2AAAAAAAAAAAA9ULL,
+	0xAAAAAAAAAAAAA9ULL,
+};
+
 LineSolve::LineSolve() 
 {
 	init();
@@ -15,18 +47,6 @@ LineSolve::LineSolve(int* d)
 void LineSolve::init()
 {
 	initialHash();
-
-	value1[0] = 0x0LL;
-	value0[0] = (uint64_t)BIT_ZERO; 
-	__SET( value1[0] , 0 , BIT_ZERO );
-
-	for ( int i = 1 ; i < 28 ; ++i )
-	{
-		value0[i] = value0[i-1]<<2;
-		value1[i] = value1[i-1];
-		__SET( value1[i] , i , BIT_ONE );
-	}
-
 }
 
 void LineSolve::load(int* d)
@@ -36,9 +56,9 @@ void LineSolve::load(int* d)
 	for ( int i = 0 ; i < 50 ; ++i )
 	{
 		int sum = 0;
-		low_bound[i][0] = 0;
 
 		clue[i].count = d[i*14];
+
 		for ( int j = 1 ; j <= d[i*14] ; ++j )
 		{
 			clue[i].num[j-1] = d[i*14+j];	
@@ -46,20 +66,16 @@ void LineSolve::load(int* d)
 			low_bound[i][j] = sum-1;
 		}
 
-		needCalc[i] = 26 - sum + 1;
-
 		genHash(clue[i]);
 	}
 }
-
-
 
 int propagate ( LineSolve& ls , Board& board )
 {
 	uint64_t chkline = 0;
 	for( int i = 0 ; i < 50 ; ++i )
 	{
-		if( unlikely( board.oldData[i] != board.data[i] ) )
+		if( board.oldData[i] != board.data[i] )
 			chkline |= 1LL << i;
 	}
 	uint64_t nextchk = 0LL;
@@ -67,7 +83,7 @@ int propagate ( LineSolve& ls , Board& board )
 
 	while( 1 )
 	{
-		if( unlikely( chkline == 0 ) )
+		if( chkline == 0 )
 		{
 			if( nextchk == 0 )
 				break;
@@ -138,7 +154,7 @@ int propagate ( LineSolve& ls , Board& board )
 int fixBU ( LineSolve& ls , int j )
 {
 	const int i = 26;
-	const int maxShift = ls.needCalc[ls.lineNum];
+	const int maxShift = 26 - ls.low_bound[ls.lineNum][ls.clue[ls.lineNum].count-1];
 	uint64_t dpTable[14][27] = {};
 
 	const uint64_t line = ls.line;
@@ -157,7 +173,7 @@ int fixBU ( LineSolve& ls , int j )
 
 		uint64_t val0 = (uint64_t)BIT_ZERO << (ip<<1); 
 		int length = ip - dj;
-		uint64_t val1 = ls.value1[dj] << (length << 1);
+		uint64_t val1 = value1[dj] << (length << 1);
 		length--;
 
 		const int ipp = ip+maxShift;
