@@ -37,7 +37,7 @@ class Options
 
 		void print(bool detail)
 		{
-			printf("Input file = [%s]\t",inputFileName);
+			printf("Input file = [%s]\n",inputFileName);
 
 			if( detail )
 			{
