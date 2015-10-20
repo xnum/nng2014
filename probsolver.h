@@ -19,6 +19,7 @@ class NonogramSolver
 		int doSolve(int *data);
 		void setMethod(int n);
 		void dfs(FullyProbe&,LineSolve&,Board);	
+		void dfs_stack(FullyProbe&,LineSolve&,Board,int);
 		Board getSolvedBoard(){ return ls.solvedBoard; }
 	private:
 		LineSolve ls;
@@ -28,6 +29,8 @@ class NonogramSolver
 		int thres;
 		int sw;
 		deque<Board> queue[2];
+		int depth_rec[626];
+		int max_depth;
 };
 
 #endif

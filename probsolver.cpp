@@ -12,8 +12,10 @@ int NonogramSolver::doSolve(int *data)
 		times = 0;
 		thres = 20;
 		sw = 0;
-
-		dfs( fp , ls , b );  
+		max_depth = 0;
+		MEMSET_ZERO(depth_rec);
+		//dfs( fp , ls , b );  
+		dfs_stack(fp,ls,b,0);
 	}
 
 	if( finish != true )
@@ -28,6 +30,40 @@ int NonogramSolver::doSolve(int *data)
 void NonogramSolver::setMethod(int n)
 {
 	fp.method = n;
+}
+
+void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
+{
+		if( depth > 625 )
+		{
+			puts("Aborted: depth > 625");
+			exit(1);
+		}
+
+		if( depth > max_depth )
+			max_depth = depth;
+
+		depth_rec[depth]++;
+		times++;
+		int res = fp2( fp , ls , b );
+		if( res == SOLVED )
+		{
+			printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
+			finish = true;
+			return;
+		}
+
+		if( res == CONFLICT )
+			return;
+
+		Board b1 = fp.max_g1;
+		Board b0 = fp.max_g0;
+
+		dfs_stack(fp,ls,b0,depth+1);
+		if( finish == true )
+			return;
+
+		dfs_stack(fp,ls,b1,depth+1);
 }
 
 void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )

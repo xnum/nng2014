@@ -18,9 +18,9 @@ DEP_DIR=deps
 
 CXX=g++
 INCFLAGS=
-LDFLAGS=-lm 
+LDFLAGS=-lm -ltcmalloc_and_profiler
 OPTFLAGS=
-CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast # $(COVERAGE_OPT)
+CPPFLAGS=-fno-omit-frame-pointer -std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast
 
 SRCS=$(shell ls *.cpp)
 OBJS=$(patsubst %.cpp,%.o,$(SRCS))
@@ -36,7 +36,7 @@ tag:
 
 $(DEP_DIR)/%.d: %.cpp
 	@rm -f $@; \
-	$(CC) -MM $(CPPFLAGS) $< > $@ 
+	$(CC) -MM $(CPPFLAGS) $< > $@ -ltcmalloc_and_profiler
 
 -include $(DEPS)
 

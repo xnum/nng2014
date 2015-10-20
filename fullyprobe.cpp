@@ -78,6 +78,8 @@ void setBestPixel( FullyProbe& fp , Board& board )
 			getSize(fp.gp[i][j][1]);
 			getSize(fp.gp[i][j][0]);
 
+//#define AAAA
+#ifdef AAAA
 			double maxEigen = 0;
 		  Dual_for(i,j)
 			{
@@ -86,8 +88,6 @@ void setBestPixel( FullyProbe& fp , Board& board )
 				if( fp.eigen[i][j] > maxEigen )
 					maxEigen = fp.eigen[i][j];
 			}
-//#define AAAA
-#ifdef AAAA
 			Dual_for(i,j)
 			{
 				if( getBit(fp.gp[i][j][1],i,j) != getBit(fp.mainBoard,i,j) )
@@ -113,6 +113,7 @@ void setBestPixel( FullyProbe& fp , Board& board )
 	fp.max_g0 = fp.gp[get<0>(max)][get<1>(max)][get<2>(max)];
 	fp.max_g1 = fp.gp[get<0>(max)][get<1>(max)][!get<2>(max)];
 
+#ifdef AAAA
 	Dual_for(i,j)
 	{
 		if( getBit(fp.max_g0,i,j) != getBit(fp.mainBoard,i,j) )
@@ -120,6 +121,7 @@ void setBestPixel( FullyProbe& fp , Board& board )
 		if( getBit(fp.max_g1,i,j) != getBit(fp.mainBoard,i,j) )
 			fp.eigen[i][j]++;
 	}
+#endif
 }
 
 #define vlog(x) (log(x+1)+1)

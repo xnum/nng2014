@@ -21,7 +21,7 @@ CH_SQRT	cdef.h	34;"	d
 CH_SUM	cdef.h	30;"	d
 CONFLICT	cdef.h	47;"	d
 COVERAGE_OPT	Makefile	/^COVERAGE_OPT=--coverage -lgcov$/;"	m
-CPPFLAGS	Makefile	/^CPPFLAGS=-std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast # $(COVERAGE_OPT)$/;"	m
+CPPFLAGS	Makefile	/^CPPFLAGS=-fno-omit-frame-pointer -std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast$/;"	m
 CXX	Makefile	/^CXX=g++$/;"	m
 Clue	cdef.h	/^struct Clue {$/;"	s
 DEF	Makefile	/^DEF=$(USE_FP2) $(USE_MIRROR_REDUCE)$/;"	m
@@ -37,7 +37,7 @@ HTABLE_SIZE	Hash.h	8;"	d
 INCFLAGS	Makefile	/^INCFLAGS=$/;"	m
 INCOMP	cdef.h	48;"	d
 INPUT_FILE_NAME	cdef.h	26;"	d
-LDFLAGS	Makefile	/^LDFLAGS=-lm $/;"	m
+LDFLAGS	Makefile	/^LDFLAGS=-lm -ltcmalloc_and_profiler$/;"	m
 LINESOLVE_H	linesolve.h	2;"	d
 LS_NANS	cdef.h	62;"	d
 LS_NO	cdef.h	64;"	d
@@ -90,7 +90,9 @@ clue	linesolve.h	/^				Clue clue[50];$/;"	m	class:LineSolve
 count	cdef.h	/^	int count;$/;"	m	struct:Clue
 data	board.h	/^		uint64_t data[50];$/;"	m	class:Board
 debugBoard	board.cpp	/^void debugBoard( Board& board )$/;"	f
+depth_rec	probsolver.h	/^		int depth_rec[626];$/;"	m	class:NonogramSolver
 dfs	probsolver.cpp	/^void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )$/;"	f	class:NonogramSolver
+dfs_stack	probsolver.cpp	/^void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)$/;"	f	class:NonogramSolver
 doSolve	probsolver.cpp	/^int NonogramSolver::doSolve(int *data)$/;"	f	class:NonogramSolver
 eigen	fullyprobe.h	/^				double eigen[25][25];$/;"	m	class:FullyProbe
 expandInputFile	help.cpp	/^void expandInputFile( const char* name )$/;"	f
@@ -127,6 +129,7 @@ low_bound	linesolve.h	/^        int low_bound[50][14];$/;"	m	class:LineSolve
 ls	probsolver.h	/^		LineSolve ls;$/;"	m	class:NonogramSolver
 main	main.cpp	/^int main(int argc , char *argv[])$/;"	f
 mainBoard	fullyprobe.h	/^				Board mainBoard;$/;"	m	class:FullyProbe
+max_depth	probsolver.h	/^		int max_depth;$/;"	m	class:NonogramSolver
 max_g0	fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
 max_g1	fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
 merge	board.h	/^inline void merge( Board& a,Board& b )$/;"	f
@@ -174,7 +177,7 @@ times	probsolver.h	/^		int times;$/;"	m	class:NonogramSolver
 unlikely	cdef.h	16;"	d
 value1	linesolve.cpp	/^const uint64_t value1[28] = {$/;"	v
 vec	mirror.h	/^		vector<Board> vec;$/;"	m	class:mirror
-vlog	fullyprobe.cpp	125;"	d	file:
+vlog	fullyprobe.cpp	127;"	d	file:
 writePerDuration	main.cpp	/^void writePerDuration(const Options& option, int probN, time_t startTime, clock_t thisClock , clock_t startClock )$/;"	f
 writeTotalDuration	main.cpp	/^void writeTotalDuration(const Options& option, time_t startTime, clock_t startClk )$/;"	f
 x	mirror.h	/^	int x,y;$/;"	m	struct:node
