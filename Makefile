@@ -1,47 +1,53 @@
+#
+# From http://www.borngeek.com/2010/05/06/automatic-dependency-generation/
+#
 
-.PHONY: all clean dep-clean
+SHELL = /bin/bash
+TARGET = main
+ 
+ifndef BC
+    BC=debug
+endif
+ 
+# gnu gcov
+Coverage = --coverage -lgcov
 
-# use mirror method
-USE_MIRROR_REDUCE=#-DMIRROR
+# gperf
+Gperf = -ltcmalloc_and_profiler
 
-# enable fp2 or fp1
-USE_FP2=-DUSE_FP2
+CC = g++
+CFLAGS = -Wall -Wextra -std=c++11 -m64 -march=native -msse4.2 -DFP2
+LDFLAGS = -lm
+ 
+ifeq ($(BC),debug)
+CFLAGS += -g3
+else
+CFLAGS += -Ofast
+endif
+ 
+DEPDIR=deps
+OBJDIR=$(BC)/objs
+SRCDIR=src
+ 
+OTMP = $(patsubst $(SRCDIR)/%.cpp,%.o,$(wildcard $(SRCDIR)/*.cpp))
+OBJS = $(patsubst %,$(OBJDIR)/%,$(OTMP))
+DEPS = $(patsubst %.o,$(DEPDIR)/%.d,$(OTMP))
+ 
+all: init $(TARGET)
 
-DEF=$(USE_FP2) $(USE_MIRROR_REDUCE)
+init:
+	@mkdir -p $(DEPDIR)
+	@mkdir -p $(OBJDIR)
 
-
-COVERAGE_OPT=--coverage -lgcov
-#===================================
-
-OBJ_DIR=obj
-DEP_DIR=deps
-
-CXX=g++
-INCFLAGS=
-LDFLAGS=-lm -ltcmalloc_and_profiler
-OPTFLAGS=
-CPPFLAGS=-fno-omit-frame-pointer -std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast
-
-SRCS=$(shell ls *.cpp)
-OBJS=$(patsubst %.cpp,%.o,$(SRCS))
-DEPS=$(patsubst %.cpp,$(DEP_DIR)/%.d,$(SRCS))
-
-all: main tag
 main: $(OBJS)
-	$(CXX)  $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
-
-tag:
-	ctags -R *
-
-
-$(DEP_DIR)/%.d: %.cpp
-	@rm -f $@; \
-	$(CC) -MM $(CPPFLAGS) $< > $@ -ltcmalloc_and_profiler
-
+	$(CC) -o $@ $(OBJS) $(LDFLAGS)
+ 
 -include $(DEPS)
-
+ 
+$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
+	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -MM -MT $(OBJDIR)/$*.o $(CFLAGS) $(SRCDIR)/$*.cpp > $(DEPDIR)/$*.d
+ 
 clean:
-	@rm -rf main main_release main_prof main_debug *.o *.gcno *.gcda *.gcov
-
-dep-clean:
-	@rm -rf main main_release main_prof main_debug *.o $(DEP_DIR)/*.d*
+	rm -fr debug/*
+	rm -fr release/*

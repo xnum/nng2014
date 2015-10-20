@@ -207,7 +207,7 @@ int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal )
 	if( newGstate == SOLVED || newGstate == CONFLICT )
 		return newGstate;
 
-#ifdef USE_FP2
+#ifdef FP2
 	for( int _x = 0 ; _x < 25 ; ++_x )
 	{
 		uint64_t tmp = newG.data[_x] ^fp.gp[pX][pY][pVal].data[_x];
