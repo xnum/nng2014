@@ -43,12 +43,12 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 		if( depth > max_depth )
 			max_depth = depth;
 
-		depth_rec[depth]++;
+		//depth_rec[depth]++;
 		times++;
 		int res = fp2( fp , ls , b );
 		if( res == SOLVED )
 		{
-			printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
+			//printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
 			finish = true;
 			return;
 		}
