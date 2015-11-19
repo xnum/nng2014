@@ -1,4 +1,5 @@
 #include "probsolver.h"
+extern int size,mpi_rank;
 
 int NonogramSolver::doSolve(int *data)
 {
@@ -8,7 +9,7 @@ int NonogramSolver::doSolve(int *data)
 
 	if( SOLVED != fp2( fp , ls , b ) )
 	{
-		finish = false;
+		search_finish = false;
 		times = 0;
 		thres = 20;
 		sw = 0;
@@ -18,9 +19,9 @@ int NonogramSolver::doSolve(int *data)
 		dfs_stack(fp,ls,b,0);
 	}
 
-	if( finish != true )
+	if( search_finish != true )
 	{
-		printf("Error: ALL CONFLICT\n");
+		printf("%d Error: ALL CONFLICT\n",mpi_rank);
 		return 0;
 	}
 
@@ -49,7 +50,7 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 		if( res == SOLVED )
 		{
 			//printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
-			finish = true;
+			search_finish = true;
 			return;
 		}
 
@@ -60,7 +61,7 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 		Board b0 = fp.max_g0;
 
 		dfs_stack(fp,ls,b0,depth+1);
-		if( finish == true )
+		if( search_finish == true )
 			return;
 
 		dfs_stack(fp,ls,b1,depth+1);
@@ -111,7 +112,7 @@ void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 		int res = fp2( fp , ls , current );
 		if( res == SOLVED )
 		{
-			finish = true;
+			search_finish = true;
 			return;
 		}
 
@@ -121,7 +122,7 @@ void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 		queue[sw].push_back(fp.max_g1);
 		queue[sw].push_back(fp.max_g0);
 
-		if( finish == true )
+		if( search_finish == true )
 			return;
 	}
 }

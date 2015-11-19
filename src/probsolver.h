@@ -24,7 +24,7 @@ class NonogramSolver
 	private:
 		LineSolve ls;
 		FullyProbe fp;
-		bool finish;
+		bool search_finish;
 		int times;
 		int thres;
 		int sw;
