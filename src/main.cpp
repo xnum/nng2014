@@ -94,7 +94,7 @@ int main(int argc , char *argv[])
 	const int end = numProb * (mpi_rank + 1);
 	fprintf( stderr , "ID:%d Run %4d~%4d = %4d\n",mpi_rank,start,end,numProb );
 
-	Board answer[251];
+	Board answer[1001];
 	for( int probN = start ; probN <= end ; ++probN )
 	{
 		thisClk = clock();
@@ -112,7 +112,7 @@ int main(int argc , char *argv[])
 			return 1;
 		}
 
-		if( 0 > probN-start || probN-start >= 251 )
+		if( 0 > probN-start || probN-start >= 1001 )
 			fprintf( stderr , "Warning: Out of bound %d\n", probN-start );
 		answer[probN-start] = ans;
 
