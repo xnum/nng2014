@@ -44,9 +44,9 @@
 //#define __SE(n,m,b) (n&~(b<<(m<<1))) 
 
 // status
-#define CONFLICT -1
+#define CONFLICT -10
 #define INCOMP 0
-#define SOLVED 1
+#define SOLVED 10
 
 // status for new method
 #define SAME -1

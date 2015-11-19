@@ -7,7 +7,10 @@ int NonogramSolver::doSolve(int *data)
 	ls.load(data);
 	fp.clear();
 
-	if( SOLVED != fp2( fp , ls , b ) )
+	auto rc = fp2( fp , ls , b );
+	if( CONFLICT == rc )
+		printf("WTF!\n");
+	if( SOLVED != rc )
 	{
 		search_finish = false;
 		times = 0;
@@ -17,12 +20,14 @@ int NonogramSolver::doSolve(int *data)
 		MEMSET_ZERO(depth_rec);
 		//dfs( fp , ls , b );  
 		dfs_stack(fp,ls,b,0);
-	}
 
-	if( search_finish != true )
-	{
-		printf("%d Error: ALL CONFLICT\n",mpi_rank);
-		return 0;
+		if( search_finish != true )
+		{
+			printf("%d Error: ALL CONFLICT in %d,%d\n",mpi_rank,times,max_depth);
+			return 0;
+		}
+
+
 	}
 
 	return 1;
@@ -35,36 +40,38 @@ void NonogramSolver::setMethod(int n)
 
 void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 {
-		if( depth > 625 )
-		{
-			puts("Aborted: depth > 625");
-			exit(1);
-		}
+	if( depth > 625 )
+	{
+		puts("Aborted: depth > 625");
+		exit(1);
+	}
 
-		if( depth > max_depth )
-			max_depth = depth;
+	if( depth > max_depth )
+		max_depth = depth;
 
-		//depth_rec[depth]++;
-		times++;
-		int res = fp2( fp , ls , b );
-		if( res == SOLVED )
-		{
-			//printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
-			search_finish = true;
-			return;
-		}
+	//depth_rec[depth]++;
+	times++;
+	int res = fp2( fp , ls , b );
+	if( res == SOLVED )
+	{
+		//printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
+		search_finish = true;
+		return;
+	}
 
-		if( res == CONFLICT )
-			return;
+	if( res == CONFLICT )
+	{
+		return;
+	}
 
-		Board b1 = fp.max_g1;
-		Board b0 = fp.max_g0;
+	Board b1 = fp.max_g1;
+	Board b0 = fp.max_g0;
 
-		dfs_stack(fp,ls,b0,depth+1);
-		if( search_finish == true )
-			return;
+	dfs_stack(fp,ls,b0,depth+1);
+	if( search_finish == true )
+		return;
 
-		dfs_stack(fp,ls,b1,depth+1);
+	dfs_stack(fp,ls,b1,depth+1);
 }
 
 void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
