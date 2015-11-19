@@ -35,6 +35,9 @@ DEPS = $(patsubst %.o,$(DEPDIR)/%.d,$(OTMP))
  
 all: init $(TARGET)
 
+tag:
+	ctags -R src/
+
 init:
 	@mkdir -p $(DEPDIR)
 	@mkdir -p $(OBJDIR)

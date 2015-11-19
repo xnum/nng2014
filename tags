@@ -4,182 +4,176 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-BIT_ONE	cdef.h	68;"	d
-BIT_UNKNOWN	cdef.h	69;"	d
-BIT_ZERO	cdef.h	67;"	d
-BOARD_H	board.h	2;"	d
-BOTH_U	cdef.h	55;"	d
-Board	board.cpp	/^Board::Board()$/;"	f	class:Board
-Board	board.h	/^class Board$/;"	c
-CDEF_H	cdef.h	2;"	d
-CH_MAX	cdef.h	32;"	d
-CH_MIN	cdef.h	31;"	d
-CH_MIN_LOGD	cdef.h	36;"	d
-CH_MIN_LOGM	cdef.h	35;"	d
-CH_MUL	cdef.h	33;"	d
-CH_SQRT	cdef.h	34;"	d
-CH_SUM	cdef.h	30;"	d
-CONFLICT	cdef.h	47;"	d
-COVERAGE_OPT	Makefile	/^COVERAGE_OPT=--coverage -lgcov$/;"	m
-CPPFLAGS	Makefile	/^CPPFLAGS=-fno-omit-frame-pointer -std=c++11 -m64 -msse4.2 -march=native $(DEF) -Wall -Wextra $(INCFLAGS) -DNDEBUG -Ofast$/;"	m
-CXX	Makefile	/^CXX=g++$/;"	m
-Clue	cdef.h	/^struct Clue {$/;"	s
-DEF	Makefile	/^DEF=$(USE_FP2) $(USE_MIRROR_REDUCE)$/;"	m
-DEPS	Makefile	/^DEPS=$(patsubst %.cpp,$(DEP_DIR)\/%.d,$(SRCS))$/;"	m
-DEP_DIR	Makefile	/^DEP_DIR=deps$/;"	m
-DFS_MAX_TIMES	cdef.h	23;"	d
-Dual_for	cdef.h	38;"	d
-FILL	cdef.h	58;"	d
-FP_H	fullyprobe.h	2;"	d
-FullyProbe	fullyprobe.h	/^class FullyProbe {$/;"	c
-HELP_H	help.h	2;"	d
-HTABLE_SIZE	Hash.h	8;"	d
-INCFLAGS	Makefile	/^INCFLAGS=$/;"	m
-INCOMP	cdef.h	48;"	d
-INPUT_FILE_NAME	cdef.h	26;"	d
-LDFLAGS	Makefile	/^LDFLAGS=-lm -ltcmalloc_and_profiler$/;"	m
-LINESOLVE_H	linesolve.h	2;"	d
-LS_NANS	cdef.h	62;"	d
-LS_NO	cdef.h	64;"	d
-LS_YES	cdef.h	63;"	d
-LineSolve	linesolve.cpp	/^LineSolve::LineSolve() $/;"	f	class:LineSolve
-LineSolve	linesolve.cpp	/^LineSolve::LineSolve(int* d) $/;"	f	class:LineSolve
-LineSolve	linesolve.h	/^class LineSolve {$/;"	c
-MAX_PERM	cdef.h	20;"	d
-MEMSET_ZERO	cdef.h	59;"	d
-MUTEX	cdef.h	54;"	d
-NonogramSolver	probsolver.h	/^		NonogramSolver() {}$/;"	f	class:NonogramSolver
-NonogramSolver	probsolver.h	/^class NonogramSolver$/;"	c
-OBJS	Makefile	/^OBJS=$(patsubst %.cpp,%.o,$(SRCS))$/;"	m
-OBJ_DIR	Makefile	/^OBJ_DIR=obj$/;"	m
-OPTFLAGS	Makefile	/^OPTFLAGS=$/;"	m
-OPTIONS_H	options.h	2;"	d
-OUTPUT_FILE_NAME	cdef.h	27;"	d
-Options	options.h	/^		Options()$/;"	f	class:Options
-Options	options.h	/^class Options$/;"	c
-P	fullyprobe.h	/^        myset P;$/;"	m	class:FullyProbe
-PATTERN_DROP_THRESHOLD	cdef.h	19;"	d
-PROBLEM_END	cdef.h	22;"	d
-PROBLEM_START	cdef.h	21;"	d
-PROB_SOLVER_H	probsolver.h	2;"	d
-REFLECT	cdef.h	53;"	d
-SAME	cdef.h	52;"	d
-SCANNER_H	scanner.h	2;"	d
-SET_H	set.h	2;"	d
-SOLVED	cdef.h	49;"	d
-SRCS	Makefile	/^SRCS=$(shell ls *.cpp)$/;"	m
-TEST_H	mirror.h	2;"	d
-USE_FP2	Makefile	/^USE_FP2=-DUSE_FP2$/;"	m
-USE_MIRROR_REDUCE	Makefile	/^USE_MIRROR_REDUCE=#-DMIRROR$/;"	m
-_HASH_H_	Hash.h	2;"	d
-__GET	cdef.h	40;"	d
-__SE	cdef.h	43;"	d
-__SET	cdef.h	41;"	d
-__STDC_FORMAT_MACROS	cdef.h	7;"	d
-allocMem	help.cpp	/^int* allocMem(int n)$/;"	f
-arr	set.h	/^        uint64_t arr[10];$/;"	m	class:myset
-begin	set.h	/^        inline int begin()$/;"	f	class:myset
-checkAns	board.cpp	/^int checkAns( Board& board , int data[] )$/;"	f
-checkBoard	board.h	/^inline int checkBoard( Board &b )$/;"	f
-checkType	mirror.cpp	/^int mirror :: checkType( Board a , Board b , int x , int y )$/;"	f	class:mirror
-choose	fullyprobe.cpp	/^double choose( int method , double mp1 , double mp0 )$/;"	f
-clear	fullyprobe.h	/^				void clear(){ MEMSET_ZERO(eigen); }$/;"	f	class:FullyProbe
-clear	set.h	/^        inline void clear()$/;"	f	class:myset
-clearFile	help.cpp	/^void clearFile(const char* s)$/;"	f
-clue	linesolve.h	/^				Clue clue[50];$/;"	m	class:LineSolve
-count	cdef.h	/^	int count;$/;"	m	struct:Clue
-data	board.h	/^		uint64_t data[50];$/;"	m	class:Board
-debugBoard	board.cpp	/^void debugBoard( Board& board )$/;"	f
-depth_rec	probsolver.h	/^		int depth_rec[626];$/;"	m	class:NonogramSolver
-dfs	probsolver.cpp	/^void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )$/;"	f	class:NonogramSolver
-dfs_stack	probsolver.cpp	/^void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)$/;"	f	class:NonogramSolver
-doSolve	probsolver.cpp	/^int NonogramSolver::doSolve(int *data)$/;"	f	class:NonogramSolver
-eigen	fullyprobe.h	/^				double eigen[25][25];$/;"	m	class:FullyProbe
-expandInputFile	help.cpp	/^void expandInputFile( const char* name )$/;"	f
-findHash	Hash.cpp	/^bool findHash(const Clue& problem,const uint64_t& nowString, uint64_t& settleString)$/;"	f
-finish	probsolver.h	/^		bool finish;$/;"	m	class:NonogramSolver
-fixBU	linesolve.cpp	/^int fixBU ( LineSolve& ls , int lineNum , const uint64_t& line , int j , uint64_t& newLine )$/;"	f
-fp	probsolver.h	/^		FullyProbe fp;$/;"	m	class:NonogramSolver
-fp2	fullyprobe.cpp	/^int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )$/;"	f
-genHash	Hash.cpp	/^void genHash(Clue& clue)$/;"	f
-genLogFile	options.cpp	/^int Options::genLogFile()$/;"	f	class:Options
-generatePattern	mirror.cpp	/^bool mirror :: generatePattern( Board& b , int max )$/;"	f	class:mirror
-getBit	board.h	/^inline int getBit( const Board& board , int x , int y )$/;"	f
-getData	scanner.cpp	/^void getData ( int* _data , int probNum , int* dest )$/;"	f
-getLine	board.h	/^inline uint64_t getLine( Board& board , int x )$/;"	f
-getSize	board.h	/^inline int getSize( Board &board )$/;"	f
-getSolvedBoard	probsolver.h	/^		Board getSolvedBoard(){ return ls.solvedBoard; }$/;"	f	class:NonogramSolver
-gp	fullyprobe.h	/^        Board gp[25][25][2];$/;"	m	class:FullyProbe
-hash	cdef.h	/^	uint64_t hash;$/;"	m	struct:Clue
-hashNode	Hash.h	/^struct hashNode{$/;"	s
-hashTable	Hash.cpp	/^static hashNode hashTable[HTABLE_SIZE];$/;"	v	file:
-init	linesolve.cpp	/^void LineSolve::init()$/;"	f	class:LineSolve
-initialHash	Hash.cpp	/^void initialHash()$/;"	f
-inputFileName	options.h	/^		char inputFileName[512];$/;"	m	class:Options
-insert	set.h	/^        inline void insert(int n)$/;"	f	class:myset
-insertHash	Hash.cpp	/^void insertHash(const Clue& problem,const uint64_t& nowString,const uint64_t& settleString )$/;"	f
-isEmpty	set.h	/^		inline bool isEmpty()$/;"	f	class:myset
-keeplog	options.h	/^		bool keeplog;$/;"	m	class:Options
-likely	cdef.h	15;"	d
-lineProblem	Hash.h	/^	Clue lineProblem; uint64_t nowString; uint64_t settleString;$/;"	m	struct:hashNode
-listPixel	help.cpp	/^void listPixel( FullyProbe& fp, Board &b )$/;"	f
-load	linesolve.cpp	/^void LineSolve::load(int* d)$/;"	f	class:LineSolve
-logFileName	options.h	/^		char logFileName[100];$/;"	m	class:Options
-low_bound	linesolve.h	/^        int low_bound[50][14];$/;"	m	class:LineSolve
-ls	probsolver.h	/^		LineSolve ls;$/;"	m	class:NonogramSolver
-main	main.cpp	/^int main(int argc , char *argv[])$/;"	f
-mainBoard	fullyprobe.h	/^				Board mainBoard;$/;"	m	class:FullyProbe
-max_depth	probsolver.h	/^		int max_depth;$/;"	m	class:NonogramSolver
-max_g0	fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
-max_g1	fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
-merge	board.h	/^inline void merge( Board& a,Board& b )$/;"	f
-method	fullyprobe.h	/^        int method;$/;"	m	class:FullyProbe
-method	options.h	/^		int method;$/;"	m	class:Options
-mirror	mirror.cpp	/^mirror :: mirror( FullyProbe& fp , Board &g , size_t threshold )$/;"	f	class:mirror
-mirror	mirror.h	/^class mirror {$/;"	c
-myset	set.h	/^        myset()$/;"	f	class:myset
-myset	set.h	/^class myset {$/;"	c
-node	mirror.h	/^struct node {$/;"	s
-nowString	Hash.h	/^	Clue lineProblem; uint64_t nowString; uint64_t settleString;$/;"	m	struct:hashNode
-num	cdef.h	/^	int num[14];$/;"	m	struct:Clue
-oldData	board.h	/^		uint64_t oldData[50];$/;"	m	class:Board
-oldP	fullyprobe.h	/^				myset oldP;$/;"	m	class:FullyProbe
-operator <	board.h	/^		bool operator<(const Board& rhs) const$/;"	f	class:Board
-operator ==	board.h	/^		bool operator==(const Board& rhs) const$/;"	f	class:Board
-outputFileName	options.h	/^		char outputFileName[512];$/;"	m	class:Options
-pattern	mirror.h	/^		vector<Board> pattern;$/;"	m	class:mirror
-print	options.h	/^		void print(bool detail)$/;"	f	class:Options
-printBoard	board.cpp	/^void printBoard( char* fileName ,Board& board , int probN )$/;"	f
-printProb	help.cpp	/^void printProb( int data[] , const char* name , int probNum )$/;"	f
-printUsage	options.cpp	/^void Options::printUsage(const char *name)$/;"	f	class:Options
-probe	fullyprobe.cpp	/^int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )$/;"	f
-probeG	fullyprobe.cpp	/^int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal )$/;"	f
-problemEnd	options.h	/^		int problemEnd;$/;"	m	class:Options
-problemStart	options.h	/^		int problemStart;$/;"	m	class:Options
-propagate	linesolve.cpp	/^int propagate ( LineSolve& ls , Board& board )$/;"	f
-queue	probsolver.h	/^		deque<Board> queue[2];$/;"	m	class:NonogramSolver
-readFile	scanner.cpp	/^void readFile(char* name,int* data)$/;"	f
-readOptions	options.cpp	/^int Options::readOptions(int argc, char **argv)$/;"	f	class:Options
-remove	set.h	/^        inline void remove(int n)$/;"	f	class:myset
-selfCheck	options.h	/^		bool selfCheck;$/;"	m	class:Options
-setBestPixel	fullyprobe.cpp	/^void setBestPixel( FullyProbe& fp , Board& board )$/;"	f
-setBit	board.h	/^inline void setBit( Board& board , int x , int y , int val )$/;"	f
-setLine	board.h	/^inline void setLine( Board& board , int line , uint64_t val )$/;"	f
-setMethod	probsolver.cpp	/^void NonogramSolver::setMethod(int n)$/;"	f	class:NonogramSolver
-settleString	Hash.h	/^	Clue lineProblem; uint64_t nowString; uint64_t settleString;$/;"	m	struct:hashNode
-simple	options.h	/^		bool simple;$/;"	m	class:Options
-size	board.h	/^		uint16_t size;	$/;"	m	class:Board
-solvedBoard	linesolve.h	/^				Board solvedBoard;$/;"	m	class:LineSolve
-sw	probsolver.h	/^		int sw;$/;"	m	class:NonogramSolver
-testFail	scanner.h	/^inline void testFail(int exp,const char *s)$/;"	f
-thres	probsolver.h	/^		int thres;$/;"	m	class:NonogramSolver
-times	probsolver.h	/^		int times;$/;"	m	class:NonogramSolver
-unlikely	cdef.h	16;"	d
-value1	linesolve.cpp	/^const uint64_t value1[28] = {$/;"	v
-vec	mirror.h	/^		vector<Board> vec;$/;"	m	class:mirror
-vlog	fullyprobe.cpp	127;"	d	file:
-writePerDuration	main.cpp	/^void writePerDuration(const Options& option, int probN, time_t startTime, clock_t thisClock , clock_t startClock )$/;"	f
-writeTotalDuration	main.cpp	/^void writeTotalDuration(const Options& option, time_t startTime, clock_t startClk )$/;"	f
-x	mirror.h	/^	int x,y;$/;"	m	struct:node
-y	mirror.h	/^	int x,y;$/;"	m	struct:node
-zHashKeyTable	Hash.cpp	/^uint64_t zHashKeyTable[13][26] ;$/;"	v
+BIT_ONE	src/cdef.h	68;"	d
+BIT_UNKNOWN	src/cdef.h	69;"	d
+BIT_ZERO	src/cdef.h	67;"	d
+BOARD_H	src/board.h	2;"	d
+BOTH_U	src/cdef.h	55;"	d
+Board	src/board.cpp	/^Board::Board()$/;"	f	class:Board
+Board	src/board.h	/^class Board$/;"	c
+CDEF_H	src/cdef.h	2;"	d
+CH_MAX	src/cdef.h	32;"	d
+CH_MIN	src/cdef.h	31;"	d
+CH_MIN_LOGD	src/cdef.h	36;"	d
+CH_MIN_LOGM	src/cdef.h	35;"	d
+CH_MUL	src/cdef.h	33;"	d
+CH_SQRT	src/cdef.h	34;"	d
+CH_SUM	src/cdef.h	30;"	d
+CONFLICT	src/cdef.h	47;"	d
+Clue	src/cdef.h	/^struct Clue {$/;"	s
+DFS_MAX_TIMES	src/cdef.h	23;"	d
+Dual_for	src/cdef.h	38;"	d
+FILL	src/cdef.h	58;"	d
+FP_H	src/fullyprobe.h	2;"	d
+FullyProbe	src/fullyprobe.h	/^class FullyProbe {$/;"	c
+HELP_H	src/help.h	2;"	d
+HTABLE_SIZE	src/Hash.h	12;"	d
+INCOMP	src/cdef.h	48;"	d
+INPUT_FILE_NAME	src/cdef.h	26;"	d
+LINESOLVE_H	src/linesolve.h	2;"	d
+LS_NANS	src/cdef.h	62;"	d
+LS_NO	src/cdef.h	64;"	d
+LS_YES	src/cdef.h	63;"	d
+LineSolve	src/linesolve.cpp	/^LineSolve::LineSolve() $/;"	f	class:LineSolve
+LineSolve	src/linesolve.cpp	/^LineSolve::LineSolve(int* d) $/;"	f	class:LineSolve
+LineSolve	src/linesolve.h	/^class LineSolve {$/;"	c
+MAX_PERM	src/cdef.h	20;"	d
+MEMSET_ZERO	src/cdef.h	59;"	d
+MUTEX	src/cdef.h	54;"	d
+NonogramSolver	src/probsolver.h	/^		NonogramSolver() {}$/;"	f	class:NonogramSolver
+NonogramSolver	src/probsolver.h	/^class NonogramSolver$/;"	c
+OPTIONS_H	src/options.h	2;"	d
+OUTPUT_FILE_NAME	src/cdef.h	27;"	d
+Options	src/options.h	/^		Options()$/;"	f	class:Options
+Options	src/options.h	/^class Options$/;"	c
+P	src/fullyprobe.h	/^        myset P;$/;"	m	class:FullyProbe
+PATTERN_DROP_THRESHOLD	src/cdef.h	19;"	d
+PROBLEM_END	src/cdef.h	22;"	d
+PROBLEM_START	src/cdef.h	21;"	d
+PROB_SOLVER_H	src/probsolver.h	2;"	d
+REFLECT	src/cdef.h	53;"	d
+SAME	src/cdef.h	52;"	d
+SCANNER_H	src/scanner.h	2;"	d
+SET_H	src/set.h	2;"	d
+SOLVED	src/cdef.h	49;"	d
+TEST_H	src/mirror.h	2;"	d
+_HASH_H_	src/Hash.h	2;"	d
+__GET	src/cdef.h	40;"	d
+__SE	src/cdef.h	43;"	d
+__SET	src/cdef.h	41;"	d
+__STDC_FORMAT_MACROS	src/cdef.h	7;"	d
+allocMem	src/help.cpp	/^int* allocMem(int n)$/;"	f
+arr	src/set.h	/^        uint64_t arr[10];$/;"	m	class:myset
+begin	src/set.h	/^        inline int begin()$/;"	f	class:myset
+checkAns	src/board.cpp	/^int checkAns( Board& board , int data[] )$/;"	f
+checkBoard	src/board.h	/^inline int checkBoard( Board &b )$/;"	f
+checkType	src/mirror.cpp	/^int mirror :: checkType( Board a , Board b , int x , int y )$/;"	f	class:mirror
+choose	src/fullyprobe.cpp	/^double choose( int method , double mp1 , double mp0 )$/;"	f
+clear	src/fullyprobe.h	/^				void clear(){ MEMSET_ZERO(eigen); }$/;"	f	class:FullyProbe
+clear	src/set.h	/^        inline void clear()$/;"	f	class:myset
+clearFile	src/help.cpp	/^void clearFile(const char* s)$/;"	f
+clearHash	src/Hash.cpp	/^void clearHash()$/;"	f
+clue	src/linesolve.h	/^				Clue clue[50];$/;"	m	class:LineSolve
+count	src/cdef.h	/^	int count;$/;"	m	struct:Clue
+data	src/board.h	/^		uint64_t data[50];$/;"	m	class:Board
+debugBoard	src/board.cpp	/^void debugBoard( Board& board )$/;"	f
+depth_rec	src/probsolver.h	/^		int depth_rec[626];$/;"	m	class:NonogramSolver
+dfs	src/probsolver.cpp	/^void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )$/;"	f	class:NonogramSolver
+dfs_stack	src/probsolver.cpp	/^void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)$/;"	f	class:NonogramSolver
+doSolve	src/probsolver.cpp	/^int NonogramSolver::doSolve(int *data)$/;"	f	class:NonogramSolver
+eigen	src/fullyprobe.h	/^				double eigen[25][25];$/;"	m	class:FullyProbe
+expandInputFile	src/help.cpp	/^void expandInputFile( const char* name )$/;"	f
+finalizeHash	src/Hash.cpp	/^string finalizeHash()$/;"	f
+findHash	src/Hash.cpp	/^bool findHash(const Clue& problem,const uint64_t& nowString, uint64_t& settleString)$/;"	f
+findHashCall	src/Hash.cpp	/^uint64_t findHashCall,findHashF1,findHashF2,findHashT,insertHashCall;$/;"	v
+findHashF1	src/Hash.cpp	/^uint64_t findHashCall,findHashF1,findHashF2,findHashT,insertHashCall;$/;"	v
+findHashF2	src/Hash.cpp	/^uint64_t findHashCall,findHashF1,findHashF2,findHashT,insertHashCall;$/;"	v
+findHashT	src/Hash.cpp	/^uint64_t findHashCall,findHashF1,findHashF2,findHashT,insertHashCall;$/;"	v
+finish	src/probsolver.h	/^		bool finish;$/;"	m	class:NonogramSolver
+fixBU	src/linesolve.cpp	/^int fixBU ( LineSolve& ls , int lineNum , const uint64_t& line , int j , uint64_t& newLine )$/;"	f
+fp	src/probsolver.h	/^		FullyProbe fp;$/;"	m	class:NonogramSolver
+fp2	src/fullyprobe.cpp	/^int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )$/;"	f
+genHash	src/Hash.cpp	/^void genHash(Clue& clue)$/;"	f
+genLogFile	src/options.cpp	/^int Options::genLogFile()$/;"	f	class:Options
+generatePattern	src/mirror.cpp	/^bool mirror :: generatePattern( Board& b , int max )$/;"	f	class:mirror
+getBit	src/board.h	/^inline int getBit( const Board& board , int x , int y )$/;"	f
+getData	src/scanner.cpp	/^void getData ( int* _data , int probNum , int* dest )$/;"	f
+getLine	src/board.h	/^inline uint64_t getLine( Board& board , int x )$/;"	f
+getSize	src/board.h	/^inline int getSize( Board &board )$/;"	f
+getSolvedBoard	src/probsolver.h	/^		Board getSolvedBoard(){ return ls.solvedBoard; }$/;"	f	class:NonogramSolver
+gp	src/fullyprobe.h	/^        Board gp[25][25][2];$/;"	m	class:FullyProbe
+hash	src/cdef.h	/^	uint64_t hash;$/;"	m	struct:Clue
+hashNode	src/Hash.h	/^struct hashNode{$/;"	s
+hashTable	src/Hash.cpp	/^static hashNode hashTable[HTABLE_SIZE];$/;"	v	file:
+init	src/linesolve.cpp	/^void LineSolve::init()$/;"	f	class:LineSolve
+initialHash	src/Hash.cpp	/^void initialHash()$/;"	f
+inputFileName	src/options.h	/^		char inputFileName[512];$/;"	m	class:Options
+insert	src/set.h	/^        inline void insert(int n)$/;"	f	class:myset
+insertHash	src/Hash.cpp	/^void insertHash(const Clue& problem,const uint64_t& nowString,const uint64_t& settleString )$/;"	f
+insertHashCall	src/Hash.cpp	/^uint64_t findHashCall,findHashF1,findHashF2,findHashT,insertHashCall;$/;"	v
+isEmpty	src/set.h	/^		inline bool isEmpty()$/;"	f	class:myset
+keeplog	src/options.h	/^		bool keeplog;$/;"	m	class:Options
+likely	src/cdef.h	15;"	d
+lineProblem	src/Hash.h	/^	Clue lineProblem;$/;"	m	struct:hashNode
+listPixel	src/help.cpp	/^void listPixel( FullyProbe& fp, Board &b )$/;"	f
+load	src/linesolve.cpp	/^void LineSolve::load(int* d)$/;"	f	class:LineSolve
+logFileName	src/options.h	/^		char logFileName[100];$/;"	m	class:Options
+low_bound	src/linesolve.h	/^        int low_bound[50][14];$/;"	m	class:LineSolve
+ls	src/probsolver.h	/^		LineSolve ls;$/;"	m	class:NonogramSolver
+main	src/main.cpp	/^int main(int argc , char *argv[])$/;"	f
+mainBoard	src/fullyprobe.h	/^				Board mainBoard;$/;"	m	class:FullyProbe
+max_depth	src/probsolver.h	/^		int max_depth;$/;"	m	class:NonogramSolver
+max_g0	src/fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
+max_g1	src/fullyprobe.h	/^        Board max_g0 , max_g1;$/;"	m	class:FullyProbe
+merge	src/board.h	/^inline void merge( Board& a,Board& b )$/;"	f
+method	src/fullyprobe.h	/^        int method;$/;"	m	class:FullyProbe
+method	src/options.h	/^		int method;$/;"	m	class:Options
+mirror	src/mirror.cpp	/^mirror :: mirror( FullyProbe& fp , Board &g , size_t threshold )$/;"	f	class:mirror
+mirror	src/mirror.h	/^class mirror {$/;"	c
+myset	src/set.h	/^        myset()$/;"	f	class:myset
+myset	src/set.h	/^class myset {$/;"	c
+node	src/mirror.h	/^struct node {$/;"	s
+nowString	src/Hash.h	/^	uint64_t nowString;$/;"	m	struct:hashNode
+num	src/cdef.h	/^	int num[16];$/;"	m	struct:Clue
+oldData	src/board.h	/^		uint64_t oldData[50];$/;"	m	class:Board
+oldP	src/fullyprobe.h	/^				myset oldP;$/;"	m	class:FullyProbe
+operator <	src/board.h	/^		bool operator<(const Board& rhs) const$/;"	f	class:Board
+operator ==	src/board.h	/^		bool operator==(const Board& rhs) const$/;"	f	class:Board
+outputFileName	src/options.h	/^		char outputFileName[512];$/;"	m	class:Options
+pad	src/cdef.h	/^	int pad;$/;"	m	struct:Clue
+pattern	src/mirror.h	/^		vector<Board> pattern;$/;"	m	class:mirror
+print	src/options.h	/^		void print(bool detail)$/;"	f	class:Options
+printBoard	src/board.cpp	/^void printBoard( char* fileName ,Board& board , int probN )$/;"	f
+printProb	src/help.cpp	/^void printProb( int data[] , const char* name , int probNum )$/;"	f
+printUsage	src/options.cpp	/^void Options::printUsage(const char *name)$/;"	f	class:Options
+probe	src/fullyprobe.cpp	/^int probe( FullyProbe& fp , LineSolve& ls , Board &board , int pX ,int pY )$/;"	f
+probeG	src/fullyprobe.cpp	/^int probeG( FullyProbe& fp ,LineSolve& ls ,int pX ,int pY ,uint64_t pVal )$/;"	f
+problemEnd	src/options.h	/^		int problemEnd;$/;"	m	class:Options
+problemStart	src/options.h	/^		int problemStart;$/;"	m	class:Options
+propagate	src/linesolve.cpp	/^int propagate ( LineSolve& ls , Board& board )$/;"	f
+queue	src/probsolver.h	/^		deque<Board> queue[2];$/;"	m	class:NonogramSolver
+readFile	src/scanner.cpp	/^void readFile(char* name,int* data)$/;"	f
+readOptions	src/options.cpp	/^int Options::readOptions(int argc, char **argv)$/;"	f	class:Options
+remove	src/set.h	/^        inline void remove(int n)$/;"	f	class:myset
+selfCheck	src/options.h	/^		bool selfCheck;$/;"	m	class:Options
+setBestPixel	src/fullyprobe.cpp	/^void setBestPixel( FullyProbe& fp , Board& board )$/;"	f
+setBit	src/board.h	/^inline void setBit( Board& board , int x , int y , int val )$/;"	f
+setLine	src/board.h	/^inline void setLine( Board& board , int line , uint64_t val )$/;"	f
+setMethod	src/probsolver.cpp	/^void NonogramSolver::setMethod(int n)$/;"	f	class:NonogramSolver
+settleString	src/Hash.h	/^	int64_t settleString;$/;"	m	struct:hashNode
+simple	src/options.h	/^		bool simple;$/;"	m	class:Options
+size	src/board.h	/^		uint16_t size;	$/;"	m	class:Board
+solvedBoard	src/linesolve.h	/^				Board solvedBoard;$/;"	m	class:LineSolve
+sw	src/probsolver.h	/^		int sw;$/;"	m	class:NonogramSolver
+testFail	src/scanner.h	/^inline void testFail(int exp,const char *s)$/;"	f
+thres	src/probsolver.h	/^		int thres;$/;"	m	class:NonogramSolver
+times	src/probsolver.h	/^		int times;$/;"	m	class:NonogramSolver
+unlikely	src/cdef.h	16;"	d
+value1	src/linesolve.cpp	/^const uint64_t value1[28] = {$/;"	v
+vec	src/mirror.h	/^		vector<Board> vec;$/;"	m	class:mirror
+vlog	src/fullyprobe.cpp	127;"	d	file:
+writePerDuration	src/main.cpp	/^void writePerDuration(const Options& option, int probN, time_t startTime, clock_t thisClock , clock_t startClock )$/;"	f
+writeTotalDuration	src/main.cpp	/^void writeTotalDuration(const Options& option, time_t startTime, clock_t startClk )$/;"	f
+x	src/mirror.h	/^	int x,y;$/;"	m	struct:node
+y	src/mirror.h	/^	int x,y;$/;"	m	struct:node
+zHashKeyTable	src/Hash.cpp	/^uint64_t zHashKeyTable[13][26] ;$/;"	v
