@@ -1,4 +1,6 @@
 # nng2014
 ---------
 
-Empty readme
+nonograms solver
+
+`make && ./main --help`
