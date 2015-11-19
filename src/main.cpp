@@ -89,15 +89,14 @@ int main(int argc , char *argv[])
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
-	Board answer[1001];
 	int numProb = (option.problemEnd - option.problemStart + 1) / size;
 	const int start = option.problemStart + numProb * mpi_rank;
 	const int end = numProb * (mpi_rank + 1);
+	fprintf( stderr , "ID:%d Run %4d~%4d = %4d\n",mpi_rank,start,end,numProb );
 
+	Board answer[251];
 	for( int probN = start ; probN <= end ; ++probN )
 	{
-		//fprintf( stderr , "Rank:%d Size:%d Run:%d\n", mpi_rank, size ,probN );
-
 		thisClk = clock();
 
 		getData( inputData ,probN ,probData );
@@ -109,17 +108,18 @@ int main(int argc , char *argv[])
 
 		if( option.selfCheck && !checkAns(ans, probData) )
 		{
-			printf("Fatal Error: Answer not correct\n");
+			printf("ID:%d Fatal Error: Answer not correct\n",mpi_rank);
 			return 1;
 		}
 
-		answer[probN-option.problemStart] = ans;
+		if( 0 > probN-start || probN-start >= 251 )
+			fprintf( stderr , "Warning: Out of bound %d\n", probN-start );
+		answer[probN-start] = ans;
 
 		//writePerDuration(option,probN,startTime,thisClk,startClk);
 	}
-	delete[] inputData;
 
-	printf("Run completed, Wait barrier, Time:%lf\n",MPI_Wtime()-mpi_time);
+	printf("ID:%d Run completed, Wait barrier, Time:%lf\n",mpi_rank,MPI_Wtime()-mpi_time);
 
 	MPI_Barrier(MPI_COMM_WORLD);
 
@@ -127,35 +127,35 @@ int main(int argc , char *argv[])
 	{
 		for( int i = option.problemStart ; i <= option.problemEnd ; ++i )
 		{
-			if( start <= i && i <= end )
-				continue;
 			MPI_Status status;
 			Board b;
-			MPI_Recv(b.data ,50 ,MPI_UNSIGNED_LONG ,MPI_ANY_SOURCE ,i ,MPI_COMM_WORLD ,&status);
+			if( start <= i && i <= end )
+			{
+				b = answer[i-start];
+			}
+			else
+			{
+				MPI_Recv(b.data ,50 ,MPI_UNSIGNED_LONG_LONG ,MPI_ANY_SOURCE ,i ,MPI_COMM_WORLD ,&status);
+			}
+
 			getData( inputData ,i ,probData );
 			if( !checkAns(b,probData) )
 			{
 				fprintf(stderr,"Fatel Error: Answer received is wrong\n");
 			}
-			//printf("Write ans to %d from:%d\n",i,status.MPI_SOURCE);
-			answer[i-option.problemStart] = b;
+
+			printBoard(option.outputFileName, b, i);
 		}
-
-		for( int probN = option.problemStart, i = 0 ; probN <= option.problemEnd ; ++probN, ++i )
-			printBoard(option.outputFileName, answer[i], probN);
-
-		writeTotalDuration(option,startTime,startClk);
 	}
 	else // as slave
 	{
-		for( int i = start ; i <= end ; ++i ) 
-		{
-			MPI_Send(answer[i-option.problemStart].data ,50 ,MPI_UNSIGNED_LONG ,0 ,i ,MPI_COMM_WORLD);
-		}
+		for( int i = 0 ; i < numProb ; ++i ) 
+			MPI_Send(answer[i].data ,50 ,MPI_UNSIGNED_LONG_LONG ,0 ,i+start ,MPI_COMM_WORLD);
 	}
 
-	printf("All completed, Wait barrier, Time:%lf\n",MPI_Wtime()-mpi_time);
+	printf("ID:%d All completed, Wait barrier, Time:%lf\n",mpi_rank,MPI_Wtime()-mpi_time);
 
+	delete[] inputData;
 	MPI_Finalize();
 	return 0;
 }
