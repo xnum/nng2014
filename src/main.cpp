@@ -13,6 +13,27 @@ using namespace std;
 
 int size = 0, mpi_rank = 0;
 
+int MPI_MyRecv(void *buff, int count, MPI_Datatype datatype, 
+		int from, int tag, MPI_Comm comm, MPI_Status *status) {
+
+	int flag, nsec_start=1000, nsec_max=100000;
+	struct timespec ts;
+	MPI_Request req;
+
+	ts.tv_sec = 0;
+	ts.tv_nsec = nsec_start;
+
+	PMPI_Irecv(buff, count, datatype, from, tag, comm, &req);
+	do {
+		nanosleep(&ts, NULL);
+		ts.tv_nsec *= 2;
+		ts.tv_nsec = (ts.tv_nsec > nsec_max) ? nsec_max : ts.tv_nsec;
+		PMPI_Request_get_status(req, &flag, status);
+	} while (!flag);
+
+	return (*status).MPI_ERROR;
+}
+
 /*
  * startClock is from program start solving
  * thisClock is from current problem start solving
@@ -117,7 +138,7 @@ int main(int argc , char *argv[])
 
 			MPI_Status status;
 			Board b;
-			MPI_Recv(b.data ,50 ,MPI_UNSIGNED_LONG_LONG ,MPI_ANY_SOURCE ,MPI_ANY_TAG ,MPI_COMM_WORLD ,&status);
+			MPI_MyRecv(b.data ,50 ,MPI_UNSIGNED_LONG_LONG ,MPI_ANY_SOURCE ,MPI_ANY_TAG ,MPI_COMM_WORLD ,&status);
 			if( status.MPI_TAG == 0 )  // ask for a new problem
 			{
 				if( probN == 5566 )
