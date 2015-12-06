@@ -157,10 +157,10 @@ int fixBU ( LineSolve& ls , int lineNum , const uint64_t& line , int j , uint64_
 	const int maxShift = 26 - ls.low_bound[lineNum][ls.clue[lineNum].count-1];
 	uint64_t dpTable[14][27] = {};
 
-	int data[14] = {};
+	uint8_t data[14] = {};
 	int low_bound[14] = {};
 
-	memcpy(data+1,&ls.clue[lineNum].num,sizeof(int)*13);
+	memcpy(data+1,&ls.clue[lineNum].num,sizeof(data[0])*13);
 	memcpy(low_bound,&ls.low_bound[lineNum],sizeof(low_bound));
 
 	dpTable[0][0] = BIT_ONE;

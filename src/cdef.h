@@ -70,7 +70,7 @@
 
 // to help record in hash
 struct Clue {
-	int num[14];
+	uint8_t num[14];
 	int count;
 	uint64_t hash;
 };
