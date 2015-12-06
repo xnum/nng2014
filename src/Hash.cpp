@@ -5,36 +5,42 @@
 uint64_t zHashKeyTable[13][26] ;
 static hashNode hashTable[HTABLE_SIZE];
 
-void genHash(Clue& clue)
+uint64_t genHash(Clue& clue)
 {
-	clue.hash = 0;
+	uint64_t hash = 0;
 	for( int i = 0 ; i < clue.count ; ++i )
 	{
-		clue.hash ^= zHashKeyTable[i][clue.num[i]];
+		hash ^= zHashKeyTable[i][clue.num[i]];
 	}
+
+	return hash;
 }
 
-void insertHash(const Clue& problem,const uint64_t& nowString,const uint64_t& settleString )
+void insertHash(const Clue& problem,
+								const uint64_t& hash,
+								const uint64_t& nowString,
+								const uint64_t& settleString )
 {
-	uint64_t key = problem.hash ^ nowString ;
+	uint64_t key = hash ^ nowString ;
   
 	key %= HTABLE_SIZE ;
   
 	memcpy(&hashTable[key].lineProblem, &problem,sizeof(problem));
 	memcpy(&hashTable[key].nowString, &nowString,sizeof(uint64_t));
 	memcpy(&hashTable[key].settleString, &settleString,sizeof(uint64_t));
-  
 }
 
-bool findHash(const Clue& problem,const uint64_t& nowString, uint64_t& settleString)
+bool findHash(const Clue& problem,
+							const uint64_t& hash,
+							const uint64_t& nowString, 
+							uint64_t& settleString)
 {
-	uint64_t key = problem.hash ^ nowString ;
+	uint64_t key = hash ^ nowString ;
 
 	key %= HTABLE_SIZE ;
 
 	if(memcmp(&hashTable[key].nowString, &nowString,sizeof(uint64_t)) != 0 ) return false;
 	if(memcmp(&hashTable[key].lineProblem, &problem,sizeof(problem)) != 0 ) return false;
-
   
 	memcpy(&settleString, &hashTable[key].settleString,sizeof(uint64_t));
 	return true;

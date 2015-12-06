@@ -65,7 +65,7 @@ void LineSolve::load(int* d)
 			low_bound[i][j] = sum-1;
 		}
 
-		genHash(clue[i]);
+		hash[i] = genHash(clue[i]);
 	}
 }
 
@@ -98,7 +98,7 @@ int propagate ( LineSolve& ls , Board& board )
 		__SET( line , 1 , BIT_ZERO );
 		uint64_t newLine = 0LL;
 
-		if( !findHash(ls.clue[lineNum], line, newLine) )
+		if( !findHash(ls.clue[lineNum],ls.hash[lineNum], line, newLine) )
 		{
 			newLine = 0LL;
 
@@ -108,7 +108,7 @@ int propagate ( LineSolve& ls , Board& board )
 				return CONFLICT;
 			}
 
-			insertHash(ls.clue[lineNum], line, newLine);
+			insertHash(ls.clue[lineNum],ls.hash[lineNum], line, newLine);
 		}
 
 		newLine >>= 4;

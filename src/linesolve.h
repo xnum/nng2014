@@ -11,6 +11,7 @@ class LineSolve {
     public:
 				// problem info
 				Clue clue[50];
+				uint64_t hash[50];
 
 				// additional info 
         int low_bound[50][14];

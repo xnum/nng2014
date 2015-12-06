@@ -72,7 +72,6 @@
 struct Clue {
 	uint8_t num[14];
 	uint16_t count;
-	uint64_t hash;
 };
 
 #endif

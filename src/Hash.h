@@ -16,11 +16,17 @@ struct hashNode{
 
 void initialHash();
 
-void insertHash(const Clue& problem,const uint64_t& nowString,const uint64_t& settleString );
+void insertHash(const Clue& problem,
+								const uint64_t& hash,
+								const uint64_t& nowString,
+								const uint64_t& settleString );
 
-bool findHash(const Clue& problem,const uint64_t& nowString, uint64_t& settleString);
+bool findHash(const Clue& problem,
+							const uint64_t& hash,
+							const uint64_t& nowString, 
+							uint64_t& settleString);
 
-void genHash(Clue& clue);
+uint64_t genHash(Clue& clue);
 
 
 
