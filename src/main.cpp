@@ -12,6 +12,7 @@
 using namespace std;
 
 int size = 0, mpi_rank = 0;
+int live_proc = 0;
 
 int MPI_MyRecv(void *buff, int count, MPI_Datatype datatype, 
 		int from, int tag, MPI_Comm comm, MPI_Status *status) {
@@ -116,16 +117,18 @@ int main(int argc , char *argv[])
 		return 5;
 	}
 
-	Board answer[1001];
+	live_proc = 1;
+
+	Board answer[1001]; // only master use this
 	int doneNum = 0;
 	if( mpi_rank == 0 ) // master
 	{
 		int probN = option.problemStart;
 
-		int sentSlave = 0;
+		int sentSlave = 0; // to record how many slave got an terminate signal
 		while( 1 )
 		{
-			if( probN > option.problemEnd )
+			if( probN > option.problemEnd ) // all problem is sent
 			{
 				probN = 5566;
 				if( sentSlave == size-1 && doneNum == option.problemEnd-option.problemStart+1 )
@@ -142,7 +145,10 @@ int main(int argc , char *argv[])
 			if( status.MPI_TAG == 0 )  // ask for a new problem
 			{
 				if( probN == 5566 )
+				{
 					sentSlave++;
+					live_proc++;
+				}
 				printf("%d goto %d\n",status.MPI_SOURCE,probN);
 				// send back with probN as TAG
 				MPI_Send(b.data ,50 ,MPI_UNSIGNED_LONG_LONG ,status.MPI_SOURCE ,probN ,MPI_COMM_WORLD);
@@ -203,7 +209,7 @@ int main(int argc , char *argv[])
 	}
 
 	printf("ID:%d Run completed, Wait barrier, Time:%lf\n",mpi_rank,MPI_Wtime()-mpi_time);
-	MPI_Barrier(MPI_COMM_WORLD);
+	//MPI_Barrier(MPI_COMM_WORLD);
 
 	if( mpi_rank == 0 )
 	{

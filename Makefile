@@ -16,8 +16,8 @@ Coverage = --coverage -lgcov
 Gperf = -ltcmalloc_and_profiler
 
 CC = mpic++
-CFLAGS = -Wall -Wextra -std=c++11 -m64 -march=native -msse4.2 -DFP2
-LDFLAGS = -lm  #$(Gperf)
+CFLAGS = -Wall -Wextra -std=c++11 -m64 -march=native -msse4.2 # -DFP2
+LDFLAGS = -pthread -lm $(Gperf)
  
 ifeq ($(BC),debug)
 CFLAGS += -g3

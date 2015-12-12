@@ -4,7 +4,13 @@
 #include <cstdio>
 #include <algorithm>
 #include <unistd.h>
+
+#include "Worker.h"
+
 using namespace std;
+
+Worker worker;
+extern Board workBoard;
 
 int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 {
@@ -24,35 +30,11 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 			setBit( fp.gp[i][j][1], i,j,BIT_ONE );
 		}
 
-
-	while(1)
-	{
-		int p = fp.P.begin();
-		if( p == -1 )
-		{
-			if( fp.oldP.isEmpty() )
-				break;
-			else
-			{
-				fp.P = fp.oldP;
-				fp.oldP.clear();
-				continue;
-			}
-		}
-
-		if( getBit(board,p/25,p%25)==BIT_UNKNOWN )
-		{
-			res = probe( fp , ls , board , p/25 , p%25);
-			if( res == SOLVED || res == CONFLICT )
-				return res;
-		}
-	}
+	res = worker.setAndRun(&fp,&ls,board);
+	board = workBoard;
+	if( res != INCOMP ) return res;
 
 	getSize(board);
-	//usleep(100000);
-	//system("clear");
-	//debugBoard(board);
-	
 
 	fp.mainBoard = board;
 	setBestPixel( fp , board );
