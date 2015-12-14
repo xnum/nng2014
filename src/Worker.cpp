@@ -6,24 +6,28 @@ Board workBoard;
 pthread_rwlock_t boardLock;
 pthread_mutex_t bitLock[32];
 int probeResult[32];
-uint8_t busyBit[32];
-uint8_t readyBit[32];
+volatile uint8_t busyBit[32];
+volatile uint8_t readyBit[32];
 uint8_t runBit[32];
 uint16_t tasks[32][625];
 uint16_t taskNum[32];
 
 extern int mpi_rank;
+extern volatile int iamdone;
+
 
 void* run(void *arg) {
 	long id = (long)arg;
 
-	while(1) {
+	//printf("Thread run as %n",id);
+	while(iamdone) {
 		// wait for data ready
 		while( readyBit[id] == 0 ) // == 0
 		{
 			// if no sleep, program deadlock
 			// if has sleep, works but very slow
-			//usleep(1);
+			//printf("%d] Thread Busy[%d] = %d , Ready[%d] = %d\n",mpi_rank,id,busyBit[id],id,readyBit[id]);	
+			//usleep(1000);
 		}
 
 		//printf("Thread Wake up\n");
@@ -65,7 +69,8 @@ void* run(void *arg) {
 		//printf("%d] busy[%d] = %d\n",mpi_rank,id,busyBit[id]);
 		//pthread_mutex_unlock(&bitLock[id]);
 	}
-	return NULL;
+
+	pthread_exit(NULL);
 }
 
 Worker::Worker() {
@@ -73,13 +78,15 @@ Worker::Worker() {
 	fp = NULL;
 	ls = NULL;
 	MEMSET_ZERO(probeResult);
-	MEMSET_ZERO(busyBit);
+	//MEMSET_ZERO(busyBit);
+	//MEMSET_ZERO(readyBit);
 	for( int i = 0 ; i < 32 ; ++i )
 	{
+		busyBit[i] = 0;
+		readyBit[i] = 0;
 		bitLock[i] = PTHREAD_MUTEX_INITIALIZER;
 	}
 
-	MEMSET_ZERO(readyBit);
 	pthread_rwlock_init(&boardLock,NULL);
 	extendThread();
 }
@@ -88,6 +95,13 @@ Worker::~Worker() {
 	memset( runBit , 0 , sizeof(runBit) );
 	pthread_rwlock_destroy(&boardLock);
 
+}
+
+void Worker::killall() {
+	for( int i = 0 ; i < concurrent ; ++i )
+	{
+		int kill_rc = pthread_kill(pool[i],9);
+	}
 }
 
 // external function call me to assign task
@@ -137,10 +151,16 @@ int Worker::setAndRun(FullyProbe* f,LineSolve* l,Board board) {
 			if( busyBit[i] == 1 )
 				test = true;
 		}
-		usleep(100000);
+		//usleep(100000);
 
 		if( test == false )
 			break;
+	}
+
+	for( int i = 0 ; i < concurrent ; ++i )
+	{
+		busyBit[i] = 0;
+		readyBit[i] = 0;
 	}
 
 	// 4. merge result

@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "pthread.h"
+#include "signal.h"
 #include "unistd.h"
 
 #include "cdef.h"
@@ -17,6 +18,7 @@ class Worker {
 		Worker();
 		~Worker();
 		void extendThread();
+		void killall();
 		int setAndRun(FullyProbe* f,LineSolve* l,Board board);
 
 	private:
