@@ -13,7 +13,8 @@ using namespace std;
 
 int size = 0, mpi_rank = 0;
 int live_proc = 0;
-volatile int iamdone = 1;
+
+extern Worker worker;
 
 int MPI_MyRecv(void *buff, int count, MPI_Datatype datatype, 
 		int from, int tag, MPI_Comm comm, MPI_Status *status) {
@@ -209,7 +210,7 @@ int main(int argc , char *argv[])
 		}
 	}
 
-	iamdone = 0;
+	worker.kill();
 	printf("ID:%d Run completed, Wait barrier, Time:%lf\n",mpi_rank,MPI_Wtime()-mpi_time);
 	//MPI_Barrier(MPI_COMM_WORLD);
 

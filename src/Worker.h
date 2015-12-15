@@ -18,7 +18,7 @@ class Worker {
 		Worker();
 		~Worker();
 		void extendThread();
-		void killall();
+		void kill();
 		int setAndRun(FullyProbe* f,LineSolve* l,Board board);
 
 	private:

@@ -8,22 +8,22 @@ pthread_mutex_t bitLock[32];
 int probeResult[32];
 volatile uint8_t busyBit[32];
 volatile uint8_t readyBit[32];
-uint8_t runBit[32];
+volatile uint8_t runBit = 1;
 uint16_t tasks[32][625];
 uint16_t taskNum[32];
 
 extern int mpi_rank;
-extern volatile int iamdone;
-
 
 void* run(void *arg) {
 	long id = (long)arg;
 
 	//printf("Thread run as %n",id);
-	while(iamdone) {
+	while(runBit) {
 		// wait for data ready
 		while( readyBit[id] == 0 ) // == 0
 		{
+			if( runBit == 0 )
+				break;
 			// if no sleep, program deadlock
 			// if has sleep, works but very slow
 			//printf("%d] Thread Busy[%d] = %d , Ready[%d] = %d\n",mpi_rank,id,busyBit[id],id,readyBit[id]);	
@@ -92,16 +92,11 @@ Worker::Worker() {
 }
 
 Worker::~Worker() {
-	memset( runBit , 0 , sizeof(runBit) );
 	pthread_rwlock_destroy(&boardLock);
-
 }
 
-void Worker::killall() {
-	for( int i = 0 ; i < concurrent ; ++i )
-	{
-		int kill_rc = pthread_kill(pool[i],9);
-	}
+void Worker::kill() {
+	runBit = 0;
 }
 
 // external function call me to assign task
