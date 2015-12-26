@@ -1,4 +1,6 @@
 #include "Worker.h"
+#include <cstdio>
+#include <ctime>
 
 FullyProbe* fp;
 LineSolve* ls;
@@ -17,28 +19,21 @@ extern int mpi_rank;
 void* run(void *arg) {
 	long id = (long)arg;
 
-	//printf("Thread run as %n",id);
+	clock_t start;
+	clock_t total = 0;
+	long long calle=0;
+
 	while(runBit) {
-		// wait for data ready
 		while( readyBit[id] == 0 ) // == 0
 		{
 			if( runBit == 0 )
 				break;
-			// if no sleep, program deadlock
-			// if has sleep, works but very slow
-			//printf("%d] Thread Busy[%d] = %d , Ready[%d] = %d\n",mpi_rank,id,busyBit[id],id,readyBit[id]);	
-			//usleep(1000);
 		}
 
-		//printf("Thread Wake up\n");
+		start = clock();
 
-		// start running , set busy
-		//pthread_mutex_lock(&bitLock[id]);
 		readyBit[id] = 0; // 0
 		busyBit[id] = 1; // 1
-		//pthread_mutex_unlock(&bitLock[id]);
-
-		//printf("%d] Thread Busy[%d] = %d , Ready[%d] = %d\n",mpi_rank,id,busyBit[id],id,readyBit[id]);	
 
 		probeResult[id] = INCOMP;
 
@@ -63,12 +58,16 @@ void* run(void *arg) {
 			pthread_rwlock_unlock(&boardLock);
 		}
 
-		//pthread_mutex_lock(&bitLock[id]);
 		readyBit[id] = 0;
 		busyBit[id] = 0;
-		//printf("%d] busy[%d] = %d\n",mpi_rank,id,busyBit[id]);
-		//pthread_mutex_unlock(&bitLock[id]);
+
+		total += clock() - start;
+		calle++;
 	}
+
+	double atime = (double)total / CLOCKS_PER_SEC;
+	atime /= calle;
+	printf("call: %lld times , avg. cost time: %lf\n",calle,atime);
 
 	pthread_exit(NULL);
 }

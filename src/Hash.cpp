@@ -1,5 +1,8 @@
 #include "Hash.h"
 #include <cstring>
+#include "pthread.h"
+
+pthread_rwlock_t tableLock;
 
 // global hash table
 uint64_t zHashKeyTable[13][26] ;
@@ -25,9 +28,11 @@ void insertHash(const Clue& problem,
   
 	key %= HTABLE_SIZE ;
   
+	pthread_rwlock_wrlock(&tableLock);
 	memcpy(&hashTable[key].lineProblem, &problem,sizeof(problem));
 	memcpy(&hashTable[key].nowString, &nowString,sizeof(uint64_t));
 	memcpy(&hashTable[key].settleString, &settleString,sizeof(uint64_t));
+	pthread_rwlock_unlock(&tableLock);
 }
 
 bool findHash(const Clue& problem,
@@ -39,10 +44,12 @@ bool findHash(const Clue& problem,
 
 	key %= HTABLE_SIZE ;
 
+	pthread_rwlock_rdlock(&tableLock);
 	if(memcmp(&hashTable[key].nowString, &nowString,sizeof(uint64_t)) != 0 ) return false;
 	if(memcmp(&hashTable[key].lineProblem, &problem,sizeof(problem)) != 0 ) return false;
   
 	memcpy(&settleString, &hashTable[key].settleString,sizeof(uint64_t));
+	pthread_rwlock_unlock(&tableLock);
 	return true;
 }
 
@@ -52,6 +59,7 @@ bool findHash(const Clue& problem,
 
 void initialHash()
 {
+	tableLock = PTHREAD_RWLOCK_INITIALIZER;
   memset( hashTable, 0, sizeof(hashNode) * HTABLE_SIZE ) ;
   zHashKeyTable[0][0] = 759055707854222535ULL;
   zHashKeyTable[0][1] = 11872126079661544008ULL;

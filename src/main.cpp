@@ -119,7 +119,7 @@ int main(int argc , char *argv[])
 		return 5;
 	}
 
-	live_proc = 1;
+	live_proc = 4;
 
 	Board answer[1001]; // only master use this
 	int doneNum = 0;
