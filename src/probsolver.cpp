@@ -1,4 +1,5 @@
 #include "probsolver.h"
+
 extern int size,mpi_rank;
 
 int NonogramSolver::doSolve(int *data)
@@ -63,9 +64,10 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 	{
 		return;
 	}
-
-	Board b1 = fp.max_g1;
-	Board b0 = fp.max_g0;
+    
+	auto result = getBestPixel( fp , b , fp.method );
+	Board b0 = fp.gp[get<0>(result)][get<1>(result)][get<2>(result)];
+	Board b1 = fp.gp[get<0>(result)][get<1>(result)][!get<2>(result)];
 
 	dfs_stack(fp,ls,b0,depth+1);
 	if( search_finish == true )

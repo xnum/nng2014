@@ -55,13 +55,12 @@ int fp2 ( FullyProbe& fp , LineSolve& ls , Board& board )
 	
 
 	fp.mainBoard = board;
-	setBestPixel( fp , board );
 
 	return INCOMP;
 }
 
 
-void setBestPixel( FullyProbe& fp , Board& board )
+tuple<int,int,int> getBestPixel( FullyProbe& fp , Board& board , int method )
 {
 	auto max = make_tuple(0,0,0);
 	double maxPixel = -9E10;
@@ -78,26 +77,7 @@ void setBestPixel( FullyProbe& fp , Board& board )
 			getSize(fp.gp[i][j][1]);
 			getSize(fp.gp[i][j][0]);
 
-//#define AAAA
-#ifdef AAAA
-			double maxEigen = 0;
-		  Dual_for(i,j)
-			{
-				if( fp.eigen[i][j] <= 1 )
-					fp.eigen[i][j] = 1;
-				if( fp.eigen[i][j] > maxEigen )
-					maxEigen = fp.eigen[i][j];
-			}
-			Dual_for(i,j)
-			{
-				if( getBit(fp.gp[i][j][1],i,j) != getBit(fp.mainBoard,i,j) )
-					fp.gp[i][j][1].size *= (2-fp.eigen[i][j]/maxEigen)/2;
-				if( getBit(fp.gp[i][j][0],i,j) != getBit(fp.mainBoard,i,j) )
-					fp.gp[i][j][0].size *= (2-fp.eigen[i][j]/maxEigen)/2;
-			}
-#endif
-
-			double ch = choose( fp.method , 
+			double ch = choose( method , 
 						fp.gp[i][j][1].size-board.size ,
 						fp.gp[i][j][0].size-board.size );
 			
@@ -109,19 +89,7 @@ void setBestPixel( FullyProbe& fp , Board& board )
 			}
 		} // big if end
 
-	//printf("select %d %d %lf\n" , get<0>(max) , get<1>(max) , maxPixel );
-	fp.max_g0 = fp.gp[get<0>(max)][get<1>(max)][get<2>(max)];
-	fp.max_g1 = fp.gp[get<0>(max)][get<1>(max)][!get<2>(max)];
-
-#ifdef AAAA
-	Dual_for(i,j)
-	{
-		if( getBit(fp.max_g0,i,j) != getBit(fp.mainBoard,i,j) )
-			fp.eigen[i][j]++;
-		if( getBit(fp.max_g1,i,j) != getBit(fp.mainBoard,i,j) )
-			fp.eigen[i][j]++;
-	}
-#endif
+    return max;
 }
 
 #define vlog(x) (log(x+1)+1)

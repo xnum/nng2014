@@ -4,6 +4,7 @@
 //#include <set>
 
 #include <tuple>
+using std::tuple;
 using std::make_tuple;
 using std::get;
 #include "set.h"
@@ -30,6 +31,6 @@ double choose( int method , double mp1 , double mp0 );
 int fp2( FullyProbe& , LineSolve& , Board& );
 int probe( FullyProbe& , LineSolve& , Board& , int , int );
 int probeG( FullyProbe&  , LineSolve& ,  int , int , uint64_t );
-void setBestPixel( FullyProbe& , Board& );
+tuple<int,int,int> getBestPixel( FullyProbe& , Board& , int );
 
 #endif

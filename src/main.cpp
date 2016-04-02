@@ -128,6 +128,11 @@ int main(int argc , char *argv[])
                 if( probN == -1 )
                     break;
 
+                if(option.simple && probN % 100 == 0)
+                    printf ( "$%3d\n" , probN);
+                else if(!option.simple)
+                    printf ( "$%3d\n" , probN);
+
                 getData( inputData ,probN ,probData );
 
                 if( !nngSolver.doSolve(probData) )
