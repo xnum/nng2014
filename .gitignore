@@ -10,3 +10,5 @@ gmon.out
 *.dll
 *.log
 *log
+.*.swp
+tags

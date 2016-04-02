@@ -9,8 +9,13 @@
 #include <string>
 #include <vector>
 
+#include "mpi.h"
+
 #include "mirror.h"
 #include "scanner.h"
+#include "options.h"
+
+#define DONE 5566
 
 using namespace std;
 
@@ -20,5 +25,8 @@ void listPixel( FullyProbe& fp, Board &b );
 void printProb( int data[] , const char* name , int probNum );
 void expandInputFile( const char* name );
 
+void runAsMaster(const Options&,int,Board[]);
+int RecvFromMaster();
+void sendToMaster(Board ans,int probN);
 #endif
 
