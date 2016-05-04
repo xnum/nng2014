@@ -1,6 +1,11 @@
 #include "probsolver.h"
 
 extern int size,mpi_rank;
+void deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth );
+
+static vector<tuple<int, int> > selectPixel;
+static int minDepth = 625;
+static bool first = true;
 
 int NonogramSolver::doSolve(int *data)
 {
@@ -13,6 +18,7 @@ int NonogramSolver::doSolve(int *data)
 		printf("WTF!\n");
 	if( SOLVED != rc )
 	{
+        Board bc = b;
 		search_finish = false;
 		times = 0;
 		thres = 20;
@@ -20,7 +26,15 @@ int NonogramSolver::doSolve(int *data)
 		max_depth = 0;
 		MEMSET_ZERO(depth_rec);
 		//dfs( fp , ls , b );  
+        selectPixel.clear();
 		dfs_stack(fp,ls,b,0);
+
+        ls.load(data);
+        fp.clear();
+        minDepth = 625;
+        selectPixel.clear();
+
+        deepSearch(fp,ls,bc,0);
 
 		if( search_finish != true )
 		{
@@ -39,6 +53,26 @@ void NonogramSolver::setMethod(int n)
 	fp.method = n;
 }
 
+void printPath()
+{
+    FILE* out;
+    if( first == true ) {
+        first = false;
+        out = fopen( string("path"+to_string(mpi_rank)+".txt").c_str(), "w" ); 
+    }
+    else
+        out = fopen( string("path"+to_string(mpi_rank)+".txt").c_str(), "a+" ); 
+
+    fprintf(out,"depth %lu\n",selectPixel.size());
+    for( const auto& pixel : selectPixel ) {
+        int i,j;
+        tie(i, j) = pixel;
+        fprintf(out,"%d %d\t",i,j);
+    }
+    fflush(out);
+    fclose(out);
+}
+
 void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 {
 	if( depth > 625 )
@@ -55,6 +89,7 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 	int res = fp2( fp , ls , b );
 	if( res == SOLVED )
 	{
+        printPath();
 		//printf("== depth:%d(%d)\twidth:%d\n",depth,max_depth,depth_rec[depth]);
 		search_finish = true;
 		return;
@@ -64,17 +99,57 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
 	{
 		return;
 	}
-    
+
 	auto result = getBestPixel( fp , b , fp.method );
 	Board b0 = fp.gp[get<0>(result)][get<1>(result)][get<2>(result)];
 	Board b1 = fp.gp[get<0>(result)][get<1>(result)][!get<2>(result)];
+
+    selectPixel.emplace_back(make_tuple(get<0>(result), get<1>(result)));
 
 	dfs_stack(fp,ls,b0,depth+1);
 	if( search_finish == true )
 		return;
 
 	dfs_stack(fp,ls,b1,depth+1);
+
+    selectPixel.pop_back();
 }
+
+void deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth )
+{
+
+    int res = fp2( fp, ls, b );
+    if( res == SOLVED )
+    {
+        printPath();
+        minDepth = depth;
+        return;
+    }
+
+	if( res == CONFLICT )
+	{
+		return;
+	}
+     
+    if( depth >= minDepth )
+        return;
+
+	Dual_for(i,j)
+    if( getBit( b,i,j ) == BIT_UNKNOWN )
+    {
+        Board b0 = fp.gp[i][j][0];
+        Board b1 = fp.gp[i][j][1];
+
+        selectPixel.emplace_back(make_tuple(i,j));
+
+        deepSearch(fp,ls,b0,depth+1);
+        deepSearch(fp,ls,b1,depth+1);
+
+        selectPixel.pop_back();
+    }
+}
+
+
 
 void NonogramSolver::dfs( FullyProbe& fp , LineSolve& ls , Board b )
 {
