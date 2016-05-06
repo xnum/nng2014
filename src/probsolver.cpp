@@ -1,6 +1,7 @@
 #include "probsolver.h"
 
 extern int size,mpi_rank;
+extern int probNN;
 void deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth );
 
 static vector<tuple<int, int> > selectPixel;
@@ -63,12 +64,13 @@ void printPath()
     else
         out = fopen( string("path"+to_string(mpi_rank)+".txt").c_str(), "a+" ); 
 
-    fprintf(out,"depth %lu\n",selectPixel.size());
+    fprintf(out,"prob %d depth %lu\n",probNN,selectPixel.size());
     for( const auto& pixel : selectPixel ) {
         int i,j;
         tie(i, j) = pixel;
         fprintf(out,"%d %d\t",i,j);
     }
+	fprintf(out,"\n");
     fflush(out);
     fclose(out);
 }
@@ -115,14 +117,18 @@ void NonogramSolver::dfs_stack(FullyProbe& fp,LineSolve& ls,Board b,int depth)
     selectPixel.pop_back();
 }
 
-void deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth )
+void NonogramSolver::deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth )
 {
+	if( depth > max_depth )
+		return;
 
     int res = fp2( fp, ls, b );
     if( res == SOLVED )
     {
-        printPath();
-        minDepth = depth;
+		if( minDepth > depth ) {
+			minDepth = depth;
+			printPath();
+		}
         return;
     }
 
@@ -131,7 +137,7 @@ void deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth )
 		return;
 	}
      
-    if( depth >= minDepth )
+    if( depth > minDepth )
         return;
 
 	Dual_for(i,j)

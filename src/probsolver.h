@@ -21,6 +21,7 @@ class NonogramSolver
 		void dfs(FullyProbe&,LineSolve&,Board);	
 		void dfs_stack(FullyProbe&,LineSolve&,Board,int);
 		Board getSolvedBoard(){ return ls.solvedBoard; }
+void deepSearch( FullyProbe& fp, LineSolve& ls, Board b, int depth );
 	private:
 		LineSolve ls;
 		FullyProbe fp;

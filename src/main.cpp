@@ -12,6 +12,7 @@
 using namespace std;
 
 int size = 0, mpi_rank = 0;
+int probNN;
 /*
  * startClock is from program start solving
  * thisClock is from current problem start solving
@@ -134,6 +135,7 @@ int main(int argc , char *argv[])
                     printf ( "$%3d\n" , probN);
 
                 getData( inputData ,probN ,probData );
+				probNN = probN;
 
                 if( !nngSolver.doSolve(probData) )
                     return 1;
