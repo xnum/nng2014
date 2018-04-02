@@ -154,7 +154,7 @@ int propagate ( LineSolve& ls , Board& board )
 int fixBU ( LineSolve& ls , int lineNum , const uint64_t& line , int j , uint64_t& newLine )
 {
 	const int i = 26;
-	const int maxShift = 26 - ls.low_bound[lineNum][ls.clue[lineNum].count-1];
+	const int maxShift = 26 - ls.low_bound[lineNum][ls.clue[lineNum].count];
 	uint64_t dpTable[14][27] = {};
 
 	uint8_t data[14] = {};

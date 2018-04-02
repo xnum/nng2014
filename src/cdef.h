@@ -71,7 +71,7 @@
 // to help record in hash
 struct Clue {
 	uint8_t num[14];
-	int count;
+	uint8_t count;
 	uint64_t hash;
 };
 

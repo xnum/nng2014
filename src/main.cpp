@@ -16,11 +16,11 @@ using namespace std;
  * clock_t is high resolution but overflow after 3600s
  * time_t support bigger range but only count by seconds
  */
-void writePerDuration(const Options& option, int probN, time_t startTime, clock_t thisClock , clock_t startClock )
+void writePerDuration(const Options& option, int probN, time_t startTime, clock_t thisClock , clock_t startClock, int times )
 {
 		if(!option.simple)
 		{
-			printf ( "$%3d\ttime:%4lfs\ttotal:%ld\n" , probN , (double)(clock()-thisClock)/CLOCKS_PER_SEC, time(NULL)-startTime);
+			printf ( "$%3d\ttime:%4lfs\ttotal:%ld\t%d\n" , probN , (double)(clock()-thisClock)/CLOCKS_PER_SEC, time(NULL)-startTime, times);
 		}
 		else
 		{
@@ -99,7 +99,7 @@ int main(int argc , char *argv[])
 
 		answer[probN-option.problemStart] = ans;
 
-		writePerDuration(option,probN,startTime,thisClk,startClk);
+		writePerDuration(option,probN,startTime,thisClk,startClk, nngSolver.times);
 	}
 	delete[] inputData;
 

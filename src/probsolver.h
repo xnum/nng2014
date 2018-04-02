@@ -21,14 +21,16 @@ class NonogramSolver
 		void dfs(FullyProbe&,LineSolve&,Board);	
 		void dfs_stack(FullyProbe&,LineSolve&,Board,int);
 		Board getSolvedBoard(){ return ls.solvedBoard; }
+
+		int times;
 	private:
 		LineSolve ls;
 		FullyProbe fp;
 		bool finish;
-		int times;
 		int thres;
 		int sw;
-		deque<Board> queue[2];
+		deque<Board> queue;
+    vector<Board> deprecated_boards;
 		int depth_rec[626];
 		int max_depth;
 };
